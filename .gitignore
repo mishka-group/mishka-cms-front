@@ -1,0 +1,5 @@
+# JS part
+node_modules
+
+# General
+.DS_Store
