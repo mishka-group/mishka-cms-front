@@ -3,3 +3,10 @@ node_modules
 
 # General
 .DS_Store
+
+# General
+.DS_Store
+
+.next
+
+/.next/
