@@ -1,0 +1,8 @@
+.rtl {
+  direction: rtl;
+}
+
+.clientHeader {
+  background-color: #31394c !important;
+  color: #e6ecfa;
+}
