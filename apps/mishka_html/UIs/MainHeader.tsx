@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
-import styles from './Main.module.css';
-import webSiteLogo from '../../../../../public/mylogo.png';
+import styles from './MainHeader.module.css';
+import webSiteLogo from '../../../public/mylogo.png';
 
 // TODO: {styles.rtl} or {styles.ltr} should be changed by multi-language support
 

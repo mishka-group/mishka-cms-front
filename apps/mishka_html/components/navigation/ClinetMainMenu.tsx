@@ -1,7 +1,20 @@
 import type { NextPage } from 'next';
 import styles from './ClinetMainMenu.module.css';
+import ClientMainMenuItem from './ClientMainMenuItem';
+import CollapseButton from '../../UIs/CollapseButton';
 
-const ClinetMainMenu: NextPage = () => {
+type ClientMenuType = { active: string };
+
+// TODO: change link and li to another componnet and using link
+const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
+  // TODO: If the MishkaCMS creats a menu manager we should change it with api in the future
+  const menus = [
+    { id: 1, name: 'Home', link: '/' },
+    { id: 2, name: 'Blog', link: '/blogs' },
+    { id: 3, name: 'Login', link: '/auth/login' },
+  ];
+
+  // We need to have 2 color for body, the first one for Client side and the another one for Admin side
   return (
     <>
       <style jsx global>{`
@@ -16,37 +29,24 @@ const ClinetMainMenu: NextPage = () => {
           <div className={`row grid`}>
             <nav className="col-sm navbar main-client-navbar navbar-expand-lg">
               <div className="mt-3">
-                <button
-                  className="navbar-toggler navbar-dark"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarText"
-                  aria-controls="navbarText"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
+                <CollapseButton
+                  target="navbarText"
+                  expanded={false}
+                  label="Toggle navigation"
                 >
                   <span className="navbar-toggler-icon"></span>
-                </button>
+                </CollapseButton>
+
                 <div className="collapse navbar-collapse" id="navbarText">
                   <ul className="navbar-nav mb-2 mb-lg-0">
-                    <li className="nav-item client-menu-nav-item">
-                      <a
-                        className="nav-link client-menu-nav-link active"
-                        href=""
-                      >
-                        Home
-                      </a>
-                    </li>
-                    <li className="nav-item client-menu-nav-item">
-                      <a className="nav-link client-menu-nav-link" href="">
-                        Blog
-                      </a>
-                    </li>
-                    <li className="nav-item client-menu-nav-item">
-                      <a className="nav-link client-menu-nav-link" href="">
-                        Login
-                      </a>
-                    </li>
+                    {menus.map(({ id, name, link }) => (
+                      <ClientMainMenuItem
+                        key={id}
+                        active={active === name ? true : false}
+                        title={name}
+                        link={link}
+                      />
+                    ))}
                   </ul>
                 </div>
               </div>
