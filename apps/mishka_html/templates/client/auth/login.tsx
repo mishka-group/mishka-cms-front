@@ -3,14 +3,18 @@ import ClinetMainMenu from '../../../components/navigation/ClinetMainMenu';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import loginImage from '../../../../../public/icons8-login-as-user-80.png';
-import Cright from '../../../UIs/Cright';
 import TextField from '../../../UIs/TextField';
 import PasswordField from '../../../UIs/PasswordField';
 
+// We do not use Layout concept, because it is not useful for the project has many different globally UIs
+// But the stuff like {<MainHeader /> etc} can be merged into another file to prevent copy and pasting
+// But we cover this as a concept to let another program use it if they want
 const LoginTemplates: NextPage = (props) => {
   // TODO: token or user session exist?
   // TODO: if exist is valid? based on accsess token time
   // TODO: try to load Google recaptcha and CSRF with next or with server API in next version
+  // TODO: useState for disable forme submit 
+  // TODO: useRef to get form fields curent value
   return (
     <div id="clientMain" className="mb-5">
       <MainHeader />
@@ -50,8 +54,6 @@ const LoginTemplates: NextPage = (props) => {
           <div className="space40"></div>
         </section>
       </div>
-
-      <Cright />
     </div>
   );
 };
