@@ -1,16 +1,44 @@
-interface RegisterInput {
+import { authApiRequestSender } from '../extra/helper';
+
+interface AuthError {
+  status: number | string;
+  statusText: string;
+  url: string;
+  action: string;
+  message: string;
+  system: string;
+}
+
+type RegisterInput = {
   full_name: string;
   username: string;
   email: string;
   password?: string;
-}
-
-export const loginByUsername = (username: string, password: string): void => {
-  // TODO:
 };
 
-export const loginByEmail = (email: string, password: string): void => {
-  // TODO:
+export const loginByUsername = async (
+  username: string,
+  password: string
+): Promise<AuthError | any> => {
+  const data = { username: username, password: password };
+  const response = await authApiRequestSender(
+    '/auth/v1/login',
+    data,
+    {},
+    'POST'
+  );
+  return response;
+};
+
+export const loginByEmail = async (email: string, password: string) => {
+  const data = { email: email, password: password };
+  const response = await authApiRequestSender(
+    '/auth/v1/login',
+    data,
+    {},
+    'POST'
+  );
+  return response;
 };
 
 export const register = (params: RegisterInput): void => {
@@ -66,7 +94,11 @@ export const resetPassword = (email: string, new_password: string): void => {
   // TODO:
 };
 
-export const confirmResetPassword = (email: string, new_password: string, code: string): void => {
+export const confirmResetPassword = (
+  email: string,
+  new_password: string,
+  code: string
+): void => {
   // TODO:
 };
 

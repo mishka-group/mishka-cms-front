@@ -1,21 +1,62 @@
 type Method = 'POST' | 'GET' | 'DELETE' | 'PUT';
 type Header = { [key: string]: string };
 
-export const apiRequestSender = async (
+export const authApiRequestSender = (
   router: string,
   body: object,
-  header: Header[],
+  header: Header,
   method: Method
 ) => {
-  // TODO: get ApiURL from ENV, it is work here or just inside nextPages?
-  // TODO: it should be await or promis to get error and status
-  // TODO: what it should return and retun type
-  // TODO: error handling based on HTTP status code and getting it's message
-  await fetch(process.env.api_url + router, {
-    method: 'POST',
+  const request = fetch(process.env.api_url + router, {
+    method: method,
+    mode: 'cors',
+    headers: { ...header, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  })
+    .then((response) => {
+      if (!response.ok) {
+        return getAuthError(response);
+      } else {
+        getAuthSuccessResponse(response);
+      }
+    })
+    .catch((error) => {
+      return createUnhandledErrorObject(router);
+    });
+
+  return request;
 };
+
+const getAuthError = async (response: any) => {
+  let error = {};
+  const errorResponse = await response;
+  error = {
+    ...error,
+    status: errorResponse.status,
+    statusText: errorResponse.statusText,
+    url: errorResponse.url,
+  };
+  const data = await errorResponse.json();
+  error = {
+    ...error,
+    action: data.action,
+    message: data.message,
+    system: data.system,
+  };
+
+  return error;
+};
+
+const getAuthSuccessResponse = (response: any) => {};
+
+const createUnhandledErrorObject = (router: string) => {
+  // TODO: can be error sender to log server
+  return {
+    status: 500,
+    statusText: 'Unhandled Error',
+    url: router,
+    action: 'system',
+    message: 'Unhandled Error',
+    system: 'user',
+  }
+}

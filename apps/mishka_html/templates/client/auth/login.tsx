@@ -19,8 +19,8 @@ interface LoginTemplateType {
 // But the stuff like {<MainHeader /> etc} can be merged into another file to prevent copy and pasting
 // But we cover this as a concept to let another program use it if they want
 const LoginTemplate: NextPage<LoginTemplateType> = (props) => {
-  const passwordRef: React.RefObject<HTMLInputElement> = React.createRef();
-  const emailRef: React.RefObject<HTMLInputElement> = React.createRef();
+  const passwordRef: RefObject<HTMLInputElement> = React.createRef();
+  const emailRef: RefObject<HTMLInputElement> = React.createRef();
 
   // TODO: token or user session exist?
   // TODO: if exist is valid? based on accsess token time

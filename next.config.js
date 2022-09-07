@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
-    api_url: 'https://api.example.com/api',
+    api_url: 'http://localhost:4001/api',
   }
 }
 
