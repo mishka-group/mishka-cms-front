@@ -8,7 +8,7 @@ type Children = {
 };
 
 // This place can be helpful if you have global UI, importing, styling or HEAD for SEO etc.
-const Layout: NextPage<Children> = ({ children }) => {
+const Layout: NextPage<Children> = ({ children }): JSX.Element => {
   useEffect(() => {
     // Installing Bootstrap based on this post: https://blog.logrocket.com/handling-bootstrap-integration-next-js/
     require('bootstrap/dist/js/bootstrap.bundle.min.js');

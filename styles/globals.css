@@ -727,9 +727,6 @@ span.d-inline-block.bg-secondary.rounded-circle {
 .ltr {
   direction: ltr;
 }
-.vazir {
-  font-family: Vazir-Regular;
-}
 a.client-post-bot-link {
   text-decoration: none;
 }
@@ -824,7 +821,6 @@ main .ck-editor[role=application] .ck.ck-content,
 .ck.editor[role=textbox],
 #editor,
 .ql-toolbar.ql-snow + .ql-container.ql-snow {
-  font-family: "Vazir-Regular" !important;
   direction: rtl !important;
   text-align: justify;
 }
@@ -1001,7 +997,6 @@ span.d-inline-block.bg-danger.rounded-circle {
   padding: 10px 0 10px 20px !important;
 }
 .admin-home-quickmenu-top-menu {
-  font-family: Vazir-Regular;
   font-size: 18px;
   padding: 5px 3px;
 }
@@ -1022,15 +1017,12 @@ span.d-inline-block.bg-danger.rounded-circle {
   background-color: #373355;
   border-radius: 8px;
   padding: 20px 20px !important;
-  font-family: Vazir-Regular;
 }
 .admin-home-calendar a {
   color: #211d41;
-  font-family: Vazir-Regular;
 }
 #calendar {
   font-size: 12px;
-  font-family: Vazir-Regular;
 }
 .fc-scroller.fc-scroller-liquid-absolute {
   overflow: hidden !important;
@@ -1049,11 +1041,9 @@ span.d-inline-block.bg-danger.rounded-circle {
 }
 .fc-toolbar-title {
   color: #28282ac8 !important;
-  font-family: Vazir-Regular;
 }
 .admin-home-calendar-h3-title-last-post {
   color: #28282ac8 !important;
-  font-family: Vazir-Regular;
   margin: 30px 0;
 }
 .last-admin-home-posts {
@@ -1081,15 +1071,15 @@ span.d-inline-block.bg-danger.rounded-circle {
   background-color: #5d597c;
   border-radius: 15px;
 }
-.badge.bg-dark.vazir.client-blog-badge-category a {
+.badge.bg-dark.client-blog-badge-category a {
   color: #ffffff !important;
   text-decoration: none !important;
   font-size: 10px;
 }
-.badge.bg-dark.vazir.client-blog-badge-category {
+.badge.bg-dark.client-blog-badge-category {
   padding: 5px 6px;
 }
-#client-blog-post-header-info span.badge.bg-primary.vazir a {
+#client-blog-post-header-info span.badge.bg-primary a {
   color: #ffffff !important;
   text-decoration: none !important;
 }
@@ -1113,7 +1103,6 @@ span.d-inline-block.bg-danger.rounded-circle {
   margin: 0;
 }
 .admin-home-last-comment-user-full-name {
-  font-family: Vazir-Regular;
   font-size: 14px;
 }
 .admin-home-last-notif-title,
@@ -1206,7 +1195,6 @@ span.d-inline-block.bg-danger.rounded-circle {
 }
 .titile-of-blog-posts {
   font-size: 18px;
-  font-family: Vazir-Regular;
 }
 .top-post-btn .btn {
   font-size: 18px;
@@ -1221,7 +1209,6 @@ span.d-inline-block.bg-danger.rounded-circle {
   opacity: 0.8;
 }
 .opration-post-blog .btn {
-  font-family: Vazir-Regular;
   font-size: 13px;
 }
 .pagination-record-lists {
@@ -1234,7 +1221,6 @@ span.d-inline-block.bg-danger.rounded-circle {
   background-color: white !important;
 }
 .paginationlist {
-  font-family: Vazir-Regular !important;
   font-size: 14px !important;
   border-radius: 0 !important;
 }
@@ -1253,13 +1239,11 @@ span.d-inline-block.bg-danger.rounded-circle {
   font-size: 14px;
 }
 button.reset-admin-search-btn {
-  font-family: Vazir-Regular !important;
   font-size: 14px;
 }
 select option,
 select.form-select {
   font-size: 14px;
-  font-family: Vazir-Regular !important;
 }
 .admin-notif-live-title {
   font-size: 14px;
@@ -1286,7 +1270,6 @@ select.form-select {
 }
 .admin-create-category-tools {
   color: white;
-  font-family: Vazir-Regular !important;
   font-size: 18px !important;
 }
 .btn-info.admin-create-category-tools {
@@ -1294,7 +1277,6 @@ select.form-select {
 }
 .create-category-tools-items {
   font-size: 14px;
-  font-family: Vazir-Regular !important;
   text-align: justify;
 }
 .create-category-tools-items svg {
@@ -1306,7 +1288,6 @@ select.form-select {
   padding: 20px;
   background: #e6e6e6;
   font-size: 24px;
-  font-family: Vazir-Regular !important;
   text-align: center;
 }
 .admin-there-is-no-field:hover {
@@ -1318,7 +1299,6 @@ select.form-select {
   font-size: 12px;
 }
 .field {
-  font-family: Vazir-Regular !important;
   text-align: justify;
   font-size: 14px;
   margin-bottom: 30px;
@@ -1332,7 +1312,6 @@ select.form-select {
   padding: 20px;
   background: #ffffff;
   font-size: 24px;
-  font-family: Vazir-Regular !important;
   text-align: center;
   box-shadow: #dadada 1px 1px 20px 8px;
   margin-bottom: 40px;
@@ -2715,7 +2694,6 @@ select.form-select {
 }
 .error-modal-badage-dark {
   font-size: 16px !important;
-  font-family: Vazir-Regular !important;
 }
 .error-card-modal-main-text {
   line-height: 28px;
@@ -2726,7 +2704,6 @@ select.form-select {
 }
 .modal-close-btn button {
   font-size: 14px !important;
-  font-family: Vazir-Regular !important;
 }
 .client-home-normal-post-article {
   max-height: 150px;
@@ -2893,7 +2870,7 @@ article.col-sm-3.home-blog-posts-normal-with-body {
   .col-sm-6.admin-home-tab {
     width: 100%;
   }
-  .col-sm-5.vazir.list-activity-blog-post-and-category {
+  .col-sm-5.list-activity-blog-post-and-category {
     width: 41%;
   }
   .col-sm-3.navbar.navbar-dark.text-right.mobile-admin-top-menu {
@@ -2910,7 +2887,7 @@ article.col-sm-3.home-blog-posts-normal-with-body {
   .admin-list-search-form div.col-sm-1 {
     min-width: 120px;
   }
-  .vazir.col-sm-8.btn.btn-primary.reset-admin-search-btn {
+  .col-sm-8.btn.btn-primary.reset-admin-search-btn {
     min-width: 100px;
   }
   .mobile-menu {
@@ -2923,7 +2900,7 @@ article.col-sm-3.home-blog-posts-normal-with-body {
   .admin-top-page-navigate {
     margin-bottom: 40px;
   }
-  .col.vazir.text-start.top-post-btn {
+  .col.text-start.top-post-btn {
     width: 100%;
     margin: 0 auto !important;
     clear: both;
@@ -3004,7 +2981,7 @@ article.col-sm-3.home-blog-posts-normal-with-body {
   .col-sm-6.admin-home-tab {
     width: 100%;
   }
-  .col-sm-5.vazir.list-activity-blog-post-and-category {
+  .col-sm-5.list-activity-blog-post-and-category {
     width: 100%;
     margin-top: 30px;
   }
