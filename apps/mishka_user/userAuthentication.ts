@@ -9,10 +9,11 @@ export interface AuthError {
   system: string;
 }
 
-interface LogoutOutPut {
+export interface LogoutOutPut {
   action: 'logout';
   message: string;
   system: 'user';
+  status?: number | string;
 }
 
 type RegisterInput = {
@@ -24,7 +25,7 @@ type RegisterInput = {
 
 type Token = string;
 
-type LoginOutPut = {
+export interface LoginOutPut {
   status: string | number;
   action: 'login';
   auth: {
