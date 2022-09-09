@@ -1,6 +1,6 @@
-import { authApiRequestSender } from '../extra/helper';
+import { authApiRequestSender } from '../extra/authHelper';
 
-interface AuthError {
+export interface AuthError {
   status: number | string;
   statusText: string;
   url: string;
@@ -16,28 +16,38 @@ type RegisterInput = {
   password?: string;
 };
 
-export const loginByUsername = async (
-  username: string,
-  password: string
-): Promise<AuthError | any> => {
-  const data = { username: username, password: password };
-  const response = await authApiRequestSender(
-    '/auth/v1/login',
-    data,
-    {},
-    'POST'
-  );
-  return response;
+type Token = string;
+
+type LoginOutPut = {
+  status: string | number;
+  action: 'login';
+  auth: {
+    access_expires_in: number;
+    access_token: Token;
+    access_token_type: 'access';
+    refresh_expires_in: number;
+    refresh_token: Token;
+    refresh_token_type: 'refresh';
+  };
+  message: string;
+  system: 'user';
+  user_info: {
+    email: string;
+    full_name: string;
+    id: string;
+    status: string;
+    username: string;
+  };
 };
 
-export const loginByEmail = async (email: string, password: string) => {
+export const loginByUsername = async (username: string, password: string): Promise<AuthError | LoginOutPut> => {
+  const data = { username: username, password: password };
+  return await authApiRequestSender<LoginOutPut | AuthError>('/auth/v1/login', data, {}, 'POST');
+};
+
+export const loginByEmail = async (email: string, password: string): Promise<AuthError | LoginOutPut> => {
   const data = { email: email, password: password };
-  const response = await authApiRequestSender(
-    '/auth/v1/login',
-    data,
-    {},
-    'POST'
-  );
+  const response = await authApiRequestSender<LoginOutPut | AuthError>('/auth/v1/login', data, {}, 'POST');
   return response;
 };
 
@@ -45,10 +55,7 @@ export const register = (params: RegisterInput): void => {
   // TODO:
 };
 
-export const changePassword = (
-  curentPassword: string,
-  newPassword: string
-): void => {
+export const changePassword = (curentPassword: string, newPassword: string): void => {
   // TODO:
 };
 
@@ -56,10 +63,7 @@ export const sendDeactiveAccount = (userToken: string): void => {
   // TODO:
 };
 
-export const deactiveAccountByCode = (
-  userToken: string,
-  code: string
-): void => {
+export const deactiveAccountByCode = (userToken: string, code: string): void => {
   // TODO:
 };
 
@@ -75,10 +79,7 @@ export const deleteTokens = (userRefreshToken: string): void => {
   // TODO:
 };
 
-export const getTokenExpireTime = (
-  accessToken: string,
-  token: string
-): void => {
+export const getTokenExpireTime = (accessToken: string, token: string): void => {
   // TODO:
 };
 
@@ -94,11 +95,7 @@ export const resetPassword = (email: string, new_password: string): void => {
   // TODO:
 };
 
-export const confirmResetPassword = (
-  email: string,
-  new_password: string,
-  code: string
-): void => {
+export const confirmResetPassword = (email: string, new_password: string, code: string): void => {
   // TODO:
 };
 

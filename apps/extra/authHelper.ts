@@ -1,12 +1,7 @@
 type Method = 'POST' | 'GET' | 'DELETE' | 'PUT';
 type Header = { [key: string]: string };
 
-export const authApiRequestSender = (
-  router: string,
-  body: object,
-  header: Header,
-  method: Method
-) => {
+export const authApiRequestSender = <T>(router: string, body: object, header: Header, method: Method) => {
   const request = fetch(process.env.api_url + router, {
     method: method,
     mode: 'cors',
@@ -15,20 +10,20 @@ export const authApiRequestSender = (
   })
     .then((response) => {
       if (!response.ok) {
-        return getAuthError(response);
+        return getAuthError<T>(response);
       } else {
-        getAuthSuccessResponse(response);
+        return getAuthSuccessResponse<T>(response);
       }
     })
     .catch((error) => {
-      return createUnhandledErrorObject(router);
+      return createAuthUnhandledErrorObject(router);
     });
 
   return request;
 };
 
-const getAuthError = async (response: any) => {
-  let error = {};
+const getAuthError = async <T>(response: Awaited<any>): Promise<T> => {
+  let error: any = {};
   const errorResponse = await response;
   error = {
     ...error,
@@ -47,9 +42,14 @@ const getAuthError = async (response: any) => {
   return error;
 };
 
-const getAuthSuccessResponse = (response: any) => {};
+const getAuthSuccessResponse = async <T>(response: any) => {
+  const successResponse = await response;
+  const data: T = await successResponse.json();
+  const mergedStatusData = { ...data, status: 200 };
+  return mergedStatusData;
+};
 
-const createUnhandledErrorObject = (router: string) => {
+const createAuthUnhandledErrorObject = (router: string) => {
   // TODO: can be error sender to log server
   return {
     status: 500,
@@ -58,5 +58,5 @@ const createUnhandledErrorObject = (router: string) => {
     action: 'system',
     message: 'Unhandled Error',
     system: 'user',
-  }
-}
+  };
+};

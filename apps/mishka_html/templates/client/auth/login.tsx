@@ -9,11 +9,8 @@ import PasswordField from '../../../UIs/PasswordField';
 import React, { FormEvent, RefObject } from 'react';
 
 interface LoginTemplateType {
-  login(
-    event: FormEvent<HTMLFormElement>,
-    email: RefObject<HTMLInputElement>,
-    password: RefObject<HTMLInputElement>
-  ): void; // TODO: it should be changed with final retrun type
+  login(event: FormEvent<HTMLFormElement>, email: RefObject<HTMLInputElement>, password: RefObject<HTMLInputElement>): void;
+  // TODO: it should be changed with final retrun type
 }
 // We do not use Layout concept, because it is not useful for the project has many different globally UIs
 // But the stuff like {<MainHeader /> etc} can be merged into another file to prevent copy and pasting
@@ -35,29 +32,17 @@ const LoginTemplate: NextPage<LoginTemplateType> = (props) => {
         <section className="col mx-auto client-content">
           <div className="space40"></div>
           <main className="form-signin">
-            <form
-              id="ClientLoginForm"
-              onSubmit={(event) => props.login(event, emailRef, passwordRef)}
-            >
+            <form id="ClientLoginForm" onSubmit={(event) => props.login(event, emailRef, passwordRef)}>
               <Image src={loginImage} alt="Login" width={80} height={80} />
               <div className="space10"></div>
               <h1 className="h3 mb-3 fw-normal">Please Enter</h1>
               <div className="space40"></div>
               <div className="input-group input-group-lg ltr">
-                <TextField
-                  name="email"
-                  placeholder="Email"
-                  type="email"
-                  ref={emailRef}
-                />
+                <TextField name="email" placeholder="Email" type="email" ref={emailRef} />
               </div>
               <div className="space20"></div>
               <div className="input-group input-group-lg ltr">
-                <PasswordField
-                  name="password"
-                  placeholder="Password"
-                  ref={passwordRef}
-                />
+                <PasswordField name="password" placeholder="Password" ref={passwordRef} />
               </div>
               <div className="form-error-tag">
                 <div className="space20"></div>
