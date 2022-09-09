@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { loginByEmail } from '../../../apps/mishka_user/userAuthentication';
-import { checkTokenToRefresh, getUserBasicInformationAndTokens } from '../../../apps/extra/authHelper';
+import { checkTokenToRefresh, getUserBasicInformationAndTokens } from '../../../apps/mishka_user/helper/authHelper';
 
 export default NextAuth({
   session: {

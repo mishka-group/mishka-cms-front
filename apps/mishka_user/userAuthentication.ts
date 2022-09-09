@@ -1,4 +1,4 @@
-import { authApiRequestSender } from '../extra/authHelper';
+import { authApiRequestSender } from './helper/authHelper';
 
 export interface AuthError {
   status: number | string;

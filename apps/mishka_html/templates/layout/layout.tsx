@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { useEffect } from 'react';
 import Cright from '../../UIs/Cright';
 import Head from 'next/head';
-import { clientSideSessionAction } from '../../../extra/authHelper';
+import { clientSideSessionAction } from '../../../mishka_user/helper/authHelper';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 

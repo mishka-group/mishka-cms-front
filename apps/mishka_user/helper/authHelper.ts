@@ -1,6 +1,6 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import type { NextRouter } from 'next/router';
-import { AuthError, LoginOutPut, LogoutOutPut, refreshToken, logout } from '../mishka_user/userAuthentication';
+import { AuthError, LoginOutPut, LogoutOutPut, refreshToken, logout } from '../userAuthentication';
 type Method = 'POST' | 'GET' | 'DELETE' | 'PUT';
 type Header = { [key: string]: string };
 
@@ -125,7 +125,6 @@ export const checkTokenToRefresh = async (credentials: any) => {
     await logout(credentials.refresh_token);
     throw new Error(JSON.stringify({ status: 'signOut' }));
   } else {
-    console.log('hey');
     return Promise.resolve({
       email: credentials.user.email,
       name: credentials.user.full_name,

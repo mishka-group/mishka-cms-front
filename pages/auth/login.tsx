@@ -3,7 +3,7 @@ import LoginTemplate from '../../apps/mishka_html/templates/client/auth/login';
 import type { FormEvent, RefObject } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { clientSideSessionAction } from '../../apps/extra/authHelper';
+import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import Link from 'next/link';
 
 // TODO: {:USER_INPUT} => we have 2 input box here, and so we need to sanitize them and prevent from XSS
