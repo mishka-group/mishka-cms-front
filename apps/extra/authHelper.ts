@@ -1,3 +1,6 @@
+import { signIn, signOut, useSession } from 'next-auth/react';
+import type { NextRouter } from 'next/router';
+
 type Method = 'POST' | 'GET' | 'DELETE' | 'PUT';
 type Header = { [key: string]: string };
 
@@ -59,4 +62,33 @@ const createAuthUnhandledErrorObject = (router: string) => {
     message: 'Unhandled Error',
     system: 'user',
   };
+};
+
+export const clientSideSessionAction = async (session: any, router: NextRouter) => {
+  // TODO: we need state for having clean url for errors
+  const pathes = ['/auth/login', '/auth/register'];
+  if (pathes.find((item) => item === router.pathname)) {
+    // we used `replace` because it clears the Link history
+    router.replace({
+      pathname: '/',
+      query: { errorMessage: 'You are already logged in' },
+    });
+    return () => {};
+  }
+
+  if (session) {
+    const login = await signIn('credentials', {
+      ...session,
+      redirect: false,
+      email: session.user?.email,
+    });
+
+    if (login && !login.ok) {
+      signOut({ redirect: false });
+      router.replace({
+        pathname: '/auth/login',
+        query: { errorMessage: JSON.parse(login.error as string) },
+      });
+    }
+  }
 };

@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { loginByEmail, logout, refreshToken, AuthError } from '../../../apps/mishka_user/userAuthentication';
 
-export const getTokenFromLoginRouter = async (login) => {
+export const getUserBasicInformationAndTokens = async (login) => {
   const loginRes = await login;
   let newuser;
   if ((login.status === 200 || login.status === '200') && 'user_info' in login) {
@@ -27,14 +27,15 @@ export const checkTokenToRefresh = async (credentials) => {
   if (credentials.access_expires_in <= nowUnixDate && credentials.refresh_expires_in >= nowUnixDate) {
     const refresh = await refreshToken(credentials.refresh_token);
     if (refresh.status !== 200) {
-      throw new Error(JSON.stringify({ status: "refresh_token" }));
+      throw new Error(JSON.stringify(refresh));
     } else {
-      return Promise.resolve(refresh);
+      return await getUserBasicInformationAndTokens(refresh)
     }
   } else if (credentials.refresh_expires_in <= nowUnixDate) {
     await logout(credentials.refresh_token);
     throw new Error(JSON.stringify({ status: "signOut" }));
   } else {
+    console.log("hey")
     return Promise.resolve({
       email: credentials.user.email,
       name: credentials.user.full_name,
@@ -63,7 +64,7 @@ export default NextAuth({
         } else if (credentials.email && credentials.password) {
           // If we want to get Token from user and password for user
           const login = await loginByEmail(credentials.email.trim(), credentials.password.trim());
-          return await getTokenFromLoginRouter(login);
+          return await getUserBasicInformationAndTokens(login);
         } else {
           return null;
         }

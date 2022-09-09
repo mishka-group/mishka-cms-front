@@ -6,11 +6,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <Layout>
-      <SessionProvider session={session}>
+    <SessionProvider session={session}>
+      <Layout>
         <Component {...pageProps} />
-      </SessionProvider>
-    </Layout>
+      </Layout>
+    </SessionProvider>
   );
 }
 
