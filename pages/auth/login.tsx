@@ -16,7 +16,7 @@ const LoginPage: NextPage = () => {
         password: password.current.value,
       });
 
-      console.log(JSON.parse(login?.error).action);
+      console.log(login);
     }
   };
 

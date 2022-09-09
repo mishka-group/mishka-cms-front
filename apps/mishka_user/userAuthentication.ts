@@ -9,6 +9,12 @@ export interface AuthError {
   system: string;
 }
 
+interface LogoutOutPut {
+  action: 'logout';
+  message: string;
+  system: 'user';
+}
+
 type RegisterInput = {
   full_name: string;
   username: string;
@@ -83,12 +89,30 @@ export const getTokenExpireTime = (accessToken: string, token: string): void => 
   // TODO:
 };
 
-export const logout = (token: string): void => {
-  // TODO:
+export const logout = async (refreshToken: string): Promise<AuthError | LogoutOutPut> => {
+  const data = {};
+  const response = await authApiRequestSender<LogoutOutPut>(
+    '/auth/v1/logout',
+    data,
+    {
+      Authorization: `Bearer ${refreshToken}`,
+    },
+    'POST'
+  );
+  return response;
 };
 
-export const refreshToken = (refreshToken: string): void => {
-  // TODO:
+export const refreshToken = async (refreshToken: string): Promise<AuthError | LoginOutPut> => {
+  const data = {};
+  const response = await authApiRequestSender<AuthError | LoginOutPut>(
+    '/auth/v1/refresh-token',
+    data,
+    {
+      Authorization: `Bearer ${refreshToken}`,
+    },
+    'POST'
+  );
+  return response;
 };
 
 export const resetPassword = (email: string, new_password: string): void => {
