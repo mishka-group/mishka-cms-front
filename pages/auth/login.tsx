@@ -12,7 +12,7 @@ const LoginPage: NextPage = () => {
   // Force the use not see this page because it is just for new users without session
   clientSideSessionAction(session, router).then();
 
-  // If a user wants to login in website can use this Handler, but before logining in the site he/her is checked for having session
+  // If a user wants to login in website, can use this Handler, but before logining in the site he/her is checked for having session or not?
   const loginHandler = async (event: FormEvent<HTMLFormElement>, email: RefObject<HTMLInputElement>, password: RefObject<HTMLInputElement>) => {
     event.preventDefault();
     // It is an extra preventer and refresh token for unhandled situation

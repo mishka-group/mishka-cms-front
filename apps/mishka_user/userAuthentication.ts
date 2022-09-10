@@ -27,7 +27,7 @@ type Token = string;
 
 export interface LoginOutPut {
   status: string | number;
-  action: 'login';
+  action: 'login' | 'register';
   auth: {
     access_expires_in: number;
     access_token: Token;
@@ -47,6 +47,8 @@ export interface LoginOutPut {
   };
 };
 
+type RegisterOutPut = Omit<LoginOutPut, 'auth'>;
+
 export const loginByUsername = async (username: string, password: string): Promise<AuthError | LoginOutPut> => {
   const data = { username: username, password: password };
   return await authApiRequestSender<LoginOutPut | AuthError>('/auth/v1/login', data, {}, 'POST');
@@ -58,8 +60,9 @@ export const loginByEmail = async (email: string, password: string): Promise<Aut
   return response;
 };
 
-export const register = (params: RegisterInput): void => {
-  // TODO:
+export const register = async (params: RegisterInput): Promise<AuthError | RegisterOutPut> => {
+  const response = await authApiRequestSender<RegisterOutPut | AuthError>('/auth/v1/register', params, {}, 'POST');
+  return response;
 };
 
 export const changePassword = (curentPassword: string, newPassword: string): void => {
