@@ -39,7 +39,7 @@ const LoginPage: NextPage = () => {
   if (session) {
     return (
       <h1 className="text-center">
-        You are already logged in ... <Link href="/">Click hear to go to Home</Link>
+        You are already logged in ... <Link href="/">Click hear to back Home</Link>
       </h1>
     );
   }
