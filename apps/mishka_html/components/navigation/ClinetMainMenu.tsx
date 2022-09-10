@@ -11,13 +11,15 @@ type ClientMenuType = { active: string };
 // TODO: change link and li to another componnet and using link
 const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
   const { data: session, status } = useSession();
-  const router = useRouter();
+  const { pathname } = useRouter();
 
   // TODO: If the MishkaCMS creats a menu manager we should change it with api in the future
   const menus = [
     { id: 1, name: 'Home', link: '/' },
     { id: 2, name: 'Blog', link: '/blogs' },
   ];
+
+  const loginPreventer = ['/auth/login', '/auth/register', '/auth/forget-password'];
 
   // We need to have 2 color for body, the first one for Client side and the another one for Admin side
   return (
@@ -44,14 +46,15 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
                       <ClientMainMenuItem key={id} active={active === name ? true : false} title={name} link={link} />
                     ))}
 
+                    {/* We need login and Logout are allways part of the main menu, so we do not need to pass it into menu item */}
                     {session ? (
                       <li className="nav-item client-menu-nav-item" onClick={() => signOut({ callbackUrl: '/' })}>
-                        <a className="nav-link client-menu-nav-link">signOut</a>
+                        <a className="nav-link client-menu-nav-link">Logout</a>
                       </li>
                     ) : (
                       <li className="nav-item client-menu-nav-item">
                         <Link href="/auth/login">
-                          <a className={`nav-link client-menu-nav-link ${router.pathname === '/auth/login' ? 'active' : ''}`}>Login</a>
+                          <a className={`nav-link client-menu-nav-link ${loginPreventer.includes(pathname) ? 'active' : ''}`}>Login</a>
                         </Link>
                       </li>
                     )}
@@ -59,7 +62,7 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
                 </div>
               </div>
             </nav>
-            <div className="col-sm-2 text-start notif-ico-main-block ltr">1</div>
+            <div className="col-sm-2 text-start notif-ico-main-block ltr">{session && "1"}</div>
           </div>
           <hr className="menu-space-hr" />
         </section>
