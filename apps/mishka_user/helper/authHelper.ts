@@ -66,17 +66,17 @@ const createAuthUnhandledErrorObject = (router: string) => {
 
 export const clientSideSessionAction = async (session: any, router: NextRouter) => {
   // TODO: we need state for having clean url for errors
-  const pathes = ['/auth/login', '/auth/register'];
-  if (pathes.find((item) => item === router.pathname)) {
-    // we used `replace` because it clears the Link history
-    router.replace({
-      pathname: '/',
-      query: { errorMessage: 'You are already logged in' },
-    });
-    return () => {};
-  }
-
   if (session) {
+    const pathes = ['/auth/login', '/auth/register'];
+    if (pathes.find((item) => item === router.pathname)) {
+      // we used `replace` because it clears the Link history
+      router.replace({
+        pathname: '/',
+        query: { errorMessage: 'You are already logged in' },
+      });
+      return () => {};
+    }
+
     const login = await signIn('credentials', {
       ...session,
       redirect: false,

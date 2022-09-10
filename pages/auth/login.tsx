@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import Link from 'next/link';
 
-// TODO: {:USER_INPUT} => we have 2 input box here, and so we need to sanitize them and prevent from XSS
 const LoginPage: NextPage = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -16,15 +15,22 @@ const LoginPage: NextPage = () => {
   // If a user wants to login in website can use this Handler, but before logining in the site he/her is checked for having session
   const loginHandler = async (event: FormEvent<HTMLFormElement>, email: RefObject<HTMLInputElement>, password: RefObject<HTMLInputElement>) => {
     event.preventDefault();
-
+    // It is an extra preventer and refresh token for unhandled situation
     await clientSideSessionAction(session, router);
 
+    // TODO: in this place we need to sanitize user email and password and prevent from XSS
     if (email.current?.value && password.current?.value) {
       const login = await signIn('credentials', {
         redirect: false,
+        callbackUrl: '/auth/login',
         email: email.current.value,
         password: password.current.value,
       });
+      // This is the place we should redirect to main page link if login?.ok
+      if (login?.ok) {
+        // TODO: should save the error on error state
+        router.push({ pathname: '/' });
+      }
       console.log(login);
     }
   };
