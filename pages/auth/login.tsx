@@ -32,12 +32,11 @@ const LoginPage: NextPage = () => {
       });
       // This is the place we should redirect to main page link if login?.ok
       if (login?.ok) {
-        router.push({ pathname: '/' });
+        router.replace({ pathname: '/' });
         return null;
       }
       if (login && login.error) {
         setAlertState(true, JSON.parse(login.error).message, 'danger');
-        router.push({ pathname: '/' });
       }
     }
   };
