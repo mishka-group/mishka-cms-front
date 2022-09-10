@@ -32,6 +32,7 @@ const RegisterPage: NextPage = () => {
 
       // After getting 200 status we can redirect the user to login page and show a success alert
       if ((registerOutput.status === 200 || registerOutput.status === '200') && 'user_info' in registerOutput) {
+        // reset form for unhandle situation
         fullName.current.value = '';
         fullName.current.value = '';
         username.current.value = '';

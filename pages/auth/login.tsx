@@ -5,10 +5,14 @@ import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import Link from 'next/link';
+import { useContext } from 'react';
+import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 
 const LoginPage: NextPage = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
+  const { alert, setAlertState } = useContext(ClientAlertState);
+  console.log(alert);
   // Force the use not see this page because it is just for new users without session
   clientSideSessionAction(session, router).then();
 
@@ -28,10 +32,13 @@ const LoginPage: NextPage = () => {
       });
       // This is the place we should redirect to main page link if login?.ok
       if (login?.ok) {
-        // TODO: should save the error on error state
+        router.push({ pathname: '/' });
+        return null;
+      }
+      if (login && login.error) {
+        setAlertState(true, JSON.parse(login.error).message, 'danger');
         router.push({ pathname: '/' });
       }
-      console.log(login);
     }
   };
 
