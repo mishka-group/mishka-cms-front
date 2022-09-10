@@ -57,7 +57,7 @@ const LoginTemplate: NextPage<LoginTemplateType> = (props) => {
                 <a className="btn btn-outline-info">Register</a>
               </Link>
               &nbsp;&nbsp;
-              <Link href={'/auth/forget-password'}>
+              <Link href={'/auth/reset'}>
                 <a className="btn btn-outline-danger">Forget Password</a>
               </Link>
             </form>

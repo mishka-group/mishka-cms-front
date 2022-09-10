@@ -19,7 +19,7 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
     { id: 2, name: 'Blog', link: '/blogs' },
   ];
 
-  const loginPreventer = ['/auth/login', '/auth/register', '/auth/forget-password'];
+  const loginPreventer = ['/auth/login', '/auth/register', '/auth/reset'];
 
   // We need to have 2 color for body, the first one for Client side and the another one for Admin side
   return (
