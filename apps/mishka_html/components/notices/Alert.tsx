@@ -8,11 +8,16 @@ const Alert: NextPage = () => {
 
   // This hook can help us to remove an alert after a Timeout, and we can some log sender in the future version.
   useEffect(() => {
+    let timeOut: NodeJS.Timeout;
     if (alert.status) {
-      setTimeout(() => {
+      timeOut = setTimeout(() => {
         clearAlertState();
       }, 30000);
     }
+    // This is cleanup for timeout to help you clean memory and rebind new timeout if you have new flash message
+    return () => {
+      clearTimeout(timeOut);
+    };
   }, [alert]);
 
   // After determining an alert as a message or error, user can clean the state with click on a message or close button.

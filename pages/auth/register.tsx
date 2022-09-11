@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { FormEvent, RefObject, useContext, useState } from 'react';
+import { FormEvent, RefObject, useContext, useState, Dispatch, SetStateAction } from 'react';
 import RegisterTemplate from '../../apps/mishka_html/templates/client/auth/register';
 import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { useSession } from 'next-auth/react';
@@ -9,11 +9,12 @@ import Link from 'next/link';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 
 type RH = RefObject<HTMLInputElement>;
+type CutomObject = { [key: string]: string; }
 
 const RegisterPage: NextPage = () => {
   const { data: session, status } = useSession();
   const { setAlertState } = useContext(ClientAlertState);
-  const [formError, setFormError] = useState();
+  const [formError, setFormError]: [CutomObject, Dispatch<SetStateAction<CutomObject>>] = useState({});
 
   const router = useRouter();
 
