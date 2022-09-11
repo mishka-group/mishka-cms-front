@@ -1,17 +1,22 @@
 import type { NextPage } from 'next';
-import type { FormEvent, RefObject } from 'react';
+import { FormEvent, RefObject, useContext, useState } from 'react';
 import RegisterTemplate from '../../apps/mishka_html/templates/client/auth/register';
 import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { register } from '../../apps/mishka_user/userAuthentication';
 import Link from 'next/link';
+import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 
 type RH = RefObject<HTMLInputElement>;
 
 const RegisterPage: NextPage = () => {
   const { data: session, status } = useSession();
+  const { setAlertState } = useContext(ClientAlertState);
+  const [formError, setFormError] = useState();
+
   const router = useRouter();
+
   // Force the use not see this page because it is just for new users without session
   clientSideSessionAction(session, router).then();
 
@@ -38,14 +43,30 @@ const RegisterPage: NextPage = () => {
         username.current.value = '';
         email.current.value = '';
 
-        // TODO: should save the message on error state
-        router.push({ pathname: '/auth/login' });
+        setAlertState(
+          true,
+          "Your registration was accepted. To confirm the user account, please go to your email and send the email activation code. It's worth noting that the activation code is only good for 5 minutes.",
+          'info'
+        );
       } else {
+        // TODO: return an error and let user all the fild essential except password
+        // TODO: Template side should have validation ui to let user Which field should be filled
         // Show the error system got to user and show a warning alert to fix the problems
+        // We need to pass errors for validation forms in template part
+        setFormError(registerOutput.errors);
+
+        // It is a global error to show user and let him/her focus on the error they get
+        setAlertState(true, 'Unfortunately, there is an error in sending the data. Please try again after solving the problem.', 'warning');
+
+        // Make a setTimeout to scroll, because before that we have no `.alert` class to scroll, it can be an animation
+        setTimeout(() => {
+          document.querySelector('.alert')?.scrollIntoView();
+        }, 300);
       }
     } else {
-      // TODO: return an error and let user all the fild essential except password
-      // TODO: Template side should have validation ui to let user Which field should be filled
+      // It is an extra error showing, because in template part user should skip the validation and this file condition for essential parameters
+      // It can't be shown in normal data sending
+      setAlertState(true, 'All required fields must be submitted.', 'warning');
     }
   };
 
@@ -60,7 +81,7 @@ const RegisterPage: NextPage = () => {
 
   return (
     <>
-      <RegisterTemplate register={RegisterHandler} />
+      <RegisterTemplate register={RegisterHandler} formError={formError} />
     </>
   );
 };

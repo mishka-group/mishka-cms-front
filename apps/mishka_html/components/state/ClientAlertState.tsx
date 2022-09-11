@@ -1,7 +1,9 @@
 import type { NextPage } from 'next';
 import React, { useState } from 'react';
 
+// This type helps us to prevent duplicating AlertType in the whole file
 type AlertType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+// This type is for React.createContext and it is a main structuer for local useState
 type StateStructuerType = {
   alert: {
     status: boolean;
@@ -11,7 +13,7 @@ type StateStructuerType = {
   setAlertState(status: boolean, alertMessage: string, alertType: AlertType): void;
   clearAlertState(): void;
 };
-
+// For managing useState properties, this type was created to pick off some properties and prevent duplicating
 type setAlertType = StateStructuerType['alert'];
 
 // This is our Alert state schema

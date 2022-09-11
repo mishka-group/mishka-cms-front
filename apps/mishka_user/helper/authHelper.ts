@@ -40,6 +40,7 @@ const getAuthError = async <T>(response: Awaited<any>): Promise<T> => {
     action: data.action,
     message: data.message,
     system: data.system,
+    errors: data.errors ? data.errors : [],
   };
 
   return error;
@@ -61,6 +62,7 @@ const createAuthUnhandledErrorObject = (router: string) => {
     action: 'system',
     message: 'Unhandled Error',
     system: 'user',
+    errors: [],
   };
 };
 

@@ -7,6 +7,7 @@ export interface AuthError {
   action: string;
   message: string;
   system: string;
+  errors: Array<any> | [];
 }
 
 export interface LogoutOutPut {
@@ -45,7 +46,8 @@ export interface LoginOutPut {
     status: string;
     username: string;
   };
-};
+  errors?: any
+}
 
 type RegisterOutPut = Omit<LoginOutPut, 'auth'>;
 

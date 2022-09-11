@@ -13,6 +13,7 @@ type RH = RefObject<HTMLInputElement>;
 
 interface RegisterTemplateType {
   register(event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH, password?: RH): void;
+  formError: any
 }
 
 const RegisterTemplate: NextPage<RegisterTemplateType> = (props) => {

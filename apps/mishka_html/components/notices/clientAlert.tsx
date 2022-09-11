@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import {ClientAlertState} from '../state/ClientAlertState';
 
 const ClientAlert = () => {
+  // We deleted Context customer because our function uses useContext in functional component
   const { alert, clearAlertState } = useContext(ClientAlertState);
 
   // This hook can help us to remove an alert after a Timeout, and we can some log sender in the future version.
