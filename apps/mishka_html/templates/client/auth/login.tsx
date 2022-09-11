@@ -39,11 +39,11 @@ const LoginTemplate: NextPage<LoginTemplateType> = (props) => {
               <h1 className="h3 mb-3 fw-normal">Please Enter</h1>
               <div className="space40"></div>
               <div className="input-group input-group-lg ltr">
-                <TextField name="email" placeholder="Email" type="email" ref={emailRef} />
+                <TextField name="email" placeholder="Email" type="email" ref={emailRef} required={true} />
               </div>
               <div className="space20"></div>
               <div className="input-group input-group-lg ltr">
-                <PasswordField name="password" placeholder="Password" ref={passwordRef} />
+                <PasswordField name="password" placeholder="Password" ref={passwordRef} required={true} />
               </div>
               <div className="form-error-tag">
                 <div className="space20"></div>

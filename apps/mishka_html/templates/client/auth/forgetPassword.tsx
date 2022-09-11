@@ -28,7 +28,7 @@ const ForgetPasswordTemplate: NextPage<ForgetPasswordTemplateType> = (props) => 
             <form id="ClientLoginForm" onSubmit={(event) => props.reset(event, emailRef)}>
               <div className="space40"></div>
               <div className="input-group input-group-lg ltr">
-                <TextField name="email" placeholder="Your Email" type="email" ref={emailRef} />
+                <TextField name="email" placeholder="Your Email" type="email" ref={emailRef} required={true} />
               </div>
               <div className="space20"></div>
               <button className="w-100 btn btn-lg btn-primary" type="submit">

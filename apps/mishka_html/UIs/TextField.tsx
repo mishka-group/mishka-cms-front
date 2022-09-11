@@ -6,6 +6,7 @@ interface TextFieldType {
   type: string;
   ref: any;
   formError?: any;
+  // required field should be optional because we need to skip this if it is not sent and put default value instead of.
   required?: boolean
 }
 
