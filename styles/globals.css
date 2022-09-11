@@ -7204,8 +7204,6 @@ textarea.form-control-lg {
 }
 .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
   margin-left: -1px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
 }
 .valid-feedback {
   display: none;
@@ -7306,10 +7304,11 @@ textarea.form-control.is-valid {
   z-index: 3;
 }
 .invalid-feedback {
+  padding: 0 !important;
+  margin: 10px 0 !important;
+  font-size: 16px !important;
   display: none;
   width: 100%;
-  margin-top: .25rem;
-  font-size: .875em;
   color: #dc3545;
 }
 .invalid-tooltip {
@@ -15148,4 +15147,8 @@ fieldset:disabled .btn {
 }
 .alert-component {
   font-size: 18px;
+}
+
+.form-control.is-invalid {
+  border-radius: 5px !important;
 }
