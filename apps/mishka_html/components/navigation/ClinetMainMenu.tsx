@@ -5,6 +5,7 @@ import CollapseButton from '../../UIs/CollapseButton';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { logout } from '../../../mishka_user/userAuthentication';
 
 type ClientMenuType = { active: string };
 
@@ -20,6 +21,14 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
   ];
 
   const loginPreventer = ['/auth/login', '/auth/register', '/auth/reset'];
+
+  // We send refresh token to server for logout action, and it deletes all access token of this refresh token which are alive
+  const logOut = async () => {
+    if (session && session.refresh_token) {
+      await logout(session.refresh_token as string)
+    }
+    signOut({ callbackUrl: '/' });
+  };
 
   // We need to have 2 color for body, the first one for Client side and the another one for Admin side
   return (
@@ -48,7 +57,7 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
 
                     {/* We need login and Logout are allways part of the main menu, so we do not need to pass it into menu item */}
                     {session ? (
-                      <li className="nav-item client-menu-nav-item" onClick={() => signOut({ callbackUrl: '/' })}>
+                      <li className="nav-item client-menu-nav-item" onClick={logOut}>
                         <a className="nav-link client-menu-nav-link">Logout</a>
                       </li>
                     ) : (
@@ -62,7 +71,7 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
                 </div>
               </div>
             </nav>
-            <div className="col-sm-2 text-start notif-ico-main-block ltr">{session && "1"}</div>
+            <div className="col-sm-2 text-start notif-ico-main-block ltr">{session && '1'}</div>
           </div>
           <hr className="menu-space-hr" />
         </section>

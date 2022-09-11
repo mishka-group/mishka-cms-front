@@ -89,6 +89,7 @@ export const clientSideSessionAction = async (session: any, router: NextRouter) 
       signOut({ redirect: false });
       router.replace({
         pathname: '/auth/login',
+        // TODO: should save in state
         query: { errorMessage: JSON.parse(login.error as string) },
       });
     }

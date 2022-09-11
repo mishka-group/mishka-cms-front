@@ -11,7 +11,7 @@ import { ClientAlertState } from '../../apps/mishka_html/components/state/Client
 const LoginPage: NextPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  const { alert, setAlertState } = useContext(ClientAlertState);
+  const { setAlertState } = useContext(ClientAlertState);
 
   // Force the use not see this page because it is just for new users without session
   clientSideSessionAction(session, router).then();
@@ -37,11 +37,7 @@ const LoginPage: NextPage = () => {
       }
       if (login && login.error) {
         // it takes the login error message from API
-        setAlertState(
-          true,
-          'This error occurs when you have sent your account information incorrectly. Please re-enter the login information more carefully',
-          'danger'
-        );
+        setAlertState(true, JSON.parse(login.error).message as string, 'warning');
       }
     }
   };

@@ -11,10 +11,11 @@ const Alert: NextPage = () => {
     if (alert.status) {
       setTimeout(() => {
         clearAlertState();
-      }, 50000);
+      }, 30000);
     }
   }, [alert]);
 
+  // After determining an alert as a message or error, user can clean the state with click on a message or close button.
   return (
     <>
       {alert.status && (
