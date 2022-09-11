@@ -24,7 +24,8 @@ export const ClientAlertState = React.createContext(stateStructuer);
 // ---------------------
 
 const ClientAlertStateProvider: NextPage<{ children: JSX.Element }> = ({ children }) => {
-  const [alert, setStatus] = useState({ status: false, alertMessage: '1', alertType: 'info' });
+  // This is the local state and action function to bind the state concerned, it is same like stateStructuer schema but without setter functions
+  const [alert, setStatus] = useState({ status: false, alertMessage: '', alertType: 'info' });
 
   // Set a new alert into ClientAlertState context
   const setAlertState = (status: boolean, alertMessage: string, alertType: string) => {

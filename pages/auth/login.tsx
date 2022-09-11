@@ -36,7 +36,12 @@ const LoginPage: NextPage = () => {
         return null;
       }
       if (login && login.error) {
-        setAlertState(true, JSON.parse(login.error).message, 'danger');
+        // it takes the login error message from API
+        setAlertState(
+          true,
+          'This error occurs when you have sent your account information incorrectly. Please re-enter the login information more carefully',
+          'danger'
+        );
       }
     }
   };

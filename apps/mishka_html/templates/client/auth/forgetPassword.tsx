@@ -4,6 +4,7 @@ import ClinetMainMenu from '../../../components/navigation/ClinetMainMenu';
 import Link from 'next/link';
 import TextField from '../../../UIs/TextField';
 import React, { FormEvent, RefObject } from 'react';
+import ClientAlert from '../../../components/notices/clientAlert';
 
 type RH = RefObject<HTMLInputElement>;
 
@@ -21,6 +22,7 @@ const ForgetPasswordTemplate: NextPage<ForgetPasswordTemplateType> = (props) => 
 
       <div className="container">
         <section className="col mx-auto client-content">
+          <ClientAlert />
           <div className="space40"></div>
           <main className="form-signin">
             <form id="ClientLoginForm" onSubmit={(event) => props.reset(event, emailRef)}>

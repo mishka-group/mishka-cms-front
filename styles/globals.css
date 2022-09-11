@@ -15146,6 +15146,6 @@ fieldset:disabled .btn {
 .draft-block-info {
   font-size: 15px;
 }
-/* .container {
-  padding: 0 !important
-} */
+.alert-component {
+  font-size: 18px;
+}
