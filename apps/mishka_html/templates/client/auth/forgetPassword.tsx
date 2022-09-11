@@ -4,7 +4,7 @@ import ClinetMainMenu from '../../../components/navigation/ClinetMainMenu';
 import Link from 'next/link';
 import TextField from '../../../UIs/TextField';
 import React, { FormEvent, RefObject } from 'react';
-import ClientAlert from '../../../components/notices/clientAlert';
+import Alert from '../../../components/notices/Alert';
 
 type RH = RefObject<HTMLInputElement>;
 
@@ -12,20 +12,19 @@ interface ForgetPasswordTemplateType {
   reset(event: FormEvent<HTMLFormElement>, email: RH): void;
 }
 
-const ForgetPasswordTemplate: NextPage<ForgetPasswordTemplateType> = (props) => {
+const ForgetPasswordTemplate: NextPage<ForgetPasswordTemplateType> = ({ reset }) => {
   const emailRef: RH = React.createRef();
 
   return (
     <div id="clientMain" className="mb-5">
       <MainHeader />
       <ClinetMainMenu active="Login" />
-
       <div className="container">
         <section className="col mx-auto client-content">
-          <ClientAlert />
+          <Alert />
           <div className="space40"></div>
           <main className="form-signin">
-            <form id="ClientLoginForm" onSubmit={(event) => props.reset(event, emailRef)}>
+            <form id="ClientLoginForm" onSubmit={(event) => reset(event, emailRef)}>
               <div className="space40"></div>
               <div className="input-group input-group-lg ltr">
                 <TextField name="email" placeholder="Your Email" type="email" ref={emailRef} required={true} />

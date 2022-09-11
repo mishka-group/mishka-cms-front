@@ -7,7 +7,7 @@ import loginImage from '../../../../../public/icons8-login-as-user-80.png';
 import TextField from '../../../UIs/TextField';
 import PasswordField from '../../../UIs/PasswordField';
 import React, { FormEvent, RefObject } from 'react';
-import ClientAlert from '../../../components/notices/clientAlert';
+import Alert from '../../../components/notices/Alert'
 
 type RH = RefObject<HTMLInputElement>;
 
@@ -21,15 +21,14 @@ const RegisterTemplate: NextPage<RegisterTemplateType> = ({ register, formError 
   const usernameRef: RH = React.createRef();
   const emailRef: RH = React.createRef();
   const passwordRef: RH = React.createRef();
-
+  console.log(formError)
   return (
     <div id="clientMain" className="mb-5">
       <MainHeader />
       <ClinetMainMenu active="Login" />
-
       <div className="container">
         <section className="col mx-auto client-content">
-          <ClientAlert />
+          <Alert />
           <div className="space40"></div>
           <main className="form-signin">
             <form
@@ -46,11 +45,11 @@ const RegisterTemplate: NextPage<RegisterTemplateType> = ({ register, formError 
               </div>
               <div className="space20"></div>
               <div className="input-group input-group-lg ltr">
-                <TextField name="username" placeholder="Your Username" type="text" ref={usernameRef} required={true} />
+                <TextField name="username" placeholder="Your Username" type="text" ref={usernameRef} formError={formError} required={true} />
               </div>
               <div className="space20"></div>
               <div className="input-group input-group-lg ltr">
-                <TextField name="email" placeholder="Your Email" type="email" ref={emailRef} required={true} />
+                <TextField name="email" placeholder="Your Email" type="email" ref={emailRef} formError={formError} required={true} />
               </div>
               <div className="space20"></div>
               <div className="input-group input-group-lg ltr">

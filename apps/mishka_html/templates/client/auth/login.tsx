@@ -7,7 +7,7 @@ import loginImage from '../../../../../public/icons8-login-as-user-80.png';
 import TextField from '../../../UIs/TextField';
 import PasswordField from '../../../UIs/PasswordField';
 import React, { FormEvent, RefObject } from 'react';
-import ClientAlert from '../../../components/notices/clientAlert';
+import Alert from '../../../components/notices/Alert';
 
 interface LoginTemplateType {
   login(event: FormEvent<HTMLFormElement>, email: RefObject<HTMLInputElement>, password: RefObject<HTMLInputElement>): void;
@@ -30,7 +30,7 @@ const LoginTemplate: NextPage<LoginTemplateType> = (props) => {
       <ClinetMainMenu active="Login" />
       <div className="container">
         <section className="col mx-auto client-content">
-          <ClientAlert />
+          <Alert />
           <div className="space40"></div>
           <main className="form-signin">
             <form id="ClientLoginForm" onSubmit={(event) => props.login(event, emailRef, passwordRef)}>

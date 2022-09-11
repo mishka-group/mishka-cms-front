@@ -10,6 +10,8 @@ interface TextFieldType {
   required?: boolean
 }
 
+// This function helps us to pass Ref in nested component and manage the Ref in parent component
+// This component is used for (text, email) field
 const TextField = React.forwardRef((props: TextFieldType, ref: any) => {
   return (
     <>

@@ -12,7 +12,7 @@ const LoginPage: NextPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const { alert, setAlertState } = useContext(ClientAlertState);
-  console.log(alert);
+
   // Force the use not see this page because it is just for new users without session
   clientSideSessionAction(session, router).then();
 
