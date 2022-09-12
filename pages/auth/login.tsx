@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { useContext } from 'react';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 
+type RH = RefObject<HTMLInputElement>;
+
 const LoginPage: NextPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
@@ -17,7 +19,7 @@ const LoginPage: NextPage = () => {
   clientSideSessionAction(session, router).then();
 
   // If a user wants to login in website, can use this Handler, but before logining in the site he/her is checked for having session or not?
-  const loginHandler = async (event: FormEvent<HTMLFormElement>, email: RefObject<HTMLInputElement>, password: RefObject<HTMLInputElement>) => {
+  const loginHandler = async (event: FormEvent<HTMLFormElement>, email: RH, password: RH) => {
     event.preventDefault();
     const btn = document.getElementById('loginButton') as HTMLElement;
     (btn as HTMLButtonElement).disabled = true;
@@ -46,6 +48,15 @@ const LoginPage: NextPage = () => {
     (btn as HTMLButtonElement).disabled = false;
   };
 
+  // This function can help us to keep the button disabled until when our user sends all the required fields
+  const formHandler = (email: RH, password: RH): void => {
+    // TODO: this is the place we should check form validation
+    const btn = document.getElementById('loginButton') as HTMLElement;
+    if (email.current?.value && password.current?.value) {
+      (btn as HTMLButtonElement).disabled = false;
+    }
+  };
+
   // It is an extra check to prevent user not to see this page
   if (session) {
     return (
@@ -58,7 +69,7 @@ const LoginPage: NextPage = () => {
   // TODO: we need the error component to show an error to user from our state and after showing it should be deleted
   return (
     <>
-      <LoginTemplate login={loginHandler} />
+      <LoginTemplate login={loginHandler} formChenge={formHandler} />
     </>
   );
 };

@@ -9,9 +9,11 @@ import PasswordField from '../../../UIs/PasswordField';
 import React, { FormEvent, RefObject } from 'react';
 import Alert from '../../../components/notices/Alert';
 
+type RH = RefObject<HTMLInputElement>;
+
 interface LoginTemplateType {
   login(event: FormEvent<HTMLFormElement>, email: RefObject<HTMLInputElement>, password: RefObject<HTMLInputElement>): void;
-  // TODO: it should be changed with final retrun type
+  formChenge(email: RH, password: RH): void;
 }
 // TODO: try to load Google recaptcha and CSRF with next or with server API in next version
 // TODO: useState for disable forme submit
@@ -19,7 +21,7 @@ interface LoginTemplateType {
 // We do not use Layout concept, because it is not useful for the project has many different globally UIs
 // But the stuff like {<MainHeader /> etc} can be merged into another file to prevent copy and pasting
 // But we cover this as a concept to let another program use it if they want
-const LoginTemplate: NextPage<LoginTemplateType> = (props) => {
+const LoginTemplate: NextPage<LoginTemplateType> = ({ login, formChenge }) => {
   const passwordRef: RefObject<HTMLInputElement> = React.createRef();
   const emailRef: RefObject<HTMLInputElement> = React.createRef();
 
@@ -32,7 +34,11 @@ const LoginTemplate: NextPage<LoginTemplateType> = (props) => {
           <Alert />
           <div className="space40"></div>
           <main className="form-signin">
-            <form id="ClientLoginForm" onSubmit={(event) => props.login(event, emailRef, passwordRef)}>
+            <form
+              id="ClientLoginForm"
+              onSubmit={(event) => login(event, emailRef, passwordRef)}
+              onChange={() => formChenge(emailRef, passwordRef)}
+            >
               <Image src={loginImage} alt="Login" width={80} height={80} />
               <div className="space10"></div>
               <h1 className="h3 mb-3 fw-normal">Please Enter</h1>
@@ -49,7 +55,7 @@ const LoginTemplate: NextPage<LoginTemplateType> = (props) => {
                 <div className="clearfix"></div>
               </div>
               <div className="space20"></div>
-              <button className="w-100 btn btn-lg btn-primary" type="submit" id="loginButton">
+              <button className="w-100 btn btn-lg btn-primary" type="submit" id="loginButton" disabled>
                 Login To WebSite
               </button>
               <div className="space20"></div>

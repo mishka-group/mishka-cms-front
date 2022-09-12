@@ -77,10 +77,16 @@ const RegisterPage: NextPage = () => {
   };
 
   // This function can help us to delete a specific field error to let user write correct data
+  // And we can keep the button disabled until when our user sends all the required fields
   // Our resource:
   // - https://stackoverflow.com/questions/73687869/delete-an-object-prevents-react-component-working
-  const formHandler = (event: FormEvent<HTMLFormElement>) => {
+  const formHandler = (event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH): void => {
+    // TODO: this is the place we should check form validation
+    const btn = document.getElementById('registerButton') as HTMLElement;
     deleteTargetedFieldData(event, formError, setFormError);
+    if (fullName.current?.value && username.current?.value && email.current?.value) {
+      (btn as HTMLButtonElement).disabled = false;
+    }
   };
 
   // It is an extra check to prevent user not to see this page

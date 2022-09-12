@@ -14,7 +14,7 @@ type RH = RefObject<HTMLInputElement>;
 interface RegisterTemplateType {
   register(event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH, password?: RH): void;
   formError: object;
-  formChenge(event: FormEvent<HTMLFormElement>): void;
+  formChenge(event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH): void;
 }
 
 const RegisterTemplate: NextPage<RegisterTemplateType> = ({ register, formError, formChenge }) => {
@@ -36,7 +36,7 @@ const RegisterTemplate: NextPage<RegisterTemplateType> = ({ register, formError,
               id="ClientLoginForm"
               className="needs-validation"
               onSubmit={(event) => register(event, fullNameRef, usernameRef, emailRef, passwordRef)}
-              onChange={formChenge}
+              onChange={(event) => formChenge(event, fullNameRef, usernameRef, emailRef)}
             >
               <Image src={loginImage} alt="Login" width={80} height={80} />
               <div className="space10"></div>
@@ -62,7 +62,7 @@ const RegisterTemplate: NextPage<RegisterTemplateType> = ({ register, formError,
                 <div className="clearfix"></div>
               </div>
               <div className="space20"></div>
-              <button className="w-100 btn btn-lg btn-primary" type="submit" id="registerButton">
+              <button className="w-100 btn btn-lg btn-primary" type="submit" id="registerButton" disabled>
                 Register
               </button>
               <div className="space20"></div>
