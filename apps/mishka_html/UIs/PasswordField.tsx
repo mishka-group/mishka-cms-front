@@ -16,6 +16,7 @@ const PasswordField = React.forwardRef((props: PasswordFieldType, ref: any) => {
   return (
     <>
       <input
+        id={props.name}
         autoComplete={props.autoComplete ? props.autoComplete : 'off'}
         className={`form-control ${props.formError && Object.hasOwn(props.formError, props.name) ? 'is-invalid' : ''}`}
         name={props.name}

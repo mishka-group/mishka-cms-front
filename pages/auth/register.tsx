@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { register } from '../../apps/mishka_user/userAuthentication';
 import Link from 'next/link';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
+import { deleteTargetedFieldData } from '../../apps/extra/helper';
 
 type RH = RefObject<HTMLInputElement>;
 type CutomObject = { [key: string]: string };
@@ -43,7 +44,6 @@ const RegisterPage: NextPage = () => {
       if ((registerOutput.status === 200 || registerOutput.status === '200') && 'user_info' in registerOutput) {
         // reset form for unhandle situation
         fullName.current.value = '';
-        fullName.current.value = '';
         username.current.value = '';
         email.current.value = '';
 
@@ -76,6 +76,13 @@ const RegisterPage: NextPage = () => {
     (btn as HTMLButtonElement).disabled = false;
   };
 
+  // This function can help us to delete a specific field error to let user write correct data
+  // Our resource:
+  // - https://stackoverflow.com/questions/73687869/delete-an-object-prevents-react-component-working
+  const formHandler = (event: FormEvent<HTMLFormElement>) => {
+    deleteTargetedFieldData(event, formError, setFormError);
+  };
+
   // It is an extra check to prevent user not to see this page
   if (session) {
     return (
@@ -87,7 +94,7 @@ const RegisterPage: NextPage = () => {
 
   return (
     <>
-      <RegisterTemplate register={RegisterHandler} formError={formError} />
+      <RegisterTemplate register={RegisterHandler} formError={formError} formChenge={formHandler} />
     </>
   );
 };

@@ -7,21 +7,22 @@ import loginImage from '../../../../../public/icons8-login-as-user-80.png';
 import TextField from '../../../UIs/TextField';
 import PasswordField from '../../../UIs/PasswordField';
 import React, { FormEvent, RefObject } from 'react';
-import Alert from '../../../components/notices/Alert'
+import Alert from '../../../components/notices/Alert';
 
 type RH = RefObject<HTMLInputElement>;
 
 interface RegisterTemplateType {
   register(event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH, password?: RH): void;
   formError: object;
+  formChenge(event: FormEvent<HTMLFormElement>): void;
 }
 
-const RegisterTemplate: NextPage<RegisterTemplateType> = ({ register, formError }) => {
+const RegisterTemplate: NextPage<RegisterTemplateType> = ({ register, formError, formChenge }) => {
   const fullNameRef: RH = React.createRef();
   const usernameRef: RH = React.createRef();
   const emailRef: RH = React.createRef();
   const passwordRef: RH = React.createRef();
-  console.log(formError)
+
   return (
     <div id="clientMain" className="mb-5">
       <MainHeader />
@@ -35,6 +36,7 @@ const RegisterTemplate: NextPage<RegisterTemplateType> = ({ register, formError 
               id="ClientLoginForm"
               className="needs-validation"
               onSubmit={(event) => register(event, fullNameRef, usernameRef, emailRef, passwordRef)}
+              onChange={formChenge}
             >
               <Image src={loginImage} alt="Login" width={80} height={80} />
               <div className="space10"></div>
