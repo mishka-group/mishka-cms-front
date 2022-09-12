@@ -60,7 +60,7 @@ const RegisterTemplate: NextPage<RegisterTemplateType> = ({ register, formError 
                 <div className="clearfix"></div>
               </div>
               <div className="space20"></div>
-              <button className="w-100 btn btn-lg btn-primary" type="submit">
+              <button className="w-100 btn btn-lg btn-primary" type="submit" id="registerButton">
                 Register
               </button>
               <div className="space20"></div>

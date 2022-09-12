@@ -19,6 +19,8 @@ const LoginPage: NextPage = () => {
   // If a user wants to login in website, can use this Handler, but before logining in the site he/her is checked for having session or not?
   const loginHandler = async (event: FormEvent<HTMLFormElement>, email: RefObject<HTMLInputElement>, password: RefObject<HTMLInputElement>) => {
     event.preventDefault();
+    const btn = document.getElementById('loginButton') as HTMLElement;
+    (btn as HTMLButtonElement).disabled = true;
     // It is an extra preventer and refresh token for unhandled situation
     await clientSideSessionAction(session, router);
 
@@ -40,6 +42,8 @@ const LoginPage: NextPage = () => {
         setAlertState(true, JSON.parse(login.error).message as string, 'warning');
       }
     }
+
+    (btn as HTMLButtonElement).disabled = false;
   };
 
   // It is an extra check to prevent user not to see this page

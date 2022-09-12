@@ -30,7 +30,7 @@ const ForgetPasswordTemplate: NextPage<ForgetPasswordTemplateType> = ({ reset })
                 <TextField name="email" placeholder="Your Email" type="email" ref={emailRef} required={true} />
               </div>
               <div className="space20"></div>
-              <button className="w-100 btn btn-lg btn-primary" type="submit">
+              <button className="w-100 btn btn-lg btn-primary" type="submit" id="resetButton">
                 Send
               </button>
               <div className="space20"></div>

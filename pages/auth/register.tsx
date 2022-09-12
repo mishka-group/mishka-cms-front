@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 
 type RH = RefObject<HTMLInputElement>;
-type CutomObject = { [key: string]: string; }
+type CutomObject = { [key: string]: string };
 
 const RegisterPage: NextPage = () => {
   const { data: session, status } = useSession();
@@ -24,6 +24,9 @@ const RegisterPage: NextPage = () => {
   // If a user wants to register in website, can use this Handler, but before Registering in the site he/her is checked for having session or not?
   const RegisterHandler = async (event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH, password: RH) => {
     event.preventDefault();
+
+    const btn = document.getElementById('registerButton') as HTMLElement;
+    (btn as HTMLButtonElement).disabled = true;
     // It is an extra preventer and refresh token for unhandled situation
     await clientSideSessionAction(session, router);
 
@@ -69,6 +72,8 @@ const RegisterPage: NextPage = () => {
       // It can't be shown in normal data sending
       setAlertState(true, 'All required fields must be submitted.', 'warning');
     }
+
+    (btn as HTMLButtonElement).disabled = false;
   };
 
   // It is an extra check to prevent user not to see this page

@@ -11,6 +11,11 @@ const ForgetPasswordPage: NextPage = () => {
 
   const ForgetPasswordHandler = async (event: FormEvent<HTMLFormElement>, email: RefObject<HTMLInputElement>) => {
     event.preventDefault(); 
+    
+    const btn = document.getElementById('resetButton') as HTMLElement;
+    (btn as HTMLButtonElement).disabled = true;
+
+    (btn as HTMLButtonElement).disabled = false;
   };
 
   // It is an extra check to prevent user not to see this page
