@@ -2,8 +2,9 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { loginByEmail } from '../../../apps/mishka_user/userAuthentication';
 import { checkTokenToRefresh, getUserBasicInformationAndTokens } from '../../../apps/mishka_user/helper/authHelper';
+import { unstable_getServerSession } from "next-auth/next"
 
-export default NextAuth({
+export const authOptions = {
   session: {
     strategy: 'jwt',
     maxAge: 14 * 24 * 60 * 60, // 14 days for refresh token
@@ -45,4 +46,11 @@ export default NextAuth({
       return Promise.resolve(session);
     },
   },
-});
+}
+
+// export default NextAuth(authOptions);
+
+export default async function auth(req, res) {
+  const session = await unstable_getServerSession(req, res, authOptions)  
+  return await NextAuth(req, res, authOptions);
+}

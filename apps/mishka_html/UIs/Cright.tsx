@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+
 const Cright: NextPage = () => {
   return (
     <div id="cright-inside" data-phx-component="4">

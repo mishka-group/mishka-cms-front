@@ -1,12 +1,12 @@
 import type { NextPage } from 'next';
 import LoginTemplate from '../../apps/mishka_html/templates/client/auth/login';
-import type { FormEvent, RefObject } from 'react';
+import { FormEvent, RefObject, useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
-import Link from 'next/link';
+import { clientSideSessionAction, testAction } from '../../apps/mishka_user/helper/authHelper';
 import { useContext } from 'react';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
+import LoginLoading from '../../apps/mishka_html/UIs/LoginLoading';
 
 type RH = RefObject<HTMLInputElement>;
 
@@ -15,8 +15,13 @@ const LoginPage: NextPage = () => {
   const router = useRouter();
   const { setAlertState } = useContext(ClientAlertState);
 
-  // Force the use not see this page because it is just for new users without session
-  clientSideSessionAction(session, router).then();
+  useEffect(() => {
+    // Force the use not see this page because it is just for new users without session
+    return () => {
+      clientSideSessionAction(session, router, setAlertState);
+    }
+  }, [session, router])
+
 
   // If a user wants to login in website, can use this Handler, but before logining in the site he/her is checked for having session or not?
   const loginHandler = async (event: FormEvent<HTMLFormElement>, email: RH, password: RH) => {
@@ -24,20 +29,23 @@ const LoginPage: NextPage = () => {
     const btn = document.getElementById('loginButton') as HTMLElement;
     (btn as HTMLButtonElement).disabled = true;
     // It is an extra preventer and refresh token for unhandled situation
-    await clientSideSessionAction(session, router);
+    // testAction(router, setAlertState)
+    clientSideSessionAction(session, router, setAlertState);
 
     // TODO: in this place we need to sanitize user email and password and prevent from XSS
     if (email.current?.value && password.current?.value) {
       const login = await signIn('credentials', {
         redirect: false,
-        callbackUrl: '/auth/login',
         email: email.current.value,
         password: password.current.value,
       });
       // This is the place we should redirect to main page link if login?.ok
       if (login?.ok) {
-        router.replace({ pathname: '/' });
-        return null;
+        // it can help us to skip initial props error for session
+        setAlertState(true, 'You have successfully entered the website', 'success');
+        return router.replace({
+          pathname: '/',
+        });
       }
       if (login && login.error) {
         // it takes the login error message from API
@@ -59,11 +67,7 @@ const LoginPage: NextPage = () => {
 
   // It is an extra check to prevent user not to see this page
   if (session) {
-    return (
-      <h1 className="text-center">
-        You are already logged in ... <Link href="/">Click hear to back Home</Link>
-      </h1>
-    );
+    return <LoginLoading />;
   }
 
   // TODO: we need the error component to show an error to user from our state and after showing it should be deleted

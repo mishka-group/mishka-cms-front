@@ -66,17 +66,14 @@ const createAuthUnhandledErrorObject = (router: string) => {
   };
 };
 
-export const clientSideSessionAction = async (session: any, router: NextRouter) => {
+export const clientSideSessionAction = async (session: any, router: NextRouter, setAlertState: any) => {
   // TODO: we need state for having clean url for errors
   if (session) {
     const pathes = ['/auth/login', '/auth/register'];
     if (pathes.find((item) => item === router.pathname)) {
       // we used `replace` because it clears the Link history
-      router.replace({
-        pathname: '/',
-        query: { errorMessage: 'You are already logged in' },
-      });
-      return () => {};
+      setAlertState(true, 'You are already logged in', 'warning');
+      return router.replace('/');
     }
 
     const login = await signIn('credentials', {
@@ -86,15 +83,24 @@ export const clientSideSessionAction = async (session: any, router: NextRouter) 
     });
 
     if (login && !login.ok) {
+      setAlertState(true, JSON.parse(login.error as string), 'danger');
       signOut({ redirect: false });
-      router.replace({
-        pathname: '/auth/login',
-        // TODO: should save in state
-        query: { errorMessage: JSON.parse(login.error as string) },
+      return router.replace({
+        pathname: '/auth/login'
       });
     }
   }
 };
+
+export const testAction = (router: NextRouter, setter: any) => {
+  if (true) {
+    signOut({ redirect: false });
+    setter(true, 'this is error', 'warning')
+    return router.replace({
+      pathname: '/'
+    });
+  }
+}
 
 export const getUserBasicInformationAndTokens = async (login: AuthError | LoginOutPut | LogoutOutPut) => {
   let newuser;

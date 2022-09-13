@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import React, { useState } from 'react';
 
 // This type helps us to prevent duplicating AlertType in the whole file
-type AlertType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+export type AlertType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
 // This type is for React.createContext and it is a main structuer for local useState
 type StateStructuerType = {
   alert: {
@@ -14,7 +14,7 @@ type StateStructuerType = {
   clearAlertState(): void;
 };
 // For managing useState properties, this type was created to pick off some properties and prevent duplicating
-type setAlertType = StateStructuerType['alert'];
+type SetAlertType = StateStructuerType['alert'];
 
 // This is our Alert state schema
 const stateStructuer: StateStructuerType = {
@@ -40,7 +40,7 @@ export const ClientAlertState = React.createContext(stateStructuer);
 
 const ClientAlertStateProvider: NextPage<{ children: JSX.Element }> = ({ children }) => {
   // This is the local state and action function to bind the state concerned, it is same like stateStructuer schema but without setter functions
-  const [alert, setAlert] = useState<setAlertType>({ status: false, alertMessage: '', alertType: 'info' });
+  const [alert, setAlert] = useState<SetAlertType>({ status: false, alertMessage: '', alertType: 'info' });
 
   // Set a new alert into ClientAlertState context
   const setAlertState = (status: boolean, alertMessage: string, alertType: AlertType) => {

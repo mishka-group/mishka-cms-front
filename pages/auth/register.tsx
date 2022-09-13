@@ -1,13 +1,13 @@
 import type { NextPage } from 'next';
-import { FormEvent, RefObject, useContext, useState, Dispatch, SetStateAction } from 'react';
+import { FormEvent, RefObject, useContext, useState, Dispatch, SetStateAction, useEffect } from 'react';
 import RegisterTemplate from '../../apps/mishka_html/templates/client/auth/register';
 import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { register } from '../../apps/mishka_user/userAuthentication';
-import Link from 'next/link';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 import { deleteTargetedFieldData } from '../../apps/extra/helper';
+import LoginLoading from '../../apps/mishka_html/UIs/LoginLoading';
 
 type RH = RefObject<HTMLInputElement>;
 type CutomObject = { [key: string]: string };
@@ -20,7 +20,12 @@ const RegisterPage: NextPage = () => {
   const router = useRouter();
 
   // Force the use not see this page because it is just for new users without session
-  clientSideSessionAction(session, router).then();
+  useEffect(() => {
+    // Force the use not see this page because it is just for new users without session
+    return () => {
+      clientSideSessionAction(session, router, setAlertState);
+    }
+  }, [session, router])
 
   // If a user wants to register in website, can use this Handler, but before Registering in the site he/her is checked for having session or not?
   const RegisterHandler = async (event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH, password: RH) => {
@@ -29,7 +34,7 @@ const RegisterPage: NextPage = () => {
     const btn = document.getElementById('registerButton') as HTMLElement;
     (btn as HTMLButtonElement).disabled = true;
     // It is an extra preventer and refresh token for unhandled situation
-    await clientSideSessionAction(session, router);
+    clientSideSessionAction(session, router, setAlertState);
 
     // Review essential data
     if (fullName.current?.value && username.current?.value && email.current?.value) {
@@ -91,11 +96,7 @@ const RegisterPage: NextPage = () => {
 
   // It is an extra check to prevent user not to see this page
   if (session) {
-    return (
-      <h1 className="text-center">
-        You are already logged in ... <Link href="/">Click hear to back Home</Link>
-      </h1>
-    );
+    return <LoginLoading />;
   }
 
   return (
