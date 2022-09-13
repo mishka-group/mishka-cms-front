@@ -16,9 +16,9 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
   const { req }: { req: GetServerSidePropsContext['req'] } = context;
   const { res }: { res: GetServerSidePropsContext['res'] } = context;
 
-  // const session: Session | null = await unstable_getServerSession(req, res, authOptions as NextAuthOptions);
+  const session: Session | null = await unstable_getServerSession(req, res, authOptions as NextAuthOptions);
 
-  // console.log(session);
+  console.log(session);
   
   return {
     props: {},

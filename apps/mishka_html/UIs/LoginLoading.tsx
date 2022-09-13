@@ -1,6 +1,23 @@
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { useContext, useEffect } from 'react';
+import { ClientAlertState } from '../../mishka_html/components/state/ClientAlertState';
 
 const LoginLoading: NextPage = () => {
+  const router = useRouter();
+  const { setAlertState } = useContext(ClientAlertState);
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setAlertState(true, 'You are already logged in', 'warning');
+      router.replace('/');
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeOut);
+    };
+  });
+
   return (
     <>
       <style jsx global>{`

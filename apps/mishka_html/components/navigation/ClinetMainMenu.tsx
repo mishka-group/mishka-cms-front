@@ -6,13 +6,19 @@ import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { logout } from '../../../mishka_user/userAuthentication';
+import { useContext, useEffect } from 'react';
+import { ClientAlertState } from '../../../mishka_html/components/state/ClientAlertState';
+import { clientSideSessionAction } from '../../../mishka_user/helper/authHelper';
 
 type ClientMenuType = { active: string };
 
 // TODO: change link and li to another componnet and using link
 const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
   const { data: session, status } = useSession();
+  const { setAlertState } = useContext(ClientAlertState);
+
   const { pathname } = useRouter();
+  const router = useRouter()
 
   // TODO: If the MishkaCMS creats a menu manager we should change it with api in the future
   const menus = [
@@ -22,12 +28,16 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
 
   const loginPreventer = ['/auth/login', '/auth/register', '/auth/reset'];
 
+  useEffect(() => {
+    clientSideSessionAction(session, router, setAlertState);
+  }, [])
+
   // We send refresh token to server for logout action, and it deletes all access token of this refresh token which are alive
   const logOut = async () => {
     if (session && session.refresh_token) {
-      await logout(session.refresh_token as string)
+      logout(session.refresh_token as string)
     }
-    signOut({ callbackUrl: '/' });
+    await signOut({ callbackUrl: '/auth/login', redirect: true});
   };
 
   // We need to have 2 color for body, the first one for Client side and the another one for Admin side
