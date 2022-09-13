@@ -92,16 +92,6 @@ export const clientSideSessionAction = async (session: any, router: NextRouter, 
   }
 };
 
-export const testAction = (router: NextRouter, setter: any) => {
-  if (true) {
-    signOut({ redirect: false });
-    setter(true, 'this is error', 'warning')
-    return router.replace({
-      pathname: '/'
-    });
-  }
-}
-
 export const getUserBasicInformationAndTokens = async (login: AuthError | LoginOutPut | LogoutOutPut) => {
   let newuser;
   if ((login.status === 200 || login.status === '200') && 'user_info' in login) {

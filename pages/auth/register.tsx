@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { FormEvent, RefObject, useContext, useState, Dispatch, SetStateAction, useEffect } from 'react';
+import { FormEvent, RefObject, useContext, useState, Dispatch, SetStateAction } from 'react';
 import RegisterTemplate from '../../apps/mishka_html/templates/client/auth/register';
 import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { useSession } from 'next-auth/react';
@@ -16,16 +16,7 @@ const RegisterPage: NextPage = () => {
   const { data: session, status } = useSession();
   const { setAlertState } = useContext(ClientAlertState);
   const [formError, setFormError]: [CutomObject, Dispatch<SetStateAction<CutomObject>>] = useState({});
-
   const router = useRouter();
-
-  // Force the use not see this page because it is just for new users without session
-  useEffect(() => {
-    // Force the use not see this page because it is just for new users without session
-    return () => {
-      clientSideSessionAction(session, router, setAlertState);
-    }
-  }, [session, router])
 
   // If a user wants to register in website, can use this Handler, but before Registering in the site he/her is checked for having session or not?
   const RegisterHandler = async (event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH, password: RH) => {

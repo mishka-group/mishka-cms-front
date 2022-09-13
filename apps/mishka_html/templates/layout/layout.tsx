@@ -22,6 +22,7 @@ const Layout: NextPage<Children> = ({ children }): JSX.Element => {
     require('bootstrap/dist/js/bootstrap.bundle.min.js');
   }, []);
 
+   // Force the use not see the Auth pages because it is just for new users without session
   useEffect(() => {
     // Check user token and dead session just for one time
     return () => {

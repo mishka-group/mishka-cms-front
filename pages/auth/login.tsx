@@ -1,9 +1,9 @@
 import type { NextPage } from 'next';
 import LoginTemplate from '../../apps/mishka_html/templates/client/auth/login';
-import { FormEvent, RefObject, useEffect } from 'react';
+import { FormEvent, RefObject } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { clientSideSessionAction, testAction } from '../../apps/mishka_user/helper/authHelper';
+import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { useContext } from 'react';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 import LoginLoading from '../../apps/mishka_html/UIs/LoginLoading';
@@ -15,21 +15,12 @@ const LoginPage: NextPage = () => {
   const router = useRouter();
   const { setAlertState } = useContext(ClientAlertState);
 
-  useEffect(() => {
-    // Force the use not see this page because it is just for new users without session
-    return () => {
-      clientSideSessionAction(session, router, setAlertState);
-    }
-  }, [session, router])
-
-
   // If a user wants to login in website, can use this Handler, but before logining in the site he/her is checked for having session or not?
   const loginHandler = async (event: FormEvent<HTMLFormElement>, email: RH, password: RH) => {
     event.preventDefault();
     const btn = document.getElementById('loginButton') as HTMLElement;
     (btn as HTMLButtonElement).disabled = true;
     // It is an extra preventer and refresh token for unhandled situation
-    // testAction(router, setAlertState)
     clientSideSessionAction(session, router, setAlertState);
 
     // TODO: in this place we need to sanitize user email and password and prevent from XSS
@@ -71,11 +62,7 @@ const LoginPage: NextPage = () => {
   }
 
   // TODO: we need the error component to show an error to user from our state and after showing it should be deleted
-  return (
-    <>
-      <LoginTemplate login={loginHandler} formChenge={formHandler} />
-    </>
-  );
+  return <LoginTemplate login={loginHandler} formChenge={formHandler} />;
 };
 
 export default LoginPage;
