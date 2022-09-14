@@ -151,3 +151,18 @@ export const sendVerifyEmail = (accessToken: string): void => {
 export const confirmVerifyEmail = (accessToken: string, code: string): void => {
   // TODO:
 };
+
+export const editProfile = async (accessToken: string, params: object) => {
+  const response = await authApiRequestSender<AuthError | LoginOutPut>(
+    '/auth/v1/edit-profile',
+    params,
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
+  return response;
+};
+
+// Error: Objects are not valid as a React child (found: object with keys {status, statusText, url, action, message, system, errors}).
+// If you meant to render a collection of children, use an array instead.

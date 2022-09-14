@@ -72,19 +72,23 @@ export const clientSideSessionAction = async (session: any, router: NextRouter, 
       ...session,
       redirect: false,
       email: session.user?.email,
+      user: JSON.stringify({
+        email: session.user?.email,
+        name: session.user?.name,
+      }),
     });
 
     if (login && !login.ok) {
       setAlertState(true, JSON.parse(login.error as string), 'danger');
       signOut({ redirect: false });
       return router.replace({
-        pathname: '/auth/login'
+        pathname: '/auth/login',
       });
     }
   }
 };
 
-export const getUserBasicInformationAndTokens = async (login: AuthError | LoginOutPut | LogoutOutPut) => {
+export const getUserBasicInformationAndTokens = (login: AuthError | LoginOutPut | LogoutOutPut) => {
   let newuser;
   if ((login.status === 200 || login.status === '200') && 'user_info' in login) {
     newuser = {
@@ -96,7 +100,12 @@ export const getUserBasicInformationAndTokens = async (login: AuthError | LoginO
         refresh_expires_in: login.auth.refresh_expires_in,
         access_expires_in: login.auth.access_expires_in,
       },
+      user: {
+        email: login.user_info.email,
+        name: login.user_info.full_name,
+      },
     };
+
     return newuser;
   }
 
@@ -110,21 +119,26 @@ export const checkTokenToRefresh = async (credentials: any) => {
     if (refresh.status !== 200) {
       throw new Error(JSON.stringify(refresh));
     } else {
-      return await getUserBasicInformationAndTokens(refresh);
+      return getUserBasicInformationAndTokens(refresh);
     }
   } else if (credentials.refresh_expires_in <= nowUnixDate) {
     await logout(credentials.refresh_token);
     throw new Error(JSON.stringify({ status: 'signOut' }));
   } else {
-    return Promise.resolve({
-      email: credentials.user.email,
-      name: credentials.user.full_name,
+    const user = JSON.parse(credentials.user)
+    return {
+      email: user.email,
+      name: user.name,
       token: {
         access_token: credentials.access_token,
         refresh_token: credentials.refresh_token,
         refresh_expires_in: credentials.refresh_expires_in,
         access_expires_in: credentials.access_expires_in,
       },
-    });
+      user: {
+        email: user.email,
+        name: user.name,
+      },
+    };
   }
 };

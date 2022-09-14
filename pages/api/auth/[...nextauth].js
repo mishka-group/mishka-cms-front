@@ -19,7 +19,7 @@ export const authOptions = {
         } else if (credentials.email && credentials.password) {
           // If we want to get Token from user and password for user
           const login = await loginByEmail(credentials.email.trim(), credentials.password.trim());
-          return await getUserBasicInformationAndTokens(login);
+          return getUserBasicInformationAndTokens(login);
         } else {
           return null;
         }

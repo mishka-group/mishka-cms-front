@@ -20,8 +20,6 @@ const LoginPage: NextPage = () => {
     event.preventDefault();
     const btn = document.getElementById('loginButton') as HTMLElement;
     (btn as HTMLButtonElement).disabled = true;
-    // It is an extra preventer and refresh token for unhandled situation
-    clientSideSessionAction(session, router, setAlertState);
 
     // TODO: in this place we need to sanitize user email and password and prevent from XSS
     if (email.current?.value && password.current?.value) {
@@ -38,6 +36,7 @@ const LoginPage: NextPage = () => {
           pathname: '/',
         });
       }
+
       if (login && login.error) {
         // it takes the login error message from API
         setAlertState(true, JSON.parse(login.error).message as string, 'warning');

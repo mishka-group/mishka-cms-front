@@ -31,7 +31,7 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
   // This way can help us to remove duplicate code in each file that needs to be checked, 
   // This just runs once when we need to render whole the component
   useEffect(() => {
-    clientSideSessionAction(session, router, setAlertState);
+    // clientSideSessionAction(session, router, setAlertState);
   }, []);
 
   // We send refresh token to server for logout action, and it deletes all access token of this refresh token which are alive
