@@ -72,8 +72,8 @@ const ForgetPasswordPage: NextPage = () => {
   };
 
   const backToResetPassword = () => {
-    setConfirmCodeStatus(false)
-  }
+    setConfirmCodeStatus(false);
+  };
 
   // It is an extra check to prevent user not to see this page
   if (session) {
@@ -82,7 +82,12 @@ const ForgetPasswordPage: NextPage = () => {
 
   return (
     <>
-      <ForgetPasswordTemplate reset={ForgetPasswordHandler} confirmReset={confirmForgetPasswordHandler} whichForm={confirmCodeStatus} back={backToResetPassword} />
+      <ForgetPasswordTemplate
+        reset={ForgetPasswordHandler}
+        confirmReset={confirmForgetPasswordHandler}
+        whichForm={confirmCodeStatus}
+        back={backToResetPassword}
+      />
     </>
   );
 };

@@ -3,15 +3,19 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
 import { ClientAlertState } from '../../mishka_html/components/state/ClientAlertState';
 
-const LoginLoading: NextPage = () => {
+type LoginLoadingType = {
+  msg?: string;
+  timeout?: number
+}
+const LoginLoading: NextPage<LoginLoadingType> = (props) => {
   const router = useRouter();
   const { setAlertState } = useContext(ClientAlertState);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      setAlertState(true, 'You are already logged in', 'warning');
+      setAlertState(true, props.msg ? props.msg : 'You are already logged in', 'warning');
       router.replace('/');
-    }, 1000);
+    }, props.timeout ? props.timeout : 1000);
 
     return () => {
       clearTimeout(timeOut);
