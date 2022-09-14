@@ -64,7 +64,7 @@ const ForgetPasswordPage: NextPage = () => {
       }
 
       if (confirmResetOutput && confirmResetOutput.errors) {
-        setAlertState(true, JSON.parse(confirmResetOutput.errors).message as string, 'success');
+        setAlertState(true, confirmResetOutput.message as string, 'danger');
       }
     }
 
