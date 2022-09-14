@@ -17,6 +17,14 @@ export interface LogoutOutPut {
   status?: number | string;
 }
 
+export interface ResetPasswordOutPut {
+  action: 'reset_password';
+  message: string;
+  system: 'user';
+  status?: number | string;
+  errors?: any
+}
+
 type RegisterInput = {
   full_name: string;
   username: string;
@@ -46,7 +54,7 @@ export interface LoginOutPut {
     status: string;
     username: string;
   };
-  errors?: any
+  errors?: any;
 }
 
 type RegisterOutPut = Omit<LoginOutPut, 'auth'>;
@@ -121,12 +129,19 @@ export const refreshToken = async (refreshToken: string): Promise<AuthError | Lo
   return response;
 };
 
-export const resetPassword = (email: string, new_password: string): void => {
-  // TODO:
+export const resetPassword = async (email: string): Promise<AuthError | ResetPasswordOutPut> => {
+  const response = await authApiRequestSender<ResetPasswordOutPut | AuthError>('/auth/v1/reset-password', { email: email }, {}, 'POST');
+  return response;
 };
 
-export const confirmResetPassword = (email: string, new_password: string, code: string): void => {
-  // TODO:
+export const confirmResetPassword = async (email: string, newPassword: string, code: string): Promise<AuthError | ResetPasswordOutPut> => {
+  const response = await authApiRequestSender<ResetPasswordOutPut | AuthError>(
+    '/auth/v1/reset-password',
+    { email: email, new_password: newPassword, code: code },
+    {},
+    'POST'
+  );
+  return response;
 };
 
 export const sendVerifyEmail = (accessToken: string): void => {

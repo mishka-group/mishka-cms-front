@@ -3,6 +3,7 @@ import React from 'react';
 interface TextFieldType {
   name: string;
   placeholder: string;
+  autoComplete?: string;
   type: string;
   ref: any;
   formError?: any;
@@ -17,8 +18,9 @@ const TextField = React.forwardRef((props: TextFieldType, ref: any) => {
     <>
       <input
         id={props.name}
-        className={`form-control ${props.formError && Object.hasOwn(props.formError, props.name) ? 'is-invalid' : ''}`}
         name={props.name}
+        autoComplete={props.autoComplete ? props.autoComplete : 'off'}
+        className={`form-control ${props.formError && Object.hasOwn(props.formError, props.name) ? 'is-invalid' : ''}`}
         placeholder={props.placeholder}
         type={props.type}
         ref={ref}

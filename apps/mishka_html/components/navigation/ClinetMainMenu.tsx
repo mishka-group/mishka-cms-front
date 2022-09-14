@@ -18,7 +18,7 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
   const { setAlertState } = useContext(ClientAlertState);
 
   const { pathname } = useRouter();
-  const router = useRouter()
+  const router = useRouter();
 
   // TODO: If the MishkaCMS creats a menu manager we should change it with api in the future
   const menus = [
@@ -28,16 +28,18 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
 
   const loginPreventer = ['/auth/login', '/auth/register', '/auth/reset'];
 
+  // This way can help us to remove duplicate code in each file that needs to be checked, 
+  // This just runs once when we need to render whole the component
   useEffect(() => {
     clientSideSessionAction(session, router, setAlertState);
-  }, [])
+  }, []);
 
   // We send refresh token to server for logout action, and it deletes all access token of this refresh token which are alive
   const logOut = async () => {
     if (session && session.refresh_token) {
-      logout(session.refresh_token as string)
+      logout(session.refresh_token as string);
     }
-    await signOut({ callbackUrl: '/auth/login', redirect: true});
+    await signOut({ callbackUrl: '/auth/login', redirect: true });
   };
 
   // We need to have 2 color for body, the first one for Client side and the another one for Admin side
