@@ -67,7 +67,8 @@ const createAuthUnhandledErrorObject = (router: string) => {
 };
 
 export const clientSideSessionAction = async (session: any, router: NextRouter, setAlertState: any) => {
-  if (session) {
+  let nowUnixDate = Math.floor(Date.now() / 1000);
+  if (session && session.access_expires_in <= nowUnixDate && session.refresh_expires_in >= nowUnixDate) {
     const login = await signIn('credentials', {
       ...session,
       redirect: false,
@@ -78,13 +79,25 @@ export const clientSideSessionAction = async (session: any, router: NextRouter, 
       }),
     });
 
+    if (login && login.ok) {
+      return router.reload();
+    }
+
     if (login && !login.ok) {
-      setAlertState(true, JSON.parse(login.error as string), 'danger');
-      signOut({ redirect: false });
+      setAlertState(true, JSON.parse(login.error as string).message, 'danger');
+      await signOut({ redirect: false });
       return router.replace({
         pathname: '/auth/login',
       });
     }
+  }
+
+  if (session && session.refresh_expires_in <= nowUnixDate) {
+    setAlertState(true, 'Please log in again!', 'danger');
+    await signOut({ redirect: false });
+    return router.replace({
+      pathname: '/auth/login',
+    });
   }
 };
 
@@ -125,7 +138,7 @@ export const checkTokenToRefresh = async (credentials: any) => {
     await logout(credentials.refresh_token);
     throw new Error(JSON.stringify({ status: 'signOut' }));
   } else {
-    const user = JSON.parse(credentials.user)
+    const user = JSON.parse(credentials.user);
     return {
       email: user.email,
       name: user.name,

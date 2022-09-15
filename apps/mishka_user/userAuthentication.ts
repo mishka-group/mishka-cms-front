@@ -116,13 +116,12 @@ export const logout = async (refreshToken: string): Promise<AuthError | LogoutOu
   return response;
 };
 
-export const refreshToken = async (refreshToken: string): Promise<AuthError | LoginOutPut> => {
-  const data = {};
+export const refreshToken = async (userRefreshToken: string): Promise<AuthError | LoginOutPut> => {
   const response = await authApiRequestSender<AuthError | LoginOutPut>(
     '/auth/v1/refresh-token',
-    data,
+    {},
     {
-      Authorization: `Bearer ${refreshToken}`,
+      Authorization: `Bearer ${userRefreshToken}`,
     },
     'POST'
   );

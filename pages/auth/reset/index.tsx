@@ -46,8 +46,6 @@ const ForgetPasswordPage: NextPage = () => {
 
     const btn = document.getElementById('resetButton') as HTMLElement;
     (btn as HTMLButtonElement).disabled = true;
-    // It is an extra preventer and refresh token for unhandled situation
-    clientSideSessionAction(session, router, setAlertState);
 
     // TODO: should be santize email input
     // TODO: This place need captcha code

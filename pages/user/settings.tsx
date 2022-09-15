@@ -52,18 +52,18 @@ const SettingsPage: NextPage = () => {
   };
 
   if (!session) {
-    return (
-      <LoginLoading
-        showTokens={showTokensHandler}
-        deleteToken={deleteTokenHandler}
-        editProfile={editProfileNameHandler}
-        changePassword={changePasswordHandler}
-        deactive={deactiveAccountHandler}
-      />
-    );
+    return <LoginLoading msg="You must be logged in to see this page." />;
   }
 
-  return <SettingsTemplate />;
+  return (
+    <SettingsTemplate
+      showTokens={showTokensHandler}
+      deleteToken={deleteTokenHandler}
+      editProfile={editProfileNameHandler}
+      changePassword={changePasswordHandler}
+      deactive={deactiveAccountHandler}
+    />
+  );
 };
 
 export default SettingsPage;

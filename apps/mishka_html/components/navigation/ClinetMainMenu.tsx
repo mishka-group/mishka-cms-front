@@ -15,8 +15,7 @@ type ClientMenuType = { active: string };
 // TODO: change link and li to another componnet and using link
 const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
   const { data: session, status } = useSession();
-  const { setAlertState } = useContext(ClientAlertState);
-
+  const { setAlertState, alert } = useContext(ClientAlertState);
   const { pathname } = useRouter();
   const router = useRouter();
 
@@ -28,10 +27,18 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
 
   const loginPreventer = ['/auth/login', '/auth/register', '/auth/reset'];
 
-  // This way can help us to remove duplicate code in each file that needs to be checked, 
+  // This way can help us to remove duplicate code in each file that needs to be checked,
   // This just runs once when we need to render whole the component
   useEffect(() => {
-    clientSideSessionAction(session, router, setAlertState);
+    async function activeSession(session: any, router: any, setAlertState: any) {
+      await clientSideSessionAction(session, router, setAlertState);
+    }
+
+    if (session) {
+      return () => {
+        activeSession(session, router, setAlertState);
+      };
+    }
   }, []);
 
   // We send refresh token to server for logout action, and it deletes all access token of this refresh token which are alive

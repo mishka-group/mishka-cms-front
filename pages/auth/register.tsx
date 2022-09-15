@@ -24,8 +24,6 @@ const RegisterPage: NextPage = () => {
 
     const btn = document.getElementById('registerButton') as HTMLElement;
     (btn as HTMLButtonElement).disabled = true;
-    // It is an extra preventer and refresh token for unhandled situation
-    clientSideSessionAction(session, router, setAlertState);
 
     // Review essential data
     if (fullName.current?.value && username.current?.value && email.current?.value) {

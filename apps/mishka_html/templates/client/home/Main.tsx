@@ -11,7 +11,7 @@ const Main: NextPage = () => {
       <ClinetMainMenu active="Home" />
       <div className="container">
         <section className="col mx-auto client-content">
-        <Alert />
+          <Alert />
         </section>
       </div>
     </div>
