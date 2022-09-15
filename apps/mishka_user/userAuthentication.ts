@@ -77,8 +77,16 @@ export const register = async (params: RegisterInput): Promise<AuthError | Regis
   return response;
 };
 
-export const changePassword = (curentPassword: string, newPassword: string): void => {
-  // TODO:
+export const changePassword = async (accessToken: string, curentPassword: string, newPassword: string) => {
+  const response = await authApiRequestSender<AuthError | EditProfileOutPut>(
+    '/auth/v1/change-password',
+    { curent_password: curentPassword, new_password: newPassword },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
+  return response;
 };
 
 export const sendDeactiveAccount = (userToken: string): void => {

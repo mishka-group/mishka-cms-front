@@ -7,6 +7,7 @@ import LoginLoading from '../../../apps/mishka_html/UIs/LoginLoading';
 import { clientSideSessionAction } from '../../../apps/mishka_user/helper/authHelper';
 import { ClientAlertState } from '../../../apps/mishka_html/components/state/ClientAlertState';
 import { resetPassword, confirmResetPassword } from '../../../apps/mishka_user/userAuthentication';
+import { elementDisability } from '../../../apps/extra/helper';
 
 type RH = RefObject<HTMLInputElement>;
 type FH = FormEvent<HTMLFormElement>;
@@ -22,8 +23,8 @@ const ForgetPasswordPage: NextPage = () => {
   const ForgetPasswordHandler = async (event: FH, email: RH) => {
     event.preventDefault();
 
-    const btn = document.getElementById('resetButton') as HTMLElement;
-    (btn as HTMLButtonElement).disabled = true;
+    elementDisability('resetButton', true)
+
     // It is an extra preventer and refresh token for unhandled situation
     clientSideSessionAction(session, router, setAlertState);
 
@@ -38,14 +39,13 @@ const ForgetPasswordPage: NextPage = () => {
       }
     }
 
-    (btn as HTMLButtonElement).disabled = false;
+    elementDisability('resetButton', false)
   };
 
   const confirmForgetPasswordHandler = async (event: FH, newPassword: RH, code: RH) => {
     event.preventDefault();
 
-    const btn = document.getElementById('resetButton') as HTMLElement;
-    (btn as HTMLButtonElement).disabled = true;
+    elementDisability('resetButton', true)
 
     // TODO: should be santize email input
     // TODO: This place need captcha code
@@ -66,7 +66,7 @@ const ForgetPasswordPage: NextPage = () => {
       }
     }
 
-    (btn as HTMLButtonElement).disabled = false;
+    elementDisability('resetButton', false)
   };
 
   const backToResetPassword = () => {

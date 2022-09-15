@@ -7,6 +7,7 @@ import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelpe
 import { useContext } from 'react';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 import LoginLoading from '../../apps/mishka_html/UIs/LoginLoading';
+import { elementDisability } from '../../apps/extra/helper';
 
 type RH = RefObject<HTMLInputElement>;
 
@@ -18,8 +19,8 @@ const LoginPage: NextPage = () => {
   // If a user wants to login in website, can use this Handler, but before logining in the site he/her is checked for having session or not?
   const loginHandler = async (event: FormEvent<HTMLFormElement>, email: RH, password: RH) => {
     event.preventDefault();
-    const btn = document.getElementById('loginButton') as HTMLElement;
-    (btn as HTMLButtonElement).disabled = true;
+
+    elementDisability('loginButton', true)
 
     // TODO: in this place we need to sanitize user email and password and prevent from XSS
     if (email.current?.value && password.current?.value) {
@@ -43,15 +44,14 @@ const LoginPage: NextPage = () => {
       }
     }
 
-    (btn as HTMLButtonElement).disabled = false;
+    elementDisability('loginButton', false)
   };
 
   // This function can help us to keep the button disabled until when our user sends all the required fields
   const formHandler = (email: RH, password: RH): void => {
     // TODO: this is the place we should check form validation
-    const btn = document.getElementById('loginButton') as HTMLElement;
     if (email.current?.value && password.current?.value) {
-      (btn as HTMLButtonElement).disabled = false;
+      elementDisability('loginButton', false)
     }
   };
 

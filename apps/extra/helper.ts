@@ -12,3 +12,7 @@ export const deleteTargetedFieldData = (
     setter(rest);
   }
 };
+
+export const elementDisability = (id: string, status: boolean) => {
+  (document.getElementById(id) as HTMLInputElement).disabled = status
+}

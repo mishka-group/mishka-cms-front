@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { register } from '../../apps/mishka_user/userAuthentication';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
-import { deleteTargetedFieldData } from '../../apps/extra/helper';
+import { deleteTargetedFieldData, elementDisability } from '../../apps/extra/helper';
 import LoginLoading from '../../apps/mishka_html/UIs/LoginLoading';
 
 type RH = RefObject<HTMLInputElement>;
@@ -22,8 +22,7 @@ const RegisterPage: NextPage = () => {
   const RegisterHandler = async (event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH, password: RH) => {
     event.preventDefault();
 
-    const btn = document.getElementById('registerButton') as HTMLElement;
-    (btn as HTMLButtonElement).disabled = true;
+    elementDisability('registerButton', true)
 
     // Review essential data
     if (fullName.current?.value && username.current?.value && email.current?.value) {
@@ -67,7 +66,7 @@ const RegisterPage: NextPage = () => {
       setAlertState(true, 'All required fields must be submitted.', 'warning');
     }
 
-    (btn as HTMLButtonElement).disabled = false;
+    elementDisability('registerButton', false)
   };
 
   // This function can help us to delete a specific field error to let user write correct data
@@ -76,10 +75,9 @@ const RegisterPage: NextPage = () => {
   // - https://stackoverflow.com/questions/73687869/delete-an-object-prevents-react-component-working
   const formHandler = (event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH): void => {
     // TODO: this is the place we should check form validation
-    const btn = document.getElementById('registerButton') as HTMLElement;
     deleteTargetedFieldData(event, formError, setFormError);
     if (fullName.current?.value && username.current?.value && email.current?.value) {
-      (btn as HTMLButtonElement).disabled = false;
+      elementDisability('registerButton', false)
     }
   };
 
