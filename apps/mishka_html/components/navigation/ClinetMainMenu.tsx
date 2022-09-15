@@ -44,9 +44,9 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
   // We send refresh token to server for logout action, and it deletes all access token of this refresh token which are alive
   const logOut = async () => {
     if (session && session.refresh_token) {
-      logout(session.refresh_token as string);
+      await logout(session.refresh_token as string);
     }
-    await signOut({ callbackUrl: '/auth/login', redirect: true });
+    await signOut({ callbackUrl: '/', redirect: true });
   };
 
   // We need to have 2 color for body, the first one for Client side and the another one for Admin side

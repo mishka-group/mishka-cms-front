@@ -79,6 +79,7 @@ export const clientSideSessionAction = async (session: any, router: NextRouter, 
       }),
     });
 
+    // TODO: We should fix this part after merging this PR: https://github.com/nextauthjs/next-auth/pull/4744
     if (login && login.ok) {
       return router.reload();
     }

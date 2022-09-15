@@ -18509,3 +18509,7 @@ fieldset:disabled .btn {
   font-size: 14px;
   text-align: center;
 }
+
+#clientSettings input {
+  color: #887e7e;
+}

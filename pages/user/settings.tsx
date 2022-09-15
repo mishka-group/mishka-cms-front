@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import SettingsTemplate from '../../apps/mishka_html/templates/client/user/settings';
 import LoginLoading from '../../apps/mishka_html/UIs/LoginLoading';
 import { useContext, RefObject } from 'react';
@@ -25,10 +25,26 @@ const SettingsPage: NextPage = () => {
   const { setAlertState } = useContext(ClientAlertState);
   const router = useRouter();
 
-  // fullname should be sanetize
+  console.log(session)
+  // TODO: fullname should be sanetize
   const editProfileNameHandler = async (fullname: RH) => {
+    const btn = document.getElementById('changeNameButton') as HTMLElement;
+    (btn as HTMLButtonElement).disabled = true;
+
     await clientSideSessionAction(session, router, setAlertState);
-    const editedProfile = await editProfile(session?.access_token as string, { fullname: fullname.current?.value.trim() });
+    const editedProfile = await editProfile(session?.access_token as string, { full_name: fullname.current?.value.trim() });
+
+    if (editedProfile.status === 200 || editedProfile.status === '200') {
+      setAlertState(true, 'Edit Profile: The Full Name change was done successfully. The page will be refreshed soon...', 'success');
+      setTimeout(async () => {
+        await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+      }, 4000);
+
+    } else {
+      setAlertState(true, 'Edit Profile: ' + (editedProfile.errors['full_name'] || editedProfile.message), 'danger');
+    }
+
+    (btn as HTMLButtonElement).disabled = false;
   };
 
   const changePasswordHandler = async () => {
@@ -57,9 +73,9 @@ const SettingsPage: NextPage = () => {
 
   return (
     <SettingsTemplate
+      editProfile={editProfileNameHandler}
       showTokens={showTokensHandler}
       deleteToken={deleteTokenHandler}
-      editProfile={editProfileNameHandler}
       changePassword={changePasswordHandler}
       deactive={deactiveAccountHandler}
     />

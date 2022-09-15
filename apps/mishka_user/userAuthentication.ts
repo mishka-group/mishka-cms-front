@@ -22,7 +22,7 @@ export interface ResetPasswordOutPut {
   message: string;
   system: 'user';
   status?: number | string;
-  errors?: any
+  errors?: any;
 }
 
 type RegisterInput = {
@@ -36,7 +36,7 @@ type Token = string;
 
 export interface LoginOutPut {
   status: string | number;
-  action: 'login' | 'register';
+  action: 'login' | 'register' | 'edit_profile';
   auth: {
     access_expires_in: number;
     access_token: Token;
@@ -58,6 +58,8 @@ export interface LoginOutPut {
 }
 
 type RegisterOutPut = Omit<LoginOutPut, 'auth'>;
+
+type EditProfileOutPut = Omit<LoginOutPut, 'auth'>;
 
 export const loginByUsername = async (username: string, password: string): Promise<AuthError | LoginOutPut> => {
   const data = { username: username, password: password };
@@ -151,8 +153,8 @@ export const confirmVerifyEmail = (accessToken: string, code: string): void => {
   // TODO:
 };
 
-export const editProfile = async (accessToken: string, params: object) => {
-  const response = await authApiRequestSender<AuthError | LoginOutPut>(
+export const editProfile = async (accessToken: string, params: object): Promise<AuthError | EditProfileOutPut> => {
+  const response = await authApiRequestSender<AuthError | EditProfileOutPut>(
     '/auth/v1/edit-profile',
     params,
     {
@@ -162,6 +164,3 @@ export const editProfile = async (accessToken: string, params: object) => {
   );
   return response;
 };
-
-// Error: Objects are not valid as a React child (found: object with keys {status, statusText, url, action, message, system, errors}).
-// If you meant to render a collection of children, use an array instead.

@@ -1,15 +1,22 @@
 import type { NextPage } from 'next';
+import { createRef, RefObject } from 'react';
 import ClinetMainMenu from '../../../components/navigation/ClinetMainMenu';
 import Alert from '../../../components/notices/Alert';
 import MainHeader from '../../../UIs/MainHeader';
 import PasswordField from '../../../UIs/PasswordField';
 import TextField from '../../../UIs/TextField';
-import loginImage from '../../../../../public/icons8-login-as-user-80.png';
-import Image from 'next/image';
 
-const SettingsTemplate: NextPage = () => {
+type RH = RefObject<HTMLInputElement>;
+
+interface SettingsTemplateTypes {
+  editProfile(fullName: RH): void
+}
+
+const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({ editProfile }) => {
+  const fullNameRef: RH = createRef();
+
   return (
-    <div id="clientMain" className="mb-5">
+    <div id="clientSettings" className="mb-5">
       <MainHeader />
       <ClinetMainMenu active="Settings" />
       <div className="container">
@@ -28,10 +35,10 @@ const SettingsTemplate: NextPage = () => {
               <label className="col-sm-12 form-label">Full Name:</label>
               <div className="col-sm-9 mt-3">
                 <div className="input-group input-group-lg ltr">
-                  <TextField name="fullName" placeholder="Change your Full name" type="email" required={true} />
+                  <TextField name="fullName" placeholder="Change your Full name" ref={fullNameRef} type="email" required={true} />
                 </div>
               </div>
-              <button type="submit" className="col-sm-2 btn btn-primary mt-3">
+              <button id="changeNameButton" onClick={() => editProfile(fullNameRef)} name="changeNameButton" className="col-sm-2 btn btn-primary mt-3">
                 Change
               </button>
             </div>
@@ -40,19 +47,22 @@ const SettingsTemplate: NextPage = () => {
 
             <div className="row">
               <label className="col-sm-12 form-label">Change Password:</label>
-              <div className="col-sm-9 mt-3">
-                <div className="input-group input-group-lg ltr">
-                  <PasswordField name="currentPassword" placeholder="Put your current password" required={false} autoComplete="new-password" />
+              <form>
+                {/* It is because we want to clear warning from chrome */}
+                <input hidden type="text" id="username" name="username" autoComplete="username" />
+                <div className="col-sm-9 mt-3">
+                  <div className="input-group input-group-lg ltr">
+                    <PasswordField name="currentPassword" placeholder="Put your current password" required={false} autoComplete="new-password" />
+                  </div>
+                  <br />
+                  <div className="input-group input-group-lg ltr">
+                    <PasswordField name="newPassword" placeholder="Put your new password" required={false} autoComplete="new-password" />
+                  </div>
                 </div>
-                <br />
-                <div className="input-group input-group-lg ltr">
-                  <PasswordField name="newPassword" placeholder="Put your new password" required={false} autoComplete="new-password" />
-                </div>
-              </div>
-
-              <button type="submit" className="col-sm-2 btn btn-primary mt-3">
-                Change
-              </button>
+                <button type="submit" className="col-sm-2 btn btn-primary mt-3">
+                  Change
+                </button>
+              </form>
             </div>
           </div>
 
