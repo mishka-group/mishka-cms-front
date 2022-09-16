@@ -50,7 +50,7 @@ const RegisterPage: NextPage = () => {
         // TODO: Template side should have validation ui to let user Which field should be filled
         // Show the error system got to user and show a warning alert to fix the problems
         // We need to pass errors for validation forms in template part
-        setFormError(registerOutput.errors);
+        setFormError(registerOutput.errors ? registerOutput.errors: []);
 
         // It is a global error to show user and let him/her focus on the error they get
         setAlertState(true, 'Unfortunately, there is an error in sending the data. Please try again after solving the problem.', 'warning');

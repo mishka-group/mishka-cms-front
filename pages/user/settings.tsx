@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { signIn, useSession } from 'next-auth/react';
 import SettingsTemplate from '../../apps/mishka_html/templates/client/user/settings';
 import LoginLoading from '../../apps/mishka_html/UIs/LoginLoading';
-import { useContext, RefObject, FormEvent } from 'react';
+import { useContext, RefObject, FormEvent, useState, Dispatch, SetStateAction } from 'react';
 import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 import {
@@ -15,6 +15,7 @@ import {
   deactiveAccountByCode,
   changePassword,
   editProfile,
+  UserTokens
 } from '../../apps/mishka_user/userAuthentication';
 import { elementDisability } from '../../apps/extra/helper';
 import { useRouter } from 'next/router';
@@ -24,9 +25,8 @@ type RH = RefObject<HTMLInputElement>;
 const SettingsPage: NextPage = () => {
   const { data: session, status } = useSession();
   const { setAlertState } = useContext(ClientAlertState);
+  const [userTokensState, setUserTokensState]: [UserTokens[], Dispatch<SetStateAction<any>>]  = useState([]);
   const router = useRouter();
-
-  console.log(session);
 
   // TODO: fullname should be sanetize
   const editProfileNameHandler = async (fullname: RH) => {
@@ -43,7 +43,7 @@ const SettingsPage: NextPage = () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
       }, 3000);
     } else {
-      setAlertState(true, 'Edit Profile: ' + (editedProfile.errors['full_name'] || editedProfile.message), 'danger');
+      setAlertState(true, 'Edit Profile: ' + (editedProfile.errors!.full_name || editedProfile.message), 'danger');
     }
 
     elementDisability('changeNameButton', false);
@@ -70,15 +70,7 @@ const SettingsPage: NextPage = () => {
           await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
         }, 3000);
       } else {
-        setAlertState(
-          true,
-          'Change Password: ' +
-            (changededPassword.errors['password'] ||
-              changededPassword.errors['curent_password'] ||
-              changededPassword.errors['new_password'] ||
-              changededPassword.message),
-          'danger'
-        );
+        setAlertState(true, 'Change Password: ' + (Object.values(changededPassword.errors!)[0] || changededPassword.message), 'danger');
       }
     } else {
       setAlertState(
@@ -91,6 +83,11 @@ const SettingsPage: NextPage = () => {
 
   const showTokensHandler = async () => {
     await clientSideSessionAction(session, router, setAlertState);
+    const tokens = await userTokens(session?.access_token as string);
+    if (tokens.status === 200 || tokens.status === '200') {
+      console.log(tokens.user_tokens_info)
+      setUserTokensState(tokens.user_tokens_info)
+    }
   };
 
   const deleteTokenHandler = async () => {

@@ -1,28 +1,33 @@
 import { authApiRequestSender } from './helper/authHelper';
 
-export interface AuthError {
-  status: number | string;
-  statusText: string;
-  url: string;
+type Token = string;
+
+export interface PublicAuthResponse {
+  status?: number | string;
+  statusText?: string;
+  url?: string;
   action: string;
   message: string;
   system: string;
-  errors: Array<any> | [];
+  errors?: { [key: string]: any };
 }
 
-export interface LogoutOutPut {
-  action: 'logout';
-  message: string;
-  system: 'user';
-  status?: number | string;
-}
-
-export interface ResetPasswordOutPut {
-  action: 'reset_password';
-  message: string;
-  system: 'user';
-  status?: number | string;
-  errors?: any;
+export interface LoginOutPut extends PublicAuthResponse {
+  auth: {
+    access_expires_in: number;
+    access_token: Token;
+    access_token_type: 'access';
+    refresh_expires_in: number;
+    refresh_token: Token;
+    refresh_token_type: 'refresh';
+  };
+  user_info: {
+    email: string;
+    full_name: string;
+    id: string;
+    status: string;
+    username: string;
+  };
 }
 
 type RegisterInput = {
@@ -32,53 +37,47 @@ type RegisterInput = {
   password?: string;
 };
 
-type Token = string;
+type AuthNormalOutPut = Omit<LoginOutPut, 'auth'>;
 
-export interface LoginOutPut {
-  status: string | number;
-  action: 'login' | 'register' | 'edit_profile';
-  auth: {
+export interface UserTokens extends AuthNormalOutPut {
+  user_tokens_info: Array<{
     access_expires_in: number;
-    access_token: Token;
-    access_token_type: 'access';
-    refresh_expires_in: number;
-    refresh_token: Token;
-    refresh_token_type: 'refresh';
-  };
-  message: string;
-  system: 'user';
-  user_info: {
-    email: string;
-    full_name: string;
-    id: string;
-    status: string;
-    username: string;
-  };
-  errors?: any;
+    create_time: number;
+    last_used: number;
+    os: string;
+    type: 'refresh' | 'access';
+  }> | never[];
 }
 
-type RegisterOutPut = Omit<LoginOutPut, 'auth'>;
-
-type EditProfileOutPut = Omit<LoginOutPut, 'auth'>;
-
-export const loginByUsername = async (username: string, password: string): Promise<AuthError | LoginOutPut> => {
-  const data = { username: username, password: password };
-  return await authApiRequestSender<LoginOutPut | AuthError>('/auth/v1/login', data, {}, 'POST');
-};
-
-export const loginByEmail = async (email: string, password: string): Promise<AuthError | LoginOutPut> => {
-  const data = { email: email, password: password };
-  const response = await authApiRequestSender<LoginOutPut | AuthError>('/auth/v1/login', data, {}, 'POST');
+export const userTokens = async (accessToken: string): Promise<UserTokens> => {
+  const response = await authApiRequestSender<UserTokens>(
+    '/auth/v1/user-tokens',
+    {},
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
   return response;
 };
 
-export const register = async (params: RegisterInput): Promise<AuthError | RegisterOutPut> => {
-  const response = await authApiRequestSender<RegisterOutPut | AuthError>('/auth/v1/register', params, {}, 'POST');
+export const loginByUsername = async (username: string, password: string): Promise<LoginOutPut> => {
+  const response = await authApiRequestSender<LoginOutPut>('/auth/v1/login', { username: username, password: password }, {}, 'POST');
   return response;
 };
 
-export const changePassword = async (accessToken: string, curentPassword: string, newPassword: string) => {
-  const response = await authApiRequestSender<AuthError | EditProfileOutPut>(
+export const loginByEmail = async (email: string, password: string): Promise<LoginOutPut> => {
+  const response = await authApiRequestSender<LoginOutPut>('/auth/v1/login', { email: email, password: password }, {}, 'POST');
+  return response;
+};
+
+export const register = async (params: RegisterInput): Promise<AuthNormalOutPut> => {
+  const response = await authApiRequestSender<AuthNormalOutPut>('/auth/v1/register', params, {}, 'POST');
+  return response;
+};
+
+export const changePassword = async (accessToken: string, curentPassword: string, newPassword: string): Promise<AuthNormalOutPut> => {
+  const response = await authApiRequestSender<AuthNormalOutPut>(
     '/auth/v1/change-password',
     { curent_password: curentPassword, new_password: newPassword },
     {
@@ -97,10 +96,6 @@ export const deactiveAccountByCode = (userToken: string, code: string): void => 
   // TODO:
 };
 
-export const userTokens = (accessToken: string): void => {
-  // TODO:
-};
-
 export const deleteToken = (userToken: string, token: string): void => {
   // TODO:
 };
@@ -113,9 +108,9 @@ export const getTokenExpireTime = (accessToken: string, token: string): void => 
   // TODO:
 };
 
-export const logout = async (refreshToken: string): Promise<AuthError | LogoutOutPut> => {
+export const logout = async (refreshToken: string): Promise<PublicAuthResponse> => {
   const data = {};
-  const response = await authApiRequestSender<LogoutOutPut>(
+  const response = await authApiRequestSender<PublicAuthResponse>(
     '/auth/v1/logout',
     data,
     {
@@ -126,8 +121,8 @@ export const logout = async (refreshToken: string): Promise<AuthError | LogoutOu
   return response;
 };
 
-export const refreshToken = async (userRefreshToken: string): Promise<AuthError | LoginOutPut> => {
-  const response = await authApiRequestSender<AuthError | LoginOutPut>(
+export const refreshToken = async (userRefreshToken: string): Promise<LoginOutPut> => {
+  const response = await authApiRequestSender<LoginOutPut>(
     '/auth/v1/refresh-token',
     {},
     {
@@ -138,13 +133,13 @@ export const refreshToken = async (userRefreshToken: string): Promise<AuthError 
   return response;
 };
 
-export const resetPassword = async (email: string): Promise<AuthError | ResetPasswordOutPut> => {
-  const response = await authApiRequestSender<ResetPasswordOutPut | AuthError>('/auth/v1/reset-password', { email: email }, {}, 'POST');
+export const resetPassword = async (email: string): Promise<PublicAuthResponse> => {
+  const response = await authApiRequestSender<PublicAuthResponse>('/auth/v1/reset-password', { email: email }, {}, 'POST');
   return response;
 };
 
-export const confirmResetPassword = async (email: string, newPassword: string, code: string): Promise<AuthError | ResetPasswordOutPut> => {
-  const response = await authApiRequestSender<ResetPasswordOutPut | AuthError>(
+export const confirmResetPassword = async (email: string, newPassword: string, code: string): Promise<PublicAuthResponse> => {
+  const response = await authApiRequestSender<PublicAuthResponse>(
     '/auth/v1/reset-password',
     { email: email, new_password: newPassword, code: code },
     {},
@@ -161,8 +156,8 @@ export const confirmVerifyEmail = (accessToken: string, code: string): void => {
   // TODO:
 };
 
-export const editProfile = async (accessToken: string, params: object): Promise<AuthError | EditProfileOutPut> => {
-  const response = await authApiRequestSender<AuthError | EditProfileOutPut>(
+export const editProfile = async (accessToken: string, params: object): Promise<AuthNormalOutPut> => {
+  const response = await authApiRequestSender<AuthNormalOutPut>(
     '/auth/v1/edit-profile',
     params,
     {

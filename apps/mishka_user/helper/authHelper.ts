@@ -1,28 +1,26 @@
 import { signIn, signOut } from 'next-auth/react';
 import type { NextRouter } from 'next/router';
-import { AuthError, LoginOutPut, LogoutOutPut, refreshToken, logout } from '../userAuthentication';
+import { PublicAuthResponse, LoginOutPut, refreshToken, logout } from '../userAuthentication';
 type Method = 'POST' | 'GET' | 'DELETE' | 'PUT';
 type Header = { [key: string]: string };
 
-export const authApiRequestSender = <T>(router: string, body: object, header: Header, method: Method) => {
-  const request = fetch(process.env.api_url + router, {
-    method: method,
-    mode: 'cors',
-    headers: { ...header, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        return getAuthError<T>(response);
-      } else {
-        return getAuthSuccessResponse<T>(response);
-      }
-    })
-    .catch((error) => {
-      return createAuthUnhandledErrorObject(router);
+export const authApiRequestSender = async <T>(router: string, body: object, header: Header, method: Method): Promise<T> => {
+  try {
+    const request = await fetch(process.env.api_url + router, {
+      method: method,
+      mode: 'cors',
+      headers: { ...header, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
     });
 
-  return request;
+    if (!request.ok) {
+      return getAuthError<T>(request);
+    } else {
+      return getAuthSuccessResponse<T>(request);
+    }
+  } catch (error) {
+    return createAuthUnhandledErrorObject<T>(router) as Promise<T>;
+  }
 };
 
 const getAuthError = async <T>(response: Awaited<any>): Promise<T> => {
@@ -46,16 +44,16 @@ const getAuthError = async <T>(response: Awaited<any>): Promise<T> => {
   return error;
 };
 
-const getAuthSuccessResponse = async <T>(response: any) => {
+const getAuthSuccessResponse = async <T>(response: any): Promise<T> => {
   const successResponse = await response;
-  const data: T = await successResponse.json();
+  const data = await successResponse.json();
   const mergedStatusData = { ...data, status: 200 };
   return mergedStatusData;
 };
 
-const createAuthUnhandledErrorObject = (router: string) => {
+const createAuthUnhandledErrorObject = async <T>(router: string)=> {
   // TODO: can be error sender to log server
-  return {
+  const data = {
     status: 500,
     statusText: 'Unhandled Error',
     url: router,
@@ -64,6 +62,8 @@ const createAuthUnhandledErrorObject = (router: string) => {
     system: 'user',
     errors: [],
   };
+
+  return data
 };
 
 export const clientSideSessionAction = async (session: any, router: NextRouter, setAlertState: any) => {
@@ -102,7 +102,7 @@ export const clientSideSessionAction = async (session: any, router: NextRouter, 
   }
 };
 
-export const getUserBasicInformationAndTokens = (login: AuthError | LoginOutPut | LogoutOutPut) => {
+export const getUserBasicInformationAndTokens = (login: PublicAuthResponse | LoginOutPut) => {
   let newuser;
   if ((login.status === 200 || login.status === '200') && 'user_info' in login) {
     newuser = {

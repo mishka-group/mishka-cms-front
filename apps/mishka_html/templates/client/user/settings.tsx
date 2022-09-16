@@ -17,7 +17,7 @@ interface SettingsTemplateTypes {
   deactive(): void;
 }
 
-const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({ editProfile, changePassword }) => {
+const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({ editProfile, changePassword, showTokens, deactive, deleteToken }) => {
   const { data: session } = useSession();
   const fullNameRef: RH = createRef();
   const oldPasswordRef: RH = createRef();
@@ -70,11 +70,23 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({ editProfile, change
                 <input hidden type="text" id="username" name="username" autoComplete="username" />
                 <div className="col-sm-9 mt-3">
                   <div className="input-group input-group-lg ltr">
-                    <PasswordField name="currentPassword" placeholder="Put your current password" ref={oldPasswordRef} required={false} autoComplete="new-password" />
+                    <PasswordField
+                      name="currentPassword"
+                      placeholder="Put your current password"
+                      ref={oldPasswordRef}
+                      required={false}
+                      autoComplete="new-password"
+                    />
                   </div>
                   <br />
                   <div className="input-group input-group-lg ltr">
-                    <PasswordField name="newPassword" placeholder="Put your new password" ref={newPasswordRef} required={false} autoComplete="new-password" />
+                    <PasswordField
+                      name="newPassword"
+                      placeholder="Put your new password"
+                      ref={newPasswordRef}
+                      required={false}
+                      autoComplete="new-password"
+                    />
                   </div>
                 </div>
                 <button type="submit" className="col-sm-2 btn btn-primary mt-3">
@@ -88,11 +100,11 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({ editProfile, change
 
           <div className="col-sm-6 container">
             <div className="row">
-              <button type="submit" className="col-sm-5 btn btn-outline-danger mt-3">
+              <button onClick={showTokens} type="submit" className="col-sm-5 btn btn-outline-danger mt-3">
                 Show Your tokens
               </button>
               <div className="col-sm"></div>
-              <button type="submit" className="col-sm-5 btn btn-outline-light mt-3">
+              <button onClick={deactive} type="submit" className="col-sm-5 btn btn-outline-light mt-3">
                 Deactive Account
               </button>
             </div>
