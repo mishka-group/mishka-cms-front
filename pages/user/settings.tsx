@@ -15,7 +15,7 @@ import {
   deactiveAccountByCode,
   changePassword,
   editProfile,
-  UserTokens
+  UserTokens,
 } from '../../apps/mishka_user/userAuthentication';
 import { elementDisability } from '../../apps/extra/helper';
 import { useRouter } from 'next/router';
@@ -25,7 +25,9 @@ type RH = RefObject<HTMLInputElement>;
 const SettingsPage: NextPage = () => {
   const { data: session, status } = useSession();
   const { setAlertState } = useContext(ClientAlertState);
-  const [userTokensState, setUserTokensState]: [UserTokens[], Dispatch<SetStateAction<any>>]  = useState([]);
+  const [userTokensState, setUserTokensState]: [UserTokens[], Dispatch<SetStateAction<any>>] = useState([]);
+  const [tokenToggle, setTokenToggle] = useState(false);
+
   const router = useRouter();
 
   // TODO: fullname should be sanetize
@@ -82,16 +84,19 @@ const SettingsPage: NextPage = () => {
   };
 
   const showTokensHandler = async () => {
-    await clientSideSessionAction(session, router, setAlertState);
-    const tokens = await userTokens(session?.access_token as string);
-    if (tokens.status === 200 || tokens.status === '200') {
-      console.log(tokens.user_tokens_info)
-      setUserTokensState(tokens.user_tokens_info)
+    setTokenToggle(!tokenToggle);
+    if (!tokenToggle) {
+      await clientSideSessionAction(session, router, setAlertState);
+      const tokens = await userTokens(session?.access_token as string);
+      if (tokens.status === 200 || tokens.status === '200') {
+        setUserTokensState(tokens.user_tokens_info);
+      }
     }
   };
 
-  const deleteTokenHandler = async () => {
+  const deleteTokensHandler = async () => {
     await clientSideSessionAction(session, router, setAlertState);
+    console.log('delete all tokens');
   };
 
   const deactiveAccountHandler = async () => {
@@ -111,8 +116,10 @@ const SettingsPage: NextPage = () => {
       editProfile={editProfileNameHandler}
       changePassword={changePasswordHandler}
       showTokens={showTokensHandler}
-      deleteToken={deleteTokenHandler}
+      deleteTokens={deleteTokensHandler}
       deactive={deactiveAccountHandler}
+      userTokes={userTokensState}
+      tokenToggle={tokenToggle}
     />
   );
 };

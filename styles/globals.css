@@ -18513,3 +18513,17 @@ fieldset:disabled .btn {
 #clientSettings input {
   color: #887e7e;
 }
+
+.tokens-table {
+  background-color: #fffafa;
+  color: #000;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.tokens-table td,
+.tokens-table th {
+  color: #000;
+  text-align: center;
+}

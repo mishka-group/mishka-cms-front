@@ -6,6 +6,7 @@ import Alert from '../../../components/notices/Alert';
 import MainHeader from '../../../UIs/MainHeader';
 import PasswordField from '../../../UIs/PasswordField';
 import TextField from '../../../UIs/TextField';
+import type { UserTokens } from '../../../../mishka_user/userAuthentication';
 
 type RH = RefObject<HTMLInputElement>;
 
@@ -13,11 +14,21 @@ interface SettingsTemplateTypes {
   editProfile(fullName: RH): void;
   changePassword(event: FormEvent<HTMLFormElement>, oldPassword: RH, newPassword: RH): void;
   showTokens(): void;
-  deleteToken(token: string): void;
+  deleteTokens(): void;
   deactive(): void;
+  userTokes: any[];
+  tokenToggle: boolean;
 }
 
-const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({ editProfile, changePassword, showTokens, deactive, deleteToken }) => {
+const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
+  editProfile,
+  changePassword,
+  showTokens,
+  deactive,
+  deleteTokens,
+  userTokes,
+  tokenToggle,
+}) => {
   const { data: session } = useSession();
   const fullNameRef: RH = createRef();
   const oldPasswordRef: RH = createRef();
@@ -27,6 +38,52 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({ editProfile, change
     // It is good for UX, let user see his name if he/her, if he/her wants so changes it, after changing the name and submit the page will be reloaded
     (document.getElementById('fullName') as HTMLInputElement).value = session?.user?.name || '';
   }, []);
+
+  console.log();
+  const ShowUserTokns = () => {
+    return (
+      <>
+        <div className="col-sm-8 container">
+          <div className="space40"></div>
+          <div className="col container tokens-table">
+            <div className="col text-end">
+              <a className="btn btn-outline-danger" onClick={() => deleteTokens()}>
+                Revoke all tokens
+              </a>
+            </div>
+            <div className="space20"></div>
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Expire time</th>
+                  <th scope="col">Create time</th>
+                  <th scope="col">Last used</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">OS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {userTokes &&
+                  userTokes.map((item, index) => (
+                    <tr key={index}>
+                      <th scope="row">{index}</th>
+                      <td>{item.access_expires_in}</td>
+                      <td>{item.create_time}</td>
+                      <td>{item.last_used}</td>
+                      <td>{item.os}</td>
+                      <td>{item.type}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="space40"></div>
+        </div>
+      </>
+    );
+  };
 
   return (
     <div id="clientSettings" className="mb-5">
@@ -110,6 +167,7 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({ editProfile, change
             </div>
           </div>
 
+          {tokenToggle && userTokes && userTokes.length > 0 && <ShowUserTokns />}
           <div className="space40"></div>
         </section>
       </div>
