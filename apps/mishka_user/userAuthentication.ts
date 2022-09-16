@@ -40,13 +40,15 @@ type RegisterInput = {
 type AuthNormalOutPut = Omit<LoginOutPut, 'auth'>;
 
 export interface UserTokens extends AuthNormalOutPut {
-  user_tokens_info: Array<{
-    access_expires_in: number;
-    create_time: number;
-    last_used: number;
-    os: string;
-    type: 'refresh' | 'access';
-  }> | never[];
+  user_tokens_info:
+    | Array<{
+        access_expires_in: number;
+        create_time: number;
+        last_used: number;
+        os: string;
+        type: 'refresh' | 'access';
+      }>
+    | never[];
 }
 
 export const userTokens = async (accessToken: string): Promise<UserTokens> => {
@@ -96,12 +98,16 @@ export const deactiveAccountByCode = (userToken: string, code: string): void => 
   // TODO:
 };
 
-export const deleteToken = (userToken: string, token: string): void => {
-  // TODO:
-};
-
-export const deleteTokens = (userRefreshToken: string): void => {
-  // TODO:
+export const deleteTokens = async (userToken: string): Promise<PublicAuthResponse> => {
+  const response = await authApiRequestSender<PublicAuthResponse>(
+    '/auth/v1/delete-tokens',
+    {},
+    {
+      Authorization: `Bearer ${userToken}`,
+    },
+    'POST'
+  );
+  return response;
 };
 
 export const getTokenExpireTime = (accessToken: string, token: string): void => {
@@ -109,10 +115,9 @@ export const getTokenExpireTime = (accessToken: string, token: string): void => 
 };
 
 export const logout = async (refreshToken: string): Promise<PublicAuthResponse> => {
-  const data = {};
   const response = await authApiRequestSender<PublicAuthResponse>(
     '/auth/v1/logout',
-    data,
+    {},
     {
       Authorization: `Bearer ${refreshToken}`,
     },
@@ -148,12 +153,28 @@ export const confirmResetPassword = async (email: string, newPassword: string, c
   return response;
 };
 
-export const sendVerifyEmail = (accessToken: string): void => {
-  // TODO:
+export const sendVerifyEmail = async (accessToken: string): Promise<PublicAuthResponse> => {
+  const response = await authApiRequestSender<PublicAuthResponse>(
+    '/auth/v1/verify-email',
+    {},
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
+  return response;
 };
 
-export const confirmVerifyEmail = (accessToken: string, code: string): void => {
-  // TODO:
+export const confirmVerifyEmail = async (accessToken: string, code: string): Promise<PublicAuthResponse> => {
+  const response = await authApiRequestSender<PublicAuthResponse>(
+    '/auth/v1/verify-email',
+    { code: code },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
+  return response;
 };
 
 export const editProfile = async (accessToken: string, params: object): Promise<AuthNormalOutPut> => {

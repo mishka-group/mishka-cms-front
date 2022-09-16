@@ -7,7 +7,6 @@ import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelpe
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 import {
   userTokens,
-  deleteToken,
   deleteTokens,
   sendVerifyEmail,
   confirmVerifyEmail,
@@ -27,6 +26,7 @@ const SettingsPage: NextPage = () => {
   const { setAlertState } = useContext(ClientAlertState);
   const [userTokensState, setUserTokensState]: [UserTokens[], Dispatch<SetStateAction<any>>] = useState([]);
   const [tokenToggle, setTokenToggle] = useState(false);
+  const [activeToggle, setActiveToggle] = useState(false);
 
   const router = useRouter();
 
@@ -95,8 +95,54 @@ const SettingsPage: NextPage = () => {
   };
 
   const deleteTokensHandler = async () => {
+    const deletedTokens = await deleteTokens(session?.access_token as string);
+
+    if (deletedTokens.status === 200 || deletedTokens.status === '200') {
+      setAlertState(true, deletedTokens.message, 'success');
+      setTimeout(() => {
+        document.querySelector('.alert')?.scrollIntoView();
+      }, 300);
+    }
+
+    // We decrease access_expires_in time to let clientSideSessionAction function refresh token and get new user info
+    // and token to be set on server side session
+    setTimeout(async () => {
+      await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+    }, 3000);
+  };
+
+  const activeAccountHandler = async () => {
     await clientSideSessionAction(session, router, setAlertState);
-    console.log('delete all tokens');
+    setTokenToggle(false);
+    const activeAccount = await sendVerifyEmail(session?.access_token as string);
+    if (activeAccount.status === 200 || activeAccount.status === '200') {
+      setAlertState(true, activeAccount.message, 'success');
+      setActiveToggle(!activeToggle);
+    } else {
+      setAlertState(true, activeAccount.message, 'danger');
+    }
+  };
+
+  // TODO: it should be validate like code is 6 number length
+  const confirmActiveAccountHandler = async (code: RH) => {
+    const activeAccount = await confirmVerifyEmail(session?.access_token as string, code.current?.value || '');
+    if (activeAccount.status === 200 || activeAccount.status === '200') {
+      setAlertState(true, activeAccount.message, 'success');
+      setTimeout(async () => {
+        await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+      }, 2000);
+    }
+    if (activeAccount.status === 401 || activeAccount.status === '401') {
+      setAlertState(true, activeAccount.message, 'warning');
+      setTimeout(async () => {
+        await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+      }, 2000);
+    } else {
+      setAlertState(true, activeAccount.message, 'danger');
+    }
+
+    setActiveToggle(false);
+    setTokenToggle(false);
   };
 
   const deactiveAccountHandler = async () => {
@@ -120,6 +166,9 @@ const SettingsPage: NextPage = () => {
       deactive={deactiveAccountHandler}
       userTokes={userTokensState}
       tokenToggle={tokenToggle}
+      activeAccount={activeAccountHandler}
+      confirmActiveAccount={confirmActiveAccountHandler}
+      activeToggle={activeToggle}
     />
   );
 };

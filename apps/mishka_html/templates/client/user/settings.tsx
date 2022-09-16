@@ -6,7 +6,6 @@ import Alert from '../../../components/notices/Alert';
 import MainHeader from '../../../UIs/MainHeader';
 import PasswordField from '../../../UIs/PasswordField';
 import TextField from '../../../UIs/TextField';
-import type { UserTokens } from '../../../../mishka_user/userAuthentication';
 
 type RH = RefObject<HTMLInputElement>;
 
@@ -16,8 +15,11 @@ interface SettingsTemplateTypes {
   showTokens(): void;
   deleteTokens(): void;
   deactive(): void;
+  activeAccount(): void;
+  confirmActiveAccount(code: RH): void;
   userTokes: any[];
   tokenToggle: boolean;
+  activeToggle: boolean;
 }
 
 const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
@@ -28,18 +30,48 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
   deleteTokens,
   userTokes,
   tokenToggle,
+  activeAccount,
+  confirmActiveAccount,
+  activeToggle,
 }) => {
   const { data: session } = useSession();
   const fullNameRef: RH = createRef();
   const oldPasswordRef: RH = createRef();
   const newPasswordRef: RH = createRef();
+  const codeRef: RH = createRef();
 
   useEffect(() => {
     // It is good for UX, let user see his name if he/her, if he/her wants so changes it, after changing the name and submit the page will be reloaded
     (document.getElementById('fullName') as HTMLInputElement).value = session?.user?.name || '';
   }, []);
 
-  console.log();
+  const ConfirmToken = () => {
+    return (
+      <>
+        <div className="col-sm-6 container">
+          <div className="space40"></div>
+          <div className="row">
+            <label className="col-sm-12 form-label">Activation Code:</label>
+            <div className="col-sm-9 mt-3">
+              <div className="input-group input-group-lg ltr">
+                <TextField name="code" placeholder="Enter your activation code" ref={codeRef} type="text" required={true} />
+              </div>
+            </div>
+            <button
+              id="changeNameButton"
+              onClick={() => confirmActiveAccount(codeRef)}
+              name="changeNameButton"
+              className="col-sm-2 btn btn-primary mt-3"
+            >
+              Change
+            </button>
+          </div>
+          <div className="space40"></div>
+        </div>
+      </>
+    );
+  };
+
   const ShowUserTokns = () => {
     return (
       <>
@@ -157,17 +189,22 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
 
           <div className="col-sm-6 container">
             <div className="row">
-              <button onClick={showTokens} type="submit" className="col-sm-5 btn btn-outline-danger mt-3">
+              <button onClick={showTokens} type="submit" className="col-sm-4 btn btn-outline-danger mt-3">
                 Show Your tokens
               </button>
               <div className="col-sm"></div>
-              <button onClick={deactive} type="submit" className="col-sm-5 btn btn-outline-light mt-3">
+              <button onClick={activeAccount} type="submit" className="col-sm-3 btn btn-outline-warning mt-3">
+                Active Account
+              </button>
+              <div className="col-sm"></div>
+              <button onClick={deactive} type="submit" className="col-sm-4 btn btn-outline-light mt-3">
                 Deactive Account
               </button>
             </div>
           </div>
 
           {tokenToggle && userTokes && userTokes.length > 0 && <ShowUserTokns />}
+          {activeToggle && <ConfirmToken />}
           <div className="space40"></div>
         </section>
       </div>
