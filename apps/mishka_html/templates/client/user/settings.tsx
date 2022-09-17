@@ -20,6 +20,8 @@ interface SettingsTemplateTypes {
   userTokes: any[];
   tokenToggle: boolean;
   activeToggle: boolean;
+  confirmDeactiveAccount(code: RH): void;
+  deactiveToggle: boolean;
 }
 
 const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
@@ -33,19 +35,49 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
   activeAccount,
   confirmActiveAccount,
   activeToggle,
+  confirmDeactiveAccount,
+  deactiveToggle,
 }) => {
   const { data: session } = useSession();
   const fullNameRef: RH = createRef();
   const oldPasswordRef: RH = createRef();
   const newPasswordRef: RH = createRef();
-  const codeRef: RH = createRef();
+  const activeCodeRef: RH = createRef();
+  const deactiveCodeRef: RH = createRef();
 
   useEffect(() => {
     // It is good for UX, let user see his name if he/her, if he/her wants so changes it, after changing the name and submit the page will be reloaded
     (document.getElementById('fullName') as HTMLInputElement).value = session?.user?.name || '';
   }, []);
 
-  const ConfirmToken = () => {
+  const ConfirmDectivationCode = () => {
+    return (
+      <>
+        <div className="col-sm-6 container">
+          <div className="space40"></div>
+          <div className="row">
+            <label className="col-sm-12 form-label">Deactivation Code:</label>
+            <div className="col-sm-9 mt-3">
+              <div className="input-group input-group-lg ltr">
+                <TextField name="code" placeholder="Enter your activation code" ref={deactiveCodeRef} type="text" required={true} />
+              </div>
+            </div>
+            <button
+              id="changeNameButton"
+              onClick={() => confirmDeactiveAccount(deactiveCodeRef)}
+              name="changeNameButton"
+              className="col-sm-2 btn btn-primary mt-3"
+            >
+              Change
+            </button>
+          </div>
+          <div className="space40"></div>
+        </div>
+      </>
+    );
+  };
+
+  const ConfirmActivationCode = () => {
     return (
       <>
         <div className="col-sm-6 container">
@@ -54,12 +86,12 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
             <label className="col-sm-12 form-label">Activation Code:</label>
             <div className="col-sm-9 mt-3">
               <div className="input-group input-group-lg ltr">
-                <TextField name="code" placeholder="Enter your activation code" ref={codeRef} type="text" required={true} />
+                <TextField name="code" placeholder="Enter your activation code" ref={activeCodeRef} type="text" required={true} />
               </div>
             </div>
             <button
               id="changeNameButton"
-              onClick={() => confirmActiveAccount(codeRef)}
+              onClick={() => confirmActiveAccount(activeCodeRef)}
               name="changeNameButton"
               className="col-sm-2 btn btn-primary mt-3"
             >
@@ -204,7 +236,9 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
           </div>
 
           {tokenToggle && userTokes && userTokes.length > 0 && <ShowUserTokns />}
-          {activeToggle && <ConfirmToken />}
+          {activeToggle && <ConfirmActivationCode />}
+          {deactiveToggle && <ConfirmDectivationCode />}
+
           <div className="space40"></div>
         </section>
       </div>

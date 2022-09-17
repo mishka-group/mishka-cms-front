@@ -10,11 +10,11 @@ import {
   deleteTokens,
   sendVerifyEmail,
   confirmVerifyEmail,
-  sendDeactiveAccount,
-  deactiveAccountByCode,
   changePassword,
   editProfile,
   UserTokens,
+  sendDeactiveAccount,
+  deactiveAccountByCode,
 } from '../../apps/mishka_user/userAuthentication';
 import { elementDisability } from '../../apps/extra/helper';
 import { useRouter } from 'next/router';
@@ -27,6 +27,7 @@ const SettingsPage: NextPage = () => {
   const [userTokensState, setUserTokensState]: [UserTokens[], Dispatch<SetStateAction<any>>] = useState([]);
   const [tokenToggle, setTokenToggle] = useState(false);
   const [activeToggle, setActiveToggle] = useState(false);
+  const [deactiveToggle, setDeactiveToggle] = useState(false);
 
   const router = useRouter();
 
@@ -92,6 +93,8 @@ const SettingsPage: NextPage = () => {
   };
 
   const showTokensHandler = async () => {
+    setDeactiveToggle(false);
+    setActiveToggle(false);
     setTokenToggle(!tokenToggle);
     if (!tokenToggle) {
       const tokens = await userTokens(session?.access_token as string);
@@ -124,6 +127,8 @@ const SettingsPage: NextPage = () => {
   };
 
   const activeAccountHandler = async () => {
+    setDeactiveToggle(false);
+    setTokenToggle(false);
     const activeAccount = await sendVerifyEmail(session?.access_token as string);
     if (activeAccount.status === 200) {
       setTokenToggle(false);
@@ -161,11 +166,42 @@ const SettingsPage: NextPage = () => {
   };
 
   const deactiveAccountHandler = async () => {
-    await clientSideSessionAction(session, router, setAlertState);
+    setActiveToggle(false);
+    setTokenToggle(false);
+    const deactiveAccount = await sendDeactiveAccount(session?.access_token as string);
+    if (deactiveAccount.status === 200) {
+      setTokenToggle(false);
+      setActiveToggle(false);
+      setAlertState(true, deactiveAccount.message, 'success');
+      setDeactiveToggle(!deactiveToggle);
+    } else if (deactiveAccount.status === 401) {
+      setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
+      setTimeout(async () => {
+        await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+      }, 2000);
+    } else {
+      setAlertState(true, deactiveAccount.message, 'danger');
+    }
   };
 
-  const confirmDeactiveAccountHandler = async () => {
-    await clientSideSessionAction(session, router, setAlertState);
+  const confirmDeactiveAccountHandler = async (code: RH) => {
+    const deactiveAccount = await deactiveAccountByCode(session?.access_token as string, code.current?.value || '');
+    if (deactiveAccount.status === 200) {
+      setAlertState(true, deactiveAccount.message, 'success');
+      setTimeout(async () => {
+        await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+      }, 2000);
+    } else if (deactiveAccount.status === 401) {
+      setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
+      setTimeout(async () => {
+        await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+      }, 2000);
+    } else {
+      setAlertState(true, deactiveAccount.message, 'danger');
+    }
+
+    setActiveToggle(false);
+    setTokenToggle(false);
   };
 
   if (!session) {
@@ -184,6 +220,8 @@ const SettingsPage: NextPage = () => {
       activeAccount={activeAccountHandler}
       confirmActiveAccount={confirmActiveAccountHandler}
       activeToggle={activeToggle}
+      confirmDeactiveAccount={confirmDeactiveAccountHandler}
+      deactiveToggle={deactiveToggle}
     />
   );
 };

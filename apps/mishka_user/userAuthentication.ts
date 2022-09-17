@@ -90,12 +90,28 @@ export const changePassword = async (accessToken: string, curentPassword: string
   return response;
 };
 
-export const sendDeactiveAccount = (userToken: string): void => {
-  // TODO:
+export const sendDeactiveAccount = async (userToken: string): Promise<PublicAuthResponse> => {
+  const response = await authApiRequestSender<PublicAuthResponse>(
+    '/auth/v1/deactive-account',
+    {},
+    {
+      Authorization: `Bearer ${userToken}`,
+    },
+    'POST'
+  );
+  return response;
 };
 
-export const deactiveAccountByCode = (userToken: string, code: string): void => {
-  // TODO:
+export const deactiveAccountByCode = async (userToken: string, code: string): Promise<PublicAuthResponse> => {
+  const response = await authApiRequestSender<PublicAuthResponse>(
+    '/auth/v1/deactive-account',
+    { code: code },
+    {
+      Authorization: `Bearer ${userToken}`,
+    },
+    'POST'
+  );
+  return response;
 };
 
 export const deleteTokens = async (userToken: string): Promise<PublicAuthResponse> => {
