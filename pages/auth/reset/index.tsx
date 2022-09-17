@@ -32,7 +32,7 @@ const ForgetPasswordPage: NextPage = () => {
     if (email.current?.value) {
       const userEmail = email.current.value.trim();
       const resetOutput = await resetPassword(userEmail);
-      if (resetOutput.status === 200 || resetOutput.status === '200') {
+      if (resetOutput.status === 200) {
         setAlertState(true, resetOutput.message, 'info');
         setConfirmCodeStatus(true);
         setUserEmail(userEmail);
@@ -52,7 +52,7 @@ const ForgetPasswordPage: NextPage = () => {
     if (userEmail && newPassword.current?.value && code.current?.value) {
       const confirmResetOutput = await confirmResetPassword(userEmail, newPassword.current?.value.trim(), code.current?.value.trim());
 
-      if (confirmResetOutput.status === 200 || confirmResetOutput.status === '200') {
+      if (confirmResetOutput.status === 200) {
         setAlertState(true, confirmResetOutput.message, 'success');
         setConfirmCodeStatus(false);
         setUserEmail('userEmail');

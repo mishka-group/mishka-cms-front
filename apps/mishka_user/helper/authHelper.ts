@@ -104,7 +104,7 @@ export const clientSideSessionAction = async (session: any, router: NextRouter, 
 
 export const getUserBasicInformationAndTokens = (login: PublicAuthResponse | LoginOutPut) => {
   let newuser;
-  if ((login.status === 200 || login.status === '200') && 'user_info' in login) {
+  if (login.status === 200 && 'user_info' in login) {
     newuser = {
       email: login.user_info.email,
       name: login.user_info.full_name,
