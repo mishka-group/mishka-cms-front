@@ -41,12 +41,12 @@ const SettingsPage: NextPage = () => {
       // and token to set on server side session
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 3000);
+      }, 2000);
     } else if (editedProfile.status === 401) {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 3000);
+      }, 2000);
     } else {
       setAlertState(true, 'Edit Profile: ' + (editedProfile.errors!.full_name || editedProfile.message), 'danger');
     }
@@ -73,12 +73,12 @@ const SettingsPage: NextPage = () => {
         // get new user info and token to set on server side session
         setTimeout(async () => {
           await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-        }, 3000);
+        }, 2000);
       } else if (changededPassword.status === 401) {
         setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
         setTimeout(async () => {
           await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-        }, 3000);
+        }, 2000);
       } else {
         setAlertState(true, 'Change Password: ' + (Object.values(changededPassword.errors!)[0] || changededPassword.message), 'danger');
       }
@@ -94,7 +94,6 @@ const SettingsPage: NextPage = () => {
   const showTokensHandler = async () => {
     setTokenToggle(!tokenToggle);
     if (!tokenToggle) {
-      await clientSideSessionAction(session, router, setAlertState);
       const tokens = await userTokens(session?.access_token as string);
       if (tokens.status === 200) {
         setUserTokensState(tokens.user_tokens_info);
@@ -102,7 +101,7 @@ const SettingsPage: NextPage = () => {
         setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
         setTimeout(async () => {
           await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-        }, 3000);
+        }, 2000);
       }
     }
   };
@@ -121,7 +120,7 @@ const SettingsPage: NextPage = () => {
     // and token to be set on server side session
     setTimeout(async () => {
       await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-    }, 3000);
+    }, 2000);
   };
 
   const activeAccountHandler = async () => {
@@ -134,7 +133,7 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 3000);
+      }, 2000);
     } else {
       setAlertState(true, activeAccount.message, 'danger');
     }
@@ -152,7 +151,7 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 3000);
+      }, 2000);
     } else {
       setAlertState(true, activeAccount.message, 'danger');
     }
