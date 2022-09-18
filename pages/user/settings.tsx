@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { signIn, useSession } from 'next-auth/react';
 import SettingsTemplate from '../../apps/mishka_html/templates/client/user/settings';
 import LoginLoading from '../../apps/mishka_html/UIs/LoginLoading';
-import { useContext, RefObject, FormEvent, useState, Dispatch, SetStateAction } from 'react';
+import { useContext, RefObject, FormEvent, useState, Dispatch, SetStateAction, useReducer } from 'react';
 import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 import {
@@ -12,11 +12,11 @@ import {
   confirmVerifyEmail,
   changePassword,
   editProfile,
-  UserTokens,
   sendDeactiveAccount,
   deactiveAccountByCode,
 } from '../../apps/mishka_user/userAuthentication';
 import { elementDisability } from '../../apps/extra/helper';
+import { INITIAL_STATE, userSettingReducer } from '../../apps/mishka_html/components/state/userSettingsReducer';
 import { useRouter } from 'next/router';
 
 type RH = RefObject<HTMLInputElement>;
@@ -24,10 +24,7 @@ type RH = RefObject<HTMLInputElement>;
 const SettingsPage: NextPage = () => {
   const { data: session, status } = useSession();
   const { setAlertState } = useContext(ClientAlertState);
-  const [userTokensState, setUserTokensState]: [UserTokens[], Dispatch<SetStateAction<any>>] = useState([]);
-  const [tokenToggle, setTokenToggle] = useState(false);
-  const [activeToggle, setActiveToggle] = useState(false);
-  const [deactiveToggle, setDeactiveToggle] = useState(false);
+  const [state, dispatch] = useReducer(userSettingReducer, INITIAL_STATE);
 
   const router = useRouter();
 
@@ -93,13 +90,13 @@ const SettingsPage: NextPage = () => {
   };
 
   const showTokensHandler = async () => {
-    setDeactiveToggle(false);
-    setActiveToggle(false);
-    setTokenToggle(!tokenToggle);
-    if (!tokenToggle) {
+    dispatch({ type: 'SET_DEACTIVE_TOGGLE', payload: false });
+    dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: false });
+    dispatch({ type: 'SET_TOKEN_TOGGLE', payload: !state.tokenToggle });
+    if (!state.tokenToggle) {
       const tokens = await userTokens(session?.access_token as string);
       if (tokens.status === 200) {
-        setUserTokensState(tokens.user_tokens_info);
+        dispatch({ type: 'SET_USER_TOKENS', payload: tokens.user_tokens_info });
       } else if (tokens.status === 401) {
         setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
         setTimeout(async () => {
@@ -127,13 +124,13 @@ const SettingsPage: NextPage = () => {
   };
 
   const activeAccountHandler = async () => {
-    setDeactiveToggle(false);
-    setTokenToggle(false);
+    dispatch({ type: 'SET_DEACTIVE_TOGGLE', payload: false });
+    dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
     const activeAccount = await sendVerifyEmail(session?.access_token as string);
     if (activeAccount.status === 200) {
-      setTokenToggle(false);
+      dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
       setAlertState(true, activeAccount.message, 'success');
-      setActiveToggle(!activeToggle);
+      dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: !state.activeToggle });
     } else if (activeAccount.status === 401) {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
@@ -142,6 +139,7 @@ const SettingsPage: NextPage = () => {
     } else {
       setAlertState(true, activeAccount.message, 'danger');
     }
+    console.log(activeAccount)
   };
 
   // TODO: it should be validate like code is 6 number length
@@ -161,19 +159,19 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, activeAccount.message, 'danger');
     }
 
-    setActiveToggle(false);
-    setTokenToggle(false);
+    dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: false });
+    dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
   };
 
   const deactiveAccountHandler = async () => {
-    setActiveToggle(false);
-    setTokenToggle(false);
+    dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: false });
+    dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
     const deactiveAccount = await sendDeactiveAccount(session?.access_token as string);
     if (deactiveAccount.status === 200) {
-      setTokenToggle(false);
-      setActiveToggle(false);
+      dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
+      dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: false });
+      dispatch({ type: 'SET_DEACTIVE_TOGGLE', payload: !state.deactiveToggle });
       setAlertState(true, deactiveAccount.message, 'success');
-      setDeactiveToggle(!deactiveToggle);
     } else if (deactiveAccount.status === 401) {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
@@ -200,8 +198,8 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, deactiveAccount.message, 'danger');
     }
 
-    setActiveToggle(false);
-    setTokenToggle(false);
+    dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: false });
+    dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
   };
 
   if (!session) {
@@ -215,13 +213,13 @@ const SettingsPage: NextPage = () => {
       showTokens={showTokensHandler}
       deleteTokens={deleteTokensHandler}
       deactive={deactiveAccountHandler}
-      userTokes={userTokensState}
-      tokenToggle={tokenToggle}
       activeAccount={activeAccountHandler}
       confirmActiveAccount={confirmActiveAccountHandler}
-      activeToggle={activeToggle}
       confirmDeactiveAccount={confirmDeactiveAccountHandler}
-      deactiveToggle={deactiveToggle}
+      tokenToggle={state.tokenToggle}
+      activeToggle={state.activeToggle}
+      userTokes={state.userTokensState}
+      deactiveToggle={state.deactiveToggle}
     />
   );
 };
