@@ -16,7 +16,7 @@ import {
   deactiveAccountByCode,
 } from '../../apps/mishka_user/userAuthentication';
 import { elementDisability } from '../../apps/extra/helper';
-import { INITIAL_STATE, userSettingReducer } from '../../apps/mishka_html/components/state/userSettingsReducer';
+import { INITIAL_STATE, userSettingReducer, UserSettingTypes } from '../../apps/mishka_html/components/state/userSettingsReducer';
 import { useRouter } from 'next/router';
 
 type RH = RefObject<HTMLInputElement>;
@@ -24,7 +24,7 @@ type RH = RefObject<HTMLInputElement>;
 const SettingsPage: NextPage = () => {
   const { data: session, status } = useSession();
   const { setAlertState } = useContext(ClientAlertState);
-  const [state, dispatch] = useReducer(userSettingReducer, INITIAL_STATE);
+  const [state, dispatch]: [UserSettingTypes, Dispatch<any>] = useReducer(userSettingReducer, INITIAL_STATE);
 
   const router = useRouter();
 
@@ -90,9 +90,9 @@ const SettingsPage: NextPage = () => {
   };
 
   const showTokensHandler = async () => {
-    dispatch({ type: 'SET_DEACTIVE_TOGGLE', payload: false });
-    dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: false });
-    dispatch({ type: 'SET_TOKEN_TOGGLE', payload: !state.tokenToggle });
+    dispatch({ type: 'SET_DEACTIVE_TOGGLE', status: false });
+    dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
+    dispatch({ type: 'SET_TOKEN_TOGGLE', status: !state.tokenToggle });
     if (!state.tokenToggle) {
       const tokens = await userTokens(session?.access_token as string);
       if (tokens.status === 200) {
@@ -124,13 +124,13 @@ const SettingsPage: NextPage = () => {
   };
 
   const activeAccountHandler = async () => {
-    dispatch({ type: 'SET_DEACTIVE_TOGGLE', payload: false });
-    dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
+    dispatch({ type: 'SET_DEACTIVE_TOGGLE', status: false });
+    dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
     const activeAccount = await sendVerifyEmail(session?.access_token as string);
     if (activeAccount.status === 200) {
-      dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
+      dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
       setAlertState(true, activeAccount.message, 'success');
-      dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: !state.activeToggle });
+      dispatch({ type: 'SET_ACTIVE_TOGGLE', status: !state.activeToggle });
     } else if (activeAccount.status === 401) {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
@@ -159,18 +159,18 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, activeAccount.message, 'danger');
     }
 
-    dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: false });
-    dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
+    dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
+    dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
   };
 
   const deactiveAccountHandler = async () => {
-    dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: false });
-    dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
+    dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
+    dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
     const deactiveAccount = await sendDeactiveAccount(session?.access_token as string);
     if (deactiveAccount.status === 200) {
-      dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
-      dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: false });
-      dispatch({ type: 'SET_DEACTIVE_TOGGLE', payload: !state.deactiveToggle });
+      dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
+      dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
+      dispatch({ type: 'SET_DEACTIVE_TOGGLE', status: !state.deactiveToggle });
       setAlertState(true, deactiveAccount.message, 'success');
     } else if (deactiveAccount.status === 401) {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
@@ -198,8 +198,8 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, deactiveAccount.message, 'danger');
     }
 
-    dispatch({ type: 'SET_ACTIVE_TOGGLE', payload: false });
-    dispatch({ type: 'SET_TOKEN_TOGGLE', payload: false });
+    dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
+    dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
   };
 
   if (!session) {

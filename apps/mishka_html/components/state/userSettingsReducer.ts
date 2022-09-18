@@ -1,21 +1,41 @@
-export const INITIAL_STATE = {
+export interface UserSettingTypes {
+  userTokensState: any[] | never[];
+  tokenToggle: boolean;
+  activeToggle: boolean;
+  deactiveToggle: boolean;
+}
+
+export const INITIAL_STATE: UserSettingTypes = {
   userTokensState: [],
   tokenToggle: false,
   activeToggle: false,
   deactiveToggle: false,
 };
 
-export const userSettingReducer = (state: any, action: {type: string, payload: boolean | any[]}) => {
+enum UserSettingActionTypes {
+  SET_USER_TOKENS = 'SET_USER_TOKENS',
+  SET_TOKEN_TOGGLE = 'SET_TOKEN_TOGGLE',
+  SET_ACTIVE_TOGGLE = 'SET_ACTIVE_TOGGLE',
+  SET_DEACTIVE_TOGGLE = 'SET_DEACTIVE_TOGGLE',
+}
+
+interface UserAction {
+  type: UserSettingActionTypes;
+  payload: any[];
+  status: boolean;
+}
+
+export const userSettingReducer = (state: UserSettingTypes, action: UserAction) => {
   switch (action.type) {
-    case 'SET_USER_TOKENS':
+    case UserSettingActionTypes.SET_USER_TOKENS:
       return { ...state, userTokensState: action.payload };
-    case 'SET_TOKEN_TOGGLE':
-      return { ...state, tokenToggle: action.payload };
-    case 'SET_ACTIVE_TOGGLE':
-      return { ...state, activeToggle: action.payload };
-    case 'SET_DEACTIVE_TOGGLE':
-      return { ...state, deactiveToggle: action.payload };
+    case UserSettingActionTypes.SET_TOKEN_TOGGLE:
+      return { ...state, tokenToggle: action.status };
+    case UserSettingActionTypes.SET_ACTIVE_TOGGLE:
+      return { ...state, activeToggle: action.status };
+    case UserSettingActionTypes.SET_DEACTIVE_TOGGLE:
+      return { ...state, deactiveToggle: action.status };
     default:
-      state;
+      return state;
   }
 };
