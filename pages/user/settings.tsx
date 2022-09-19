@@ -21,6 +21,8 @@ import { useRouter } from 'next/router';
 
 type RH = RefObject<HTMLInputElement>;
 
+const TIMEOUTTIME = 2000
+
 const SettingsPage: NextPage = () => {
   const { data: session, status } = useSession();
   const { setAlertState } = useContext(ClientAlertState);
@@ -44,12 +46,12 @@ const SettingsPage: NextPage = () => {
       // and token to set on server side session
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 2000);
+      }, TIMEOUTTIME);
     } else if (editedProfile.status === 401) {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 2000);
+      }, TIMEOUTTIME);
     } else {
       setAlertState(true, 'Edit Profile: ' + (editedProfile.errors!.full_name || editedProfile.message), 'danger');
     }
@@ -82,12 +84,12 @@ const SettingsPage: NextPage = () => {
         // get new user info and token to set on server side session
         setTimeout(async () => {
           await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-        }, 2000);
+        }, TIMEOUTTIME);
       } else if (changededPassword.status === 401) {
         setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
         setTimeout(async () => {
           await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-        }, 2000);
+        }, TIMEOUTTIME);
       } else {
         setAlertState(true, 'Change Password: ' + (Object.values(changededPassword.errors!)[0] || changededPassword.message), 'danger');
       }
@@ -116,7 +118,7 @@ const SettingsPage: NextPage = () => {
         setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
         setTimeout(async () => {
           await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-        }, 2000);
+        }, TIMEOUTTIME);
       }
     }
   };
@@ -140,7 +142,7 @@ const SettingsPage: NextPage = () => {
     // and token to be set on server side session
     setTimeout(async () => {
       await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-    }, 2000);
+    }, TIMEOUTTIME);
   };
 
   /**
@@ -158,7 +160,7 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 2000);
+      }, TIMEOUTTIME);
     } else {
       setAlertState(true, activeAccount.message, 'danger');
     }
@@ -178,12 +180,12 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, activeAccount.message, 'success');
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 2000);
+      }, TIMEOUTTIME);
     } else if (activeAccount.status === 401) {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 2000);
+      }, TIMEOUTTIME);
     } else {
       setAlertState(true, activeAccount.message, 'danger');
     }
@@ -208,7 +210,7 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 2000);
+      }, TIMEOUTTIME);
     } else {
       setAlertState(true, deactiveAccount.message, 'danger');
     }
@@ -224,12 +226,12 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, deactiveAccount.message, 'success');
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 2000);
+      }, TIMEOUTTIME);
     } else if (deactiveAccount.status === 401) {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-      }, 2000);
+      }, TIMEOUTTIME);
     } else {
       setAlertState(true, deactiveAccount.message, 'danger');
     }
