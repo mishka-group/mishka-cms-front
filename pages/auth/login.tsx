@@ -25,11 +25,11 @@ const LoginPage: NextPage = () => {
    * @param {RH} email - RH, password: RH
    * @param {RH} password - RH - this is the password input reference
    * @returns It is a function that returns a JSX element.
-  */
+   */
   const loginHandler = async (event: FormEvent<HTMLFormElement>, email: RH, password: RH) => {
     event.preventDefault();
 
-    elementDisability('loginButton', true)
+    elementDisability('loginButton', true);
 
     // TODO: in this place we need to sanitize user email and password and prevent from XSS
     if (email.current?.value && password.current?.value) {
@@ -53,7 +53,7 @@ const LoginPage: NextPage = () => {
       }
     }
 
-    elementDisability('loginButton', false)
+    elementDisability('loginButton', false);
   };
 
   // This function can help us to keep the button disabled until when our user sends all the required fields
@@ -62,11 +62,11 @@ const LoginPage: NextPage = () => {
    * button
    * @param {RH} email - RH, password: RH
    * @param {RH} password - RH - this is the password input field
-  */
+   */
   const formHandler = (email: RH, password: RH): void => {
     // TODO: this is the place we should check form validation
     if (email.current?.value && password.current?.value) {
-      elementDisability('loginButton', false)
+      elementDisability('loginButton', false);
     }
   };
 

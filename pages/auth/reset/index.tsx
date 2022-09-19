@@ -32,7 +32,7 @@ const ForgetPasswordPage: NextPage = () => {
   const ForgetPasswordHandler = async (event: FH, email: RH) => {
     event.preventDefault();
 
-    elementDisability('resetButton', true)
+    elementDisability('resetButton', true);
 
     // It is an extra preventer and refresh token for unhandled situation
     clientSideSessionAction(session, router, setAlertState);
@@ -48,7 +48,7 @@ const ForgetPasswordPage: NextPage = () => {
       }
     }
 
-    elementDisability('resetButton', false)
+    elementDisability('resetButton', false);
   };
 
   /**
@@ -61,7 +61,7 @@ const ForgetPasswordPage: NextPage = () => {
   const confirmForgetPasswordHandler = async (event: FH, newPassword: RH, code: RH) => {
     event.preventDefault();
 
-    elementDisability('resetButton', true)
+    elementDisability('resetButton', true);
 
     // TODO: should be santize email input
     // TODO: This place need captcha code
@@ -82,7 +82,7 @@ const ForgetPasswordPage: NextPage = () => {
       }
     }
 
-    elementDisability('resetButton', false)
+    elementDisability('resetButton', false);
   };
 
   const backToResetPassword = () => {

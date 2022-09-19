@@ -24,11 +24,11 @@ const RegisterPage: NextPage = () => {
    * @param {RH} username - RH, email: RH, password: RH
    * @param {RH} email - RH,
    * @param {RH} password - RH
-  */
+   */
   const RegisterHandler = async (event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH, password: RH) => {
     event.preventDefault();
 
-    elementDisability('registerButton', true)
+    elementDisability('registerButton', true);
 
     // Review essential data
     if (fullName.current?.value && username.current?.value && email.current?.value) {
@@ -56,7 +56,7 @@ const RegisterPage: NextPage = () => {
         // TODO: Template side should have validation ui to let user Which field should be filled
         // Show the error system got to user and show a warning alert to fix the problems
         // We need to pass errors for validation forms in template part
-        setFormError(registerOutput.errors ? registerOutput.errors: []);
+        setFormError(registerOutput.errors ? registerOutput.errors : []);
 
         // It is a global error to show user and let him/her focus on the error they get
         setAlertState(true, 'Unfortunately, there is an error in sending the data. Please try again after solving the problem.', 'warning');
@@ -72,7 +72,7 @@ const RegisterPage: NextPage = () => {
       setAlertState(true, 'All required fields must be submitted.', 'warning');
     }
 
-    elementDisability('registerButton', false)
+    elementDisability('registerButton', false);
   };
 
   /**
@@ -85,12 +85,12 @@ const RegisterPage: NextPage = () => {
    * @param {RH} fullName - RH, username: RH, email: RH
    * @param {RH} username - RH, email: RH, fullName: RH
    * @param {RH} email - RH,
-  */
+   */
   const formHandler = (event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH): void => {
     // TODO: this is the place we should check form validation
     deleteTargetedFieldData(event, formError, setFormError);
     if (fullName.current?.value && username.current?.value && email.current?.value) {
-      elementDisability('registerButton', false)
+      elementDisability('registerButton', false);
     }
   };
 
