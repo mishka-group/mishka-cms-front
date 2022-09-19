@@ -29,6 +29,11 @@ const SettingsPage: NextPage = () => {
   const router = useRouter();
 
   // TODO: fullname should be sanetize
+  /**
+   * It's a function that takes a React Hook as an argument and returns a function that takes a string
+   * as an argument. It allows you to change your profile
+   * @param {RH} fullname - RH - This is the React Hook that holds the value of the input field.
+  */
   const editProfileNameHandler = async (fullname: RH) => {
     elementDisability('changeNameButton', true);
     const editedProfile = await editProfile(session?.access_token as string, { full_name: fullname.current?.value.trim() });
@@ -53,6 +58,12 @@ const SettingsPage: NextPage = () => {
   };
 
   // TODO: oldPassword newPassword and should be sanetize
+  /**
+   * It changes the user's password
+   * @param event - FormEvent<HTMLFormElement>
+   * @param {RH} oldPassword - The current password of the user.
+   * @param {RH} newPassword - RH - This is the new password that the user wants to change to.
+  */
   const changePasswordHandler = async (event: FormEvent<HTMLFormElement>, oldPassword: RH, newPassword: RH) => {
     event.preventDefault();
 
@@ -89,6 +100,10 @@ const SettingsPage: NextPage = () => {
     }
   };
 
+  /**
+   * It sets the state of the tokenToggle to the opposite of what it currently is, and if the tokenToggle
+   * is false, it fetches the user's tokens and sets the state of the userTokens to the response
+  */
   const showTokensHandler = async () => {
     dispatch({ type: 'SET_DEACTIVE_TOGGLE', status: false });
     dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
@@ -106,6 +121,11 @@ const SettingsPage: NextPage = () => {
     }
   };
 
+  /**
+   * We delete the tokens from the server, then we decrease the access_expires_in time to let
+   * clientSideSessionAction function refresh token and get new user info and token to be set on server
+   * side session
+  */
   const deleteTokensHandler = async () => {
     const deletedTokens = await deleteTokens(session?.access_token as string);
 
@@ -123,6 +143,9 @@ const SettingsPage: NextPage = () => {
     }, 2000);
   };
 
+  /**
+   * A function that is used to activate a user account.
+  */
   const activeAccountHandler = async () => {
     dispatch({ type: 'SET_DEACTIVE_TOGGLE', status: false });
     dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
@@ -139,10 +162,16 @@ const SettingsPage: NextPage = () => {
     } else {
       setAlertState(true, activeAccount.message, 'danger');
     }
-    console.log(activeAccount)
+    console.log(activeAccount);
   };
 
   // TODO: it should be validate like code is 6 number length
+  /**
+   * It takes a code from the user, sends it to the server, and if the server returns a 200 status, it
+   * sets the alert state to success, and if the server returns a 401 status, it sets the alert state to
+   * success, and if the server returns any other status, it sets the alert state to danger
+   * @param {RH} code - The code that was sent to the user's email address
+  */
   const confirmActiveAccountHandler = async (code: RH) => {
     const activeAccount = await confirmVerifyEmail(session?.access_token as string, code.current?.value || '');
     if (activeAccount.status === 200) {
@@ -163,6 +192,9 @@ const SettingsPage: NextPage = () => {
     dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
   };
 
+  /**
+   * It deactivates the user's account
+  */
   const deactiveAccountHandler = async () => {
     dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
     dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
@@ -182,6 +214,10 @@ const SettingsPage: NextPage = () => {
     }
   };
 
+  /**
+   * It confirms the deactivation of the user account
+   * @param {RH} code - RH - This is the code that is sent to the user's email address.
+  */
   const confirmDeactiveAccountHandler = async (code: RH) => {
     const deactiveAccount = await deactiveAccountByCode(session?.access_token as string, code.current?.value || '');
     if (deactiveAccount.status === 200) {
