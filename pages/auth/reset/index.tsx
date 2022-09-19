@@ -20,6 +20,15 @@ const ForgetPasswordPage: NextPage = () => {
 
   const router = useRouter();
 
+  /**
+   * It's a function that takes two parameters, an event and an email, and it prevents the default
+   * action of the event, disables the reset button, checks if the user is logged in, and if the user
+   * is not logged in, it checks if the email is valid, and if it is, it sends a request to the server
+   * to reset the password, and if the request is successful, it sets the alert state to true, sets the
+   * confirm code status to true, and sets the user email to the email that was passed in
+   * @param {FH} event - FH - this is the event handler for the form
+   * @param {RH} email - is the email input field
+   */
   const ForgetPasswordHandler = async (event: FH, email: RH) => {
     event.preventDefault();
 
@@ -42,6 +51,13 @@ const ForgetPasswordPage: NextPage = () => {
     elementDisability('resetButton', false)
   };
 
+  /**
+   * A function that is called when the user clicks on the "Reset Password" button to confirm change password step.
+   * @param {FH} event - FH - this is the event that is triggered when the form is submitted.
+   * @param {RH} newPassword - This is the new password that the user will use to log in to the
+   * application.
+   * @param {RH} code - RH,
+   */
   const confirmForgetPasswordHandler = async (event: FH, newPassword: RH, code: RH) => {
     event.preventDefault();
 
