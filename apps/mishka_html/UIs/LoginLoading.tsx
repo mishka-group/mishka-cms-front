@@ -11,6 +11,7 @@ const LoginLoading: NextPage<LoginLoadingType> = (props) => {
   const router = useRouter();
   const { setAlertState } = useContext(ClientAlertState);
 
+  /* A timer that will redirect the user to the home page if they are already logged in. */
   useEffect(() => {
     const timeOut = setTimeout(() => {
       setAlertState(true, props.msg ? props.msg : 'You are already logged in', 'warning');

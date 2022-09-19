@@ -4,6 +4,7 @@ import '../styles/globals.css';
 import { SessionProvider } from 'next-auth/react';
 import 'bootstrap/dist/css/bootstrap.css';
 import ClientAlertStateProvider from '../apps/mishka_html/components/state/ClientAlertState';
+
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>

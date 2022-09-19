@@ -21,6 +21,10 @@ const ForgetPasswordTemplate: NextPage<ForgetPasswordTemplateType> = ({ reset, w
   const codeRef: RH = React.createRef();
   const passwordRef: RH = React.createRef();
 
+  /**
+   * It returns a form with an email input and a submit button
+   * @returns A form with a text field and a button.
+   */
   const SendResetPasswordForm = () => {
     return (
       <form id="ClientLoginForm" onSubmit={(event) => reset(event, emailRef)}>
@@ -36,6 +40,10 @@ const ForgetPasswordTemplate: NextPage<ForgetPasswordTemplateType> = ({ reset, w
     );
   };
 
+  /**
+   * It returns a form with two input fields and a submit button
+   * @returns A form with a text field, a password field, and a button.
+   */
   const ConfirmResetPasswordForm = () => {
     return (
       <form id="ClientLoginForm" onSubmit={(event) => confirmReset(event, passwordRef, codeRef)}>

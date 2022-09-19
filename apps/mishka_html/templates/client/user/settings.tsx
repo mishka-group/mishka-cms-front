@@ -45,11 +45,17 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
   const activeCodeRef: RH = createRef();
   const deactiveCodeRef: RH = createRef();
 
+  /* Good for UX, let user see his name if he/her, if he/her wants so changes it, after changing the
+  name and submit the page will be reloaded */
   useEffect(() => {
     // It is good for UX, let user see his name if he/her, if he/her wants so changes it, after changing the name and submit the page will be reloaded
     (document.getElementById('fullName') as HTMLInputElement).value = session?.user?.name || '';
   }, []);
 
+  /**
+   * It's a function that returns a div with a label, a text field, and a button
+   * @returns A react component that contains a form to confirm deactivation of an account.
+   */
   const ConfirmDectivationCode = () => {
     return (
       <>

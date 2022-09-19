@@ -12,6 +12,7 @@ interface PasswordFieldType {
 
 // This function helps us to pass Ref in nested component and manage the Ref in parent component
 // This component is used for (password) field
+/* This is a React component that is used for password field. */
 const PasswordField = React.forwardRef((props: PasswordFieldType, ref: any) => {
   return (
     <>

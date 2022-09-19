@@ -6,6 +6,11 @@ interface CollapseButtonType {
   children: JSX.Element;
 }
 
+/**
+ * This function returns a button that toggles the collapse of a navbar
+ * @param props - {
+ * @returns A button that is a navbar-toggler and navbar-dark.
+ */
 const CollapseButton: NextPage<CollapseButtonType> = (props): JSX.Element => {
   return (
     <div>

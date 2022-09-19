@@ -27,8 +27,10 @@ const ClinetMainMenu: NextPage<ClientMenuType> = ({ active }): JSX.Element => {
 
   const loginPreventer = ['/auth/login', '/auth/register', '/auth/reset'];
 
-  // This way can help us to remove duplicate code in each file that needs to be checked,
   // This just runs once when we need to render whole the component
+  // This way can help us to remove duplicate code in each file that needs to be checked,
+  /* Checking if the user is logged in or not, if the user is logged in it will redirect to the admin
+  page. */
   useEffect(() => {
     async function activeSession(session: any, router: any, setAlertState: any) {
       await clientSideSessionAction(session, router, setAlertState);

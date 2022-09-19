@@ -42,12 +42,22 @@ const ClientAlertStateProvider: NextPage<{ children: JSX.Element }> = ({ childre
   // This is the local state and action function to bind the state concerned, it is same like stateStructuer schema but without setter functions
   const [alert, setAlert] = useState<SetAlertType>({ status: false, alertMessage: '', alertType: 'info' });
 
-  // Set a new alert into ClientAlertState context
+  /**
+   * It sets the state of the alert. Set a new alert into ClientAlertState context.
+   * @param {boolean} status - boolean - This is the status of the alert. If it's true, the alert will
+   * be shown. If it's false, the alert will be hidden.
+   * @param {string} alertMessage - The message you want to display in the alert.
+   * @param {AlertType} alertType - AlertType - This is an enum that I created to define the type of
+   * alert.
+   */
   const setAlertState = (status: boolean, alertMessage: string, alertType: AlertType) => {
     setAlert({ status: status, alertMessage: alertMessage, alertType: alertType });
   };
 
-  // clean existed alert into ClientAlertState context
+  /**
+   * It sets the alert state to false, and clears the alert message and alert type
+   * clean existed alert into ClientAlertState context
+   */
   const clearAlertState = () => {
     setAlert({ status: false, alertMessage: '', alertType: 'info' });
   };

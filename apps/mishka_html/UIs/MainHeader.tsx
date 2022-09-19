@@ -5,6 +5,10 @@ import webSiteLogo from '../../../public/mylogo.png';
 
 // TODO: {styles.rtl} or {styles.ltr} should be changed by multi-language support
 
+/**
+ * A React component that renders a header with a logo.
+ * @returns A React component
+ */
 const MainHeader: NextPage = () => {
   return (
     <div id="clientMainHeader" className="container">

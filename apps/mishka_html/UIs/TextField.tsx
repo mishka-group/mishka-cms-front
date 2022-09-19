@@ -11,6 +11,7 @@ interface TextFieldType {
   required?: boolean
 }
 
+/* This is a React.forwardRef function. It is used to pass ref to a component. */
 // This function helps us to pass Ref in nested component and manage the Ref in parent component
 // This component is used for (text, email) field
 const TextField = React.forwardRef((props: TextFieldType, ref: any) => {
@@ -30,4 +31,5 @@ const TextField = React.forwardRef((props: TextFieldType, ref: any) => {
     </>
   );
 });
+
 export default TextField;

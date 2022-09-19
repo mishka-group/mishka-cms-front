@@ -25,6 +25,12 @@ interface UserAction {
   status: boolean;
 }
 
+/**
+ * It takes in a state and an action, and returns a new state based on the action type
+ * @param {UserSettingTypes} state - UserSettingTypes
+ * @param {UserAction} action - UserAction
+ * @returns The state is being returned.
+ */
 export const userSettingReducer = (state: UserSettingTypes, action: UserAction) => {
   switch (action.type) {
     case UserSettingActionTypes.SET_USER_TOKENS:
