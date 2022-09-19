@@ -17,6 +17,15 @@ const LoginPage: NextPage = () => {
   const { setAlertState } = useContext(ClientAlertState);
 
   // If a user wants to login in website, can use this Handler, but before logining in the site he/her is checked for having session or not?
+  /**
+   * It takes an event, email and password as arguments, and then it calls the signIn function from the
+   * API
+   * @param event - FormEvent<HTMLFormElement> - this is the event that is triggered when the form is
+   * submitted.
+   * @param {RH} email - RH, password: RH
+   * @param {RH} password - RH - this is the password input reference
+   * @returns It is a function that returns a JSX element.
+  */
   const loginHandler = async (event: FormEvent<HTMLFormElement>, email: RH, password: RH) => {
     event.preventDefault();
 
@@ -48,6 +57,12 @@ const LoginPage: NextPage = () => {
   };
 
   // This function can help us to keep the button disabled until when our user sends all the required fields
+  /**
+   * It takes two React Hooks as arguments, and if both of them have a value, it will disable the login
+   * button
+   * @param {RH} email - RH, password: RH
+   * @param {RH} password - RH - this is the password input field
+  */
   const formHandler = (email: RH, password: RH): void => {
     // TODO: this is the place we should check form validation
     if (email.current?.value && password.current?.value) {

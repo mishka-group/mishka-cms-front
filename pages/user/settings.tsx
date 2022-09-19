@@ -32,7 +32,7 @@ const SettingsPage: NextPage = () => {
   /**
    * It's a function that takes a React Hook as an argument and returns a function that takes a string
    * as an argument. It allows you to change your profile
-   * @param {RH} fullname - RH - This is the React Hook that holds the value of the input field.
+   * @param {RH} fullname - RH - This is the React Hook that holds the user full name value of the input field.
   */
   const editProfileNameHandler = async (fullname: RH) => {
     elementDisability('changeNameButton', true);
