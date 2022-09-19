@@ -16,9 +16,15 @@ const RegisterPage: NextPage = () => {
   const { data: session, status } = useSession();
   const { setAlertState } = useContext(ClientAlertState);
   const [formError, setFormError]: [CutomObject, Dispatch<SetStateAction<CutomObject>>] = useState({});
-  const router = useRouter();
 
-  // If a user wants to register in website, can use this Handler, but before Registering in the site he/her is checked for having session or not?
+  /**
+   * It's a function that sends the data to the server and returns the result to the user
+   * @param event - FormEvent<HTMLFormElement>
+   * @param {RH} fullName - The full name of the user
+   * @param {RH} username - RH, email: RH, password: RH
+   * @param {RH} email - RH,
+   * @param {RH} password - RH
+  */
   const RegisterHandler = async (event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH, password: RH) => {
     event.preventDefault();
 
@@ -69,10 +75,17 @@ const RegisterPage: NextPage = () => {
     elementDisability('registerButton', false)
   };
 
-  // This function can help us to delete a specific field error to let user write correct data
-  // And we can keep the button disabled until when our user sends all the required fields
-  // Our resource:
-  // - https://stackoverflow.com/questions/73687869/delete-an-object-prevents-react-component-working
+  /**
+   * This function can help us to delete a specific field error to let user write correct data and we
+   * can keep the button disabled until when our user sends all the required fields
+   * This function can help us to delete a specific field error to let user write correct data
+   * Our resource:
+   * - https://stackoverflow.com/questions/73687869/delete-an-object-prevents-react-component-working
+   * @param event - FormEvent<HTMLFormElement>
+   * @param {RH} fullName - RH, username: RH, email: RH
+   * @param {RH} username - RH, email: RH, fullName: RH
+   * @param {RH} email - RH,
+  */
   const formHandler = (event: FormEvent<HTMLFormElement>, fullName: RH, username: RH, email: RH): void => {
     // TODO: this is the place we should check form validation
     deleteTargetedFieldData(event, formError, setFormError);
@@ -82,6 +95,7 @@ const RegisterPage: NextPage = () => {
   };
 
   // It is an extra check to prevent user not to see this page
+  // If a user wants to register in website, can use this Handler, but before Registering in the site he/her is checked for having session or not?
   if (session) {
     return <LoginLoading />;
   }
