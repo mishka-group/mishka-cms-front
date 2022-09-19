@@ -4,6 +4,15 @@ import { PublicAuthResponse, LoginOutPut, refreshToken, logout } from '../userAu
 type Method = 'POST' | 'GET' | 'DELETE' | 'PUT';
 type Header = { [key: string]: string };
 
+/**
+ * It sends a request to the API, and returns a promise that resolves to either an error object or a
+ * success object
+ * @param {string} router - string - the router of the API endpoint
+ * @param {object} body - The body of the request.
+ * @param {Header} header - Header - This is the header object that contains the authorization token.
+ * @param {Method} method - The HTTP method to use.
+ * @returns A promise that resolves to an object of type T.
+ */
 export const authApiRequestSender = async <T>(router: string, body: object, header: Header, method: Method): Promise<T> => {
   try {
     const request = await fetch(process.env.api_url + router, {
@@ -23,6 +32,18 @@ export const authApiRequestSender = async <T>(router: string, body: object, head
   }
 };
 
+/**
+ * It takes a response object, and returns an error object
+ * @param response - Awaited<any>
+ * @returns An object with the following properties:
+ *   status: number
+ *   statusText: string
+ *   url: string
+ *   action: string
+ *   message: string
+ *   system: string
+ *   errors: string[]
+ */
 const getAuthError = async <T>(response: Awaited<any>): Promise<T> => {
   let error: any = {};
   const errorResponse = await response;
@@ -44,6 +65,11 @@ const getAuthError = async <T>(response: Awaited<any>): Promise<T> => {
   return error;
 };
 
+/**
+ * It takes a response object, and returns a promise that resolves to an object with a status property
+ * @param {any} response - The response object from the fetch call.
+ * @returns a promise that resolves to an object with a status property.
+ */
 const getAuthSuccessResponse = async <T>(response: any): Promise<T> => {
   const successResponse = await response;
   const data = await successResponse.json();
@@ -51,7 +77,11 @@ const getAuthSuccessResponse = async <T>(response: any): Promise<T> => {
   return mergedStatusData;
 };
 
-const createAuthUnhandledErrorObject = async <T>(router: string)=> {
+/**
+ * It creates an object that contains the error information for Unhandled error.
+ * @param {string} router - string - the router that the error occurred on
+ */
+const createAuthUnhandledErrorObject = async <T>(router: string) => {
   // TODO: can be error sender to log server
   const data = {
     status: 500,
@@ -63,9 +93,17 @@ const createAuthUnhandledErrorObject = async <T>(router: string)=> {
     errors: [],
   };
 
-  return data
+  return data;
 };
 
+/**
+ * If the user's access token is expired, but the refresh token is still valid, then refresh the access
+ * token. If the refresh token is expired, then log the user out
+ * @param {any} session - The session object returned by NextAuth.js
+ * @param {NextRouter} router - NextRouter - This is the router object from Next.js.
+ * @param {any} setAlertState - This is a function that sets the alert state.
+ * @returns The return value is a function that takes in a session, router, and setAlertState.
+ */
 export const clientSideSessionAction = async (session: any, router: NextRouter, setAlertState: any) => {
   let nowUnixDate = Math.floor(Date.now() / 1000);
   if (session && session.access_expires_in <= nowUnixDate && session.refresh_expires_in >= nowUnixDate) {
@@ -102,6 +140,10 @@ export const clientSideSessionAction = async (session: any, router: NextRouter, 
   }
 };
 
+/**
+ * It takes a login object and returns a new user basic object which includes user information and token.
+ * @param {PublicAuthResponse | LoginOutPut} login - PublicAuthResponse | LoginOutPut
+ */
 export const getUserBasicInformationAndTokens = (login: PublicAuthResponse | LoginOutPut) => {
   let newuser;
   if (login.status === 200 && 'user_info' in login) {
@@ -126,6 +168,11 @@ export const getUserBasicInformationAndTokens = (login: PublicAuthResponse | Log
   throw new Error(JSON.stringify(login));
 };
 
+/**
+ * If the access token is expired, refresh it. If the refresh token is expired, logout
+ * @param {any} credentials - The credentials object that is returned from the login function.
+ * @returns an object with the following properties:
+ */
 export const checkTokenToRefresh = async (credentials: any) => {
   let nowUnixDate = Math.floor(Date.now() / 1000);
   if (credentials.access_expires_in <= nowUnixDate && credentials.refresh_expires_in >= nowUnixDate) {
