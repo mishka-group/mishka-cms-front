@@ -21,7 +21,7 @@ import { useRouter } from 'next/router';
 
 type RH = RefObject<HTMLInputElement>;
 
-const TIMEOUTTIME = 2000
+const TIMEOUTTIME = 2000;
 
 const SettingsPage: NextPage = () => {
   const { data: session, status } = useSession();

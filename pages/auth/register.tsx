@@ -1,9 +1,7 @@
 import type { NextPage } from 'next';
 import { FormEvent, RefObject, useContext, useState, Dispatch, SetStateAction } from 'react';
 import RegisterTemplate from '../../apps/mishka_html/templates/client/auth/register';
-import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { register } from '../../apps/mishka_user/userAuthentication';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 import { deleteTargetedFieldData, elementDisability } from '../../apps/extra/helper';

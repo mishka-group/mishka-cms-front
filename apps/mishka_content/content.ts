@@ -1,3 +1,27 @@
+type ObjectResponse<T> = { [key: string]: T };
+
+interface PublicContentResponse {
+  status?: number | string;
+  statusText?: string;
+  url?: string;
+  action: string;
+  message: string;
+  system: 'content';
+  errors?: { [key: string]: any };
+}
+
+interface PostsResponse extends PublicContentResponse {
+  entries: Array<ObjectResponse<any>>;
+  page_number: number;
+  page_size: number;
+  total_entries: number;
+  total_pages: number;
+}
+
+interface PostResponse extends PublicContentResponse {
+  post_info: ObjectResponse<any>;
+}
+
 export const posts = () => {};
 
 export const post = () => {};

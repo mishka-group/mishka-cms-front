@@ -3,7 +3,6 @@ import LoginTemplate from '../../apps/mishka_html/templates/client/auth/login';
 import { FormEvent, RefObject } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { useContext } from 'react';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 import LoginLoading from '../../apps/mishka_html/UIs/LoginLoading';
