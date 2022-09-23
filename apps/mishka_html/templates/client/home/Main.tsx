@@ -13,7 +13,7 @@ interface HomeTemplateTypes {
   featuredPosts: PostsResponse;
 }
 
-const Main: NextPage<HomeTemplateTypes> = ({ posts, featuredPosts }) => {
+const MainTemplate: NextPage<HomeTemplateTypes> = ({ posts, featuredPosts }) => {
   return (
     <div id="clientMain">
       <MainHeader />
@@ -33,4 +33,4 @@ const Main: NextPage<HomeTemplateTypes> = ({ posts, featuredPosts }) => {
   );
 };
 
-export default Main;
+export default MainTemplate;

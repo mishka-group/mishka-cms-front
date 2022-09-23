@@ -6,7 +6,7 @@ type ObjectResponse<T> = { [key: string]: T };
 const BlogItem: NextPage<ObjectResponse<any>> = ({ post }) => {
   return (
     <>
-      <article className="col-sm-3 home-blog-posts-normal-with-body rtl home-image-post" data-phx-component="10" id="phx-Fxdx6wquaNN1MQ5C-10-0">
+      <article className="col-sm-3 home-blog-posts-normal-with-body rtl home-image-post">
         <article className="container-fluid home-image-post  rtl home-image-post">
           <a href="/blog/subject-6" className="img-fluid client-home-normal-post-image">
             <Image src={`http://localhost:4000${post.main_image}`} alt={post.title} width="292" height="150" priority />
@@ -48,7 +48,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post }) => {
                 </a>
               </span>
               <span className="col-sm text-start float-left normal-home-post-like">
-                0
+              {post.like_count}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

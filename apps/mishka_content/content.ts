@@ -23,15 +23,8 @@ export interface PostResponse extends PublicContentResponse {
   post_info: ObjectResponse<any>;
 }
 
-export const posts = async (accessToken: string, params: ObjectResponse<any>) => {
-  const response = await contentApiRequestSender<PostsResponse>(
-    '/content/v1/posts',
-    params,
-    {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    'POST'
-  );
+export const posts = async (params: ObjectResponse<any>) => {
+  const response = await contentApiRequestSender<PostsResponse>('/content/v1/posts', params, {}, 'POST');
   return response;
 };
 

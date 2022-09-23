@@ -1,12 +1,9 @@
-import type { NextPage, GetServerSideProps } from 'next';
+import type { NextPage, GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useSession } from 'next-auth/react';
-import { unstable_getServerSession, Session, NextAuthOptions } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]';
-import type { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { ClientAlertState } from '../apps/mishka_html/components/state/ClientAlertState';
-import Main from '../apps/mishka_html/templates/client/home/Main';
+import MainTemplate from '../apps/mishka_html/templates/client/home/Main';
 import { posts, PostsResponse } from '../apps/mishka_content/content';
 import { clientSideSessionAction } from '../apps/mishka_user/helper/authHelper';
 
@@ -20,42 +17,26 @@ const Home: NextPage<HomeTypes> = ({ posts, featuredPosts }) => {
   const { setAlertState } = useContext(ClientAlertState);
   const router = useRouter();
 
-  // TODO: it should be deleted, the page needs to be friendly with SEO does not need any token or sth just load content directly
-  if (posts.status == 401) {
-    clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
-  }
-
   return (
     <>
-      <Main posts={posts} featuredPosts={featuredPosts}/>
+      <MainTemplate posts={posts} featuredPosts={featuredPosts} />
     </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const { req }: { req: GetServerSidePropsContext['req'] } = context;
-  const { res }: { res: GetServerSidePropsContext['res'] } = context;
-
-  const serverSideSessionCheck: Session | null = await unstable_getServerSession(req, res, authOptions as NextAuthOptions);
-  const lastPosts = await posts((serverSideSessionCheck?.access_token as string) || 'null', {
-    page: 1,
-    filters: {
-      status: 'active',
-    },
-  });
-
-  const lastFeaturedPosts = await posts((serverSideSessionCheck?.access_token as string) || 'null', {
-    page: 1,
-    filters: {
-      priority: 'featured',
-      status: 'active',
-    },
-  });
+  // Getting response and server side Session
+  // const { req }: { req: GetServerSidePropsContext['req'] } = context;
+  // const { res }: { res: GetServerSidePropsContext['res'] } = context;
+  // const serverSideSessionCheck: Session | null = await unstable_getServerSession(req, res, authOptions as NextAuthOptions);
+  const postsParams = { page: 1, filters: { status: 'active' } };
+  const lastPosts = await posts(postsParams);
+  const lastFeaturedPosts = await posts({ ...postsParams, filters: { priority: 'featured', status: 'active' } });
 
   return {
     props: {
       posts: lastPosts,
-      featuredPosts: lastFeaturedPosts
+      featuredPosts: lastFeaturedPosts,
     },
   };
 };
