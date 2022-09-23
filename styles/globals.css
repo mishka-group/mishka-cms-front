@@ -3267,6 +3267,7 @@ select.form-select {
   overflow: hidden;
 }
 
+.client-home-normal-post-image img,
 .client-home-normal-post-image {
   max-height: 150px !important;
   object-fit: cover !important;

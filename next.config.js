@@ -4,7 +4,11 @@ const nextConfig = {
   swcMinify: true,
   env: {
     api_url: 'http://localhost:4001/api',
-  }
-}
+  },
+  images: {
+    domains: ['localhost'],
+  },
+  experimental: { images: { allowFutureImage: true } },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
