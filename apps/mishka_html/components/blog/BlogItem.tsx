@@ -8,7 +8,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post }) => {
     <>
       <article className="col-sm-3 home-blog-posts-normal-with-body rtl home-image-post" data-phx-component="10" id="phx-Fxdx6wquaNN1MQ5C-10-0">
         <article className="container-fluid home-image-post  rtl home-image-post">
-          <a data-phx-link="redirect" data-phx-link-state="push" href="/blog/subject-6" className="img-fluid client-home-normal-post-image">
+          <a href="/blog/subject-6" className="img-fluid client-home-normal-post-image">
             <Image src={`http://localhost:4000${post.main_image}`} alt={post.title} width="292" height="150" priority />
           </a>
 
@@ -34,9 +34,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post }) => {
           <div className="space10"></div>
           <header className="home-blog-posts-normal-with-body-header bot-home-page-body">
             <h2 className="normal-home-posts-link">
-              <a data-phx-link="redirect" data-phx-link-state="push" href="/blog/subject-6">
-                {post.title}
-              </a>
+              <a href="/blog/subject-6">{post.title}</a>
             </h2>
             <div className="space20"></div>
             {post.short_description}
@@ -45,7 +43,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post }) => {
           <footer className="home-blog-posts-normal-with-body-footer">
             <div className="row">
               <span className="col-sm text-end float-right">
-                <a className="btn btn-outline-secondary btn-lg" data-phx-link="redirect" data-phx-link-state="push" href="/blog/subject-6">
+                <a className="btn btn-outline-secondary btn-lg" href="/blog/subject-6">
                   ادامه مطلب
                 </a>
               </span>

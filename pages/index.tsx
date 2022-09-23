@@ -12,9 +12,10 @@ import { clientSideSessionAction } from '../apps/mishka_user/helper/authHelper';
 
 interface HomeTypes {
   posts: PostsResponse;
+  featuredPosts: PostsResponse;
 }
 
-const Home: NextPage<HomeTypes> = ({ posts }) => {
+const Home: NextPage<HomeTypes> = ({ posts, featuredPosts }) => {
   const { data: session } = useSession();
   const { setAlertState } = useContext(ClientAlertState);
   const router = useRouter();
@@ -26,7 +27,7 @@ const Home: NextPage<HomeTypes> = ({ posts }) => {
 
   return (
     <>
-      <Main posts={posts} />
+      <Main posts={posts} featuredPosts={featuredPosts}/>
     </>
   );
 };
@@ -43,9 +44,18 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
     },
   });
 
+  const lastFeaturedPosts = await posts((serverSideSessionCheck?.access_token as string) || 'null', {
+    page: 1,
+    filters: {
+      priority: 'featured',
+      status: 'active',
+    },
+  });
+
   return {
     props: {
       posts: lastPosts,
+      featuredPosts: lastFeaturedPosts
     },
   };
 };
