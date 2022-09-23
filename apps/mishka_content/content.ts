@@ -1,3 +1,4 @@
+import { contentApiRequestSender } from './helper/contentHelper';
 type ObjectResponse<T> = { [key: string]: T };
 
 interface PublicContentResponse {
@@ -10,7 +11,7 @@ interface PublicContentResponse {
   errors?: { [key: string]: any };
 }
 
-interface PostsResponse extends PublicContentResponse {
+export interface PostsResponse extends PublicContentResponse {
   entries: Array<ObjectResponse<any>>;
   page_number: number;
   page_size: number;
@@ -18,13 +19,33 @@ interface PostsResponse extends PublicContentResponse {
   total_pages: number;
 }
 
-interface PostResponse extends PublicContentResponse {
+export interface PostResponse extends PublicContentResponse {
   post_info: ObjectResponse<any>;
 }
 
-export const posts = () => {};
+export const posts = async (accessToken: string, params: ObjectResponse<any>) => {
+  const response = await contentApiRequestSender<PostsResponse>(
+    '/content/v1/posts',
+    params,
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
+  return response;
+};
 
-export const post = () => {};
+export const post = async (accessToken: string, aliasLink: string, status: string = 'active') => {
+  const response = await contentApiRequestSender<PostResponse>(
+    '/content/v1/post',
+    { alias_link: aliasLink, status: status },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
+  return response;
+};
 
 export const likePost = () => {};
 

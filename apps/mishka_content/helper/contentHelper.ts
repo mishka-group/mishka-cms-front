@@ -29,6 +29,7 @@ const getcontentError = async <T>(response: Awaited<any>): Promise<T> => {
     statusText: errorResponse.statusText,
     url: errorResponse.url,
   };
+
   const data = await errorResponse.json();
   error = {
     ...error,
@@ -58,7 +59,7 @@ const createConentUnhandledErrorObject = async <T>(router: string) => {
     url: router,
     action: 'system',
     message: 'Unhandled Error',
-    system: 'user',
+    system: 'content',
     errors: [],
   };
 

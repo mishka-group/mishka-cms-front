@@ -2,9 +2,15 @@ import type { NextPage } from 'next';
 import MainHeader from '../../../UIs/MainHeader';
 import ClinetMainMenu from '../../../components/navigation/ClinetMainMenu';
 import Alert from '../../../components/notices/Alert';
+import type { PostsResponse } from '../../../../mishka_content/content';
+
 // TODO: {styles.rtl} or {styles.ltr} should be changed by multi-language support
 
-const Main: NextPage = () => {
+interface HomeTemplateTypes {
+  posts: PostsResponse;
+}
+
+const Main: NextPage<HomeTemplateTypes> = ({ posts }) => {
   return (
     <div id="clientMain">
       <MainHeader />

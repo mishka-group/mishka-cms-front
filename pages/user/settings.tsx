@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
-import { signIn, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import SettingsTemplate from '../../apps/mishka_html/templates/client/user/settings';
 import LoginLoading from '../../apps/mishka_html/UIs/LoginLoading';
-import { useContext, RefObject, FormEvent, useState, Dispatch, SetStateAction, useReducer } from 'react';
+import { useContext, RefObject, FormEvent, Dispatch, useReducer } from 'react';
 import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 import {
