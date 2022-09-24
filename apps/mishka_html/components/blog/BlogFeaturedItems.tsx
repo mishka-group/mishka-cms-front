@@ -18,7 +18,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                   id={posts[0].id}
                   width="620"
                   height="330"
-                  priority
+                  priority={true}
                 />
               </a>
             </Link>
@@ -82,7 +82,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                     id={posts[1].id}
                     width="305"
                     height="150"
-                    priority
+                    priority={true}
                   />
                 </a>
               </Link>
@@ -139,7 +139,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                     id={posts[2].id}
                     width="305"
                     height="150"
-                    priority
+                    priority={true}
                   />
                 </a>
               </Link>
@@ -200,7 +200,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                     id={posts[3].id}
                     width="305"
                     height="150"
-                    priority
+                    priority={true}
                   />
                 </a>
               </Link>
@@ -250,14 +250,16 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
 
             <article className="col-sm-6  rtl client-home-normal-post-article">
               <Link href={`blog/${posts[4].alias_link}`} className="img-fluid client-home-normal-post-image">
-                <Image
-                  src={`http://localhost:4000${posts[4].main_image}`}
-                  alt={posts[4].title}
-                  id={posts[4].id}
-                  width="305"
-                  height="150"
-                  priority
-                />
+                <a>
+                  <Image
+                    src={`http://localhost:4000${posts[4].main_image}`}
+                    alt={posts[4].title}
+                    id={posts[4].id}
+                    width="305"
+                    height="150"
+                    priority={true}
+                  />
+                </a>
               </Link>
               <section className="home-post-like-bookmarks-header-type">
                 <Link href={`blog/${posts[4].alias_link}`}>

@@ -8,7 +8,6 @@ const nextConfig = {
   images: {
     domains: ['localhost'],
   },
-  experimental: { images: { allowFutureImage: true } },
 };
 
 module.exports = nextConfig;
