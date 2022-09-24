@@ -14,10 +14,8 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
               <Image
                 src={`http://localhost:4000${post.main_image}`}
                 alt={post.title}
-                // width="292"
-                // height="150"
                 fill
-                sizes="(max-width: 292px) 100vw,(max-width: 292px) 50vw,33vw"
+                sizes="(max-width: 292px)"
                 priority={true}
                 className="img-fluid client-home-normal-post-image"
               />

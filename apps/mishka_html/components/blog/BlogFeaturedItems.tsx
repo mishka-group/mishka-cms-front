@@ -22,11 +22,9 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                       src={`http://localhost:4000${item.main_image}`}
                       alt={item.title}
                       id={item.id}
-                      // width="620"
-                      // height="150"
                       priority={true}
                       fill
-                      sizes="(max-width: 620px) 100vw,(max-width: 620px) 50vw,33vw"
+                      sizes="(max-width: 620px)"
                       className="img-fluid client-home-header-post-image"
                     />
                   </div>
@@ -93,8 +91,6 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                   src={`http://localhost:4000${posts[0].main_image}`}
                   alt={posts[0].title}
                   id={posts[0].id}
-                  // width="620"
-                  // height="330"
                   priority={true}
                   fill
                   sizes="(max-width: 620px)"
@@ -160,8 +156,6 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                     src={`http://localhost:4000${posts[1].main_image}`}
                     alt={posts[1].title}
                     id={posts[1].id}
-                    // width="305"
-                    // height="150"
                     priority={true}
                     fill
                     sizes="(max-width: 305px)"
@@ -220,8 +214,6 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                     src={`http://localhost:4000${posts[2].main_image}`}
                     alt={posts[2].title}
                     id={posts[2].id}
-                    // width="305"
-                    // height="150"
                     priority={true}
                     fill
                     sizes="(max-width: 305px)"
@@ -284,8 +276,6 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                     src={`http://localhost:4000${posts[3].main_image}`}
                     alt={posts[3].title}
                     id={posts[3].id}
-                    // width="305"
-                    // height="150"
                     priority={true}
                     fill
                     sizes="(max-width: 305px)"
@@ -344,8 +334,6 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                     src={`http://localhost:4000${posts[4].main_image}`}
                     alt={posts[4].title}
                     id={posts[4].id}
-                    // width="305"
-                    // height="150"
                     priority={true}
                     fill
                     sizes="(max-width: 305px)"
