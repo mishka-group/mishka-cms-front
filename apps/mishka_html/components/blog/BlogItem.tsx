@@ -11,7 +11,16 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
         <article className="container-fluid home-image-post home-image-post">
           <Link href={`blog/${post.alias_link}`}>
             <a className="img-fluid client-home-normal-post-image">
-              <Image src={`http://localhost:4000${post.main_image}`} alt={post.title} width="292" height="150" priority={true} />
+              <Image
+                src={`http://localhost:4000${post.main_image}`}
+                alt={post.title}
+                // width="292"
+                // height="150"
+                fill
+                sizes="(max-width: 292px) 100vw,(max-width: 292px) 50vw,33vw"
+                priority={true}
+                className="img-fluid client-home-normal-post-image"
+              />
             </a>
           </Link>
 
@@ -62,7 +71,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
 
             <div className="speacer10"> </div>
             <div>
-              <span className='text-start'>
+              <span className="text-start">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

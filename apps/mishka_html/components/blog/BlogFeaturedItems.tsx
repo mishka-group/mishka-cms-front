@@ -17,16 +17,19 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
             <article className="col-sm-6 client-home-header-post-article" key={item.id}>
               <article className="container-fluid home-image-post">
                 <Link href={`blog/${item.alias_link}`}>
-                  <a className="img-fluid client-home-header-post-image">
+                  <div className="img-fluid client-home-header-post-image">
                     <Image
                       src={`http://localhost:4000${item.main_image}`}
                       alt={item.title}
                       id={item.id}
-                      width="620"
-                      height="150"
+                      // width="620"
+                      // height="150"
                       priority={true}
+                      fill
+                      sizes="(max-width: 620px) 100vw,(max-width: 620px) 50vw,33vw"
+                      className="img-fluid client-home-header-post-image"
                     />
-                  </a>
+                  </div>
                 </Link>
                 <section className="home-post-like-bookmarks-header-type">
                   <Link href={`blog/${item.alias_link}`}>
@@ -85,16 +88,19 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
         <article className="col-sm-6 top-home-page-normal-post-article">
           <article className="container-fluid home-image-post client-home-featured-post-article">
             <Link href={`blog/${posts[0].alias_link}`}>
-              <a className="img-fluid client-home-featured-post-image">
+              <div className="img-fluid client-home-featured-post-image">
                 <Image
                   src={`http://localhost:4000${posts[0].main_image}`}
                   alt={posts[0].title}
                   id={posts[0].id}
-                  width="620"
-                  height="330"
+                  // width="620"
+                  // height="330"
                   priority={true}
+                  fill
+                  sizes="(max-width: 620px)"
+                  className="img-fluid client-home-featured-post-image"
                 />
-              </a>
+              </div>
             </Link>
 
             <section className="home-post-like-bookmarks-header-type-banner">
@@ -149,16 +155,19 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
           <div className="row">
             <article className="col-sm-6 client-home-normal-post-article">
               <Link href={`blog/${posts[1].alias_link}`}>
-                <a className="img-fluid client-home-normal-post-image">
+                <div className="img-fluid client-home-normal-post-image">
                   <Image
                     src={`http://localhost:4000${posts[1].main_image}`}
                     alt={posts[1].title}
                     id={posts[1].id}
-                    width="305"
-                    height="150"
+                    // width="305"
+                    // height="150"
                     priority={true}
+                    fill
+                    sizes="(max-width: 305px)"
+                    className="img-fluid client-home-normal-post-image"
                   />
-                </a>
+                </div>
               </Link>
               <section className="home-post-like-bookmarks-header-type">
                 <Link href={`blog/${posts[1].alias_link}`}>
@@ -206,16 +215,19 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
 
             <article className="col-sm-6 client-home-normal-post-article">
               <Link href={`blog/${posts[2].alias_link}`}>
-                <a className="img-fluid client-home-normal-post-image">
+                <div className="img-fluid client-home-normal-post-image">
                   <Image
                     src={`http://localhost:4000${posts[2].main_image}`}
                     alt={posts[2].title}
                     id={posts[2].id}
-                    width="305"
-                    height="150"
+                    // width="305"
+                    // height="150"
                     priority={true}
+                    fill
+                    sizes="(max-width: 305px)"
+                    className="img-fluid client-home-normal-post-image"
                   />
-                </a>
+                </div>
               </Link>
               <section className="home-post-like-bookmarks-header-type">
                 <Link href={`blog/${posts[2].alias_link}`}>
@@ -267,16 +279,19 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
           <div className="row">
             <article className="col-sm-6 client-home-normal-post-article">
               <Link href={`blog/${posts[3].alias_link}`}>
-                <a className="img-fluid client-home-normal-post-image">
+                <div className="img-fluid client-home-normal-post-image">
                   <Image
                     src={`http://localhost:4000${posts[3].main_image}`}
                     alt={posts[3].title}
                     id={posts[3].id}
-                    width="305"
-                    height="150"
+                    // width="305"
+                    // height="150"
                     priority={true}
+                    fill
+                    sizes="(max-width: 305px)"
+                    className="img-fluid client-home-normal-post-image"
                   />
-                </a>
+                </div>
               </Link>
               <section className="home-post-like-bookmarks-header-type">
                 <Link href={`blog/${posts[3].alias_link}`}>
@@ -324,16 +339,19 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
 
             <article className="col-sm-6 client-home-normal-post-article">
               <Link href={`blog/${posts[4].alias_link}`} className="img-fluid client-home-normal-post-image">
-                <a>
+                <div className="img-fluid client-home-normal-post-image">
                   <Image
                     src={`http://localhost:4000${posts[4].main_image}`}
                     alt={posts[4].title}
                     id={posts[4].id}
-                    width="305"
-                    height="150"
+                    // width="305"
+                    // height="150"
                     priority={true}
+                    fill
+                    sizes="(max-width: 305px)"
+                    className="img-fluid client-home-normal-post-image"
                   />
-                </a>
+                </div>
               </Link>
               <section className="home-post-like-bookmarks-header-type">
                 <Link href={`blog/${posts[4].alias_link}`}>
