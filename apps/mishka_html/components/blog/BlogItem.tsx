@@ -34,7 +34,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
                 </svg>
               </div>
               <div className="col-sm">
-                <span className="badge bg-dark vazir client-blog-badge-category">
+                <span className="badge bg-dark client-blog-badge-category">
                   <Link href={`blog/category/${post.category_alias_link}`}>{post.category_title}</Link>
                 </span>
               </div>

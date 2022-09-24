@@ -7,7 +7,7 @@ const CategoriesMenu: NextPage<any> = ({ categories }) => {
   return (
     <>
       <aside className="col-sm-3 blog-menues">
-        <div className="container category rtl vazir">
+        <div className="container category">
           <div className="speacer40"> </div>
           <div className="clearfix"> </div>
           <span className="float-start">
