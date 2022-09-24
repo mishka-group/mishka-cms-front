@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Image from 'next/future/image';
+import Link from 'next/link';
 
 type ObjectResponse<T> = { [key: string]: T };
 
@@ -8,9 +9,11 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
     <>
       <article className={`col-sm-${size} home-blog-posts-normal-with-body rtl home-image-post`}>
         <article className="container-fluid home-image-post  rtl home-image-post">
-          <a href="/blog/subject-6" className="img-fluid client-home-normal-post-image">
-            <Image src={`http://localhost:4000${post.main_image}`} alt={post.title} width="292" height="150" priority />
-          </a>
+          <Link href={`blog/${post.alias_link}`}>
+            <a className="img-fluid client-home-normal-post-image">
+              <Image src={`http://localhost:4000${post.main_image}`} alt={post.title} width="292" height="150" priority />
+            </a>
+          </Link>
 
           <section className="col-sm-4 home-post-like-bookmarks">
             <div className="row">
@@ -24,7 +27,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"
                   ></path>
                   <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
@@ -32,13 +35,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
               </div>
               <div className="col-sm">
                 <span className="badge bg-dark vazir client-blog-badge-category">
-                  <a
-                    data-phx-link="redirect"
-                    data-phx-link-state="push"
-                    href="/blog/category/%D8%A7%D8%AE%D8%A8%D8%A7%D8%B1%20%D8%AA%D8%B1%D8%A7%D9%86%DA%AF%D9%84"
-                  >
-                    {post.category_title}
-                  </a>
+                  <Link href={`blog/category/${post.category_alias_link}`}>{post.category_title}</Link>
                 </span>
               </div>
             </div>
@@ -47,7 +44,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
           <div className="space10"></div>
           <header className="home-blog-posts-normal-with-body-header bot-home-page-body">
             <h2 className="normal-home-posts-link">
-              <a href="/blog/subject-6">{post.title}</a>
+              <Link href={`blog/${post.alias_link}`}>{post.title}</Link>
             </h2>
             <div className="space20"></div>
             {post.short_description}
@@ -56,9 +53,9 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
           <footer className="home-blog-posts-normal-with-body-footer">
             <div className="row">
               <span className="col-sm text-end float-right">
-                <a className="btn btn-outline-secondary btn-lg" href="/blog/subject-6">
+                <Link className="btn btn-outline-secondary btn-lg" href={`blog/${post.alias_link}`}>
                   ادامه مطلب
-                </a>
+                </Link>
               </span>
               <span className="col-sm text-start float-left normal-home-post-like">
                 {post.like_count}
