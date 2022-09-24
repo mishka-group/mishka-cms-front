@@ -164,7 +164,6 @@ const SettingsPage: NextPage = () => {
     } else {
       setAlertState(true, activeAccount.message, 'danger');
     }
-    console.log(activeAccount);
   };
 
   // TODO: it should be validate like code is 6 number length

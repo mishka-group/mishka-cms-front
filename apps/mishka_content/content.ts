@@ -23,20 +23,17 @@ export interface PostResponse extends PublicContentResponse {
   post_info: ObjectResponse<any>;
 }
 
+export interface CategoriesResponse extends PublicContentResponse {
+  categories: ObjectResponse<any>;
+}
+
 export const posts = async (params: ObjectResponse<any>) => {
   const response = await contentApiRequestSender<PostsResponse>('/content/v1/posts', params, {}, 'POST');
   return response;
 };
 
-export const post = async (accessToken: string, aliasLink: string, status: string = 'active') => {
-  const response = await contentApiRequestSender<PostResponse>(
-    '/content/v1/post',
-    { alias_link: aliasLink, status: status },
-    {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    'POST'
-  );
+export const post = async (aliasLink: string, status: string = 'active') => {
+  const response = await contentApiRequestSender<PostResponse>('/content/v1/post', { alias_link: aliasLink, status: status }, {}, 'POST');
   return response;
 };
 
@@ -44,7 +41,10 @@ export const likePost = () => {};
 
 export const deleteLikePost = () => {};
 
-export const categories = () => {};
+export const categories = async () => {
+  const response = await contentApiRequestSender<PostsResponse>('/content/v1/categories', {}, {}, 'POST');
+  return response;
+};
 
 export const category = () => {};
 

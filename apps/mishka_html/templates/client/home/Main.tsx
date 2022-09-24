@@ -24,7 +24,7 @@ const MainTemplate: NextPage<HomeTemplateTypes> = ({ posts, featuredPosts }) => 
           <BlogFeaturedItems posts={featuredPosts.entries} />
           <div className="row client-home-header-post-article-row">
             {posts.entries.map((item) => (
-              <BlogItem post={item} key={item.id} />
+              <BlogItem post={item} key={item.id} size={3}/>
             ))}
           </div>
         </section>

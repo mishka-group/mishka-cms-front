@@ -3,31 +3,44 @@ import Image from 'next/future/image';
 
 type ObjectResponse<T> = { [key: string]: T };
 
-const BlogItem: NextPage<ObjectResponse<any>> = ({ post }) => {
+const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
   return (
     <>
-      <article className="col-sm-3 home-blog-posts-normal-with-body rtl home-image-post">
+      <article className={`col-sm-${size} home-blog-posts-normal-with-body rtl home-image-post`}>
         <article className="container-fluid home-image-post  rtl home-image-post">
           <a href="/blog/subject-6" className="img-fluid client-home-normal-post-image">
             <Image src={`http://localhost:4000${post.main_image}`} alt={post.title} width="292" height="150" priority />
           </a>
 
-          <section className="home-post-like-bookmarks">
-            <div className="col-sm-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-bookmark-check"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"
-                ></path>
-                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
-              </svg>
+          <section className="col-sm-4 home-post-like-bookmarks">
+            <div className="row">
+              <div className="col-sm-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-bookmark-check"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"
+                  ></path>
+                  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
+                </svg>
+              </div>
+              <div className="col-sm">
+                <span className="badge bg-dark vazir client-blog-badge-category">
+                  <a
+                    data-phx-link="redirect"
+                    data-phx-link-state="push"
+                    href="/blog/category/%D8%A7%D8%AE%D8%A8%D8%A7%D8%B1%20%D8%AA%D8%B1%D8%A7%D9%86%DA%AF%D9%84"
+                  >
+                    {post.category_title}
+                  </a>
+                </span>
+              </div>
             </div>
           </section>
 
@@ -48,7 +61,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post }) => {
                 </a>
               </span>
               <span className="col-sm text-start float-left normal-home-post-like">
-              {post.like_count}
+                {post.like_count}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
