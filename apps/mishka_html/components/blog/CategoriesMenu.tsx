@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
 
 type ObjectResponse = { [key: string]: string | number };
 
@@ -22,7 +23,7 @@ const CategoriesMenu: NextPage<any> = ({ categories }) => {
             <div className="row category-li-bt" key={item.category_id}>
               <div className="col-sm cat-badges text-end">{item.post_count}</div>
               <div className="col-sm text-start">
-                <a href="/blog/category/">{item.category_title}</a>
+                <Link href={`blog/category/${item.category_alias_link}`}>{item.category_title}</Link>
               </div>
             </div>
           ))}
