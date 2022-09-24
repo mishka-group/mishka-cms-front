@@ -3255,6 +3255,7 @@ select.form-select {
   background-color: #31394c !important;
 }
 
+.client-home-featured-post-image img,
 .client-home-featured-post-image {
   max-height: 330px;
   object-fit: cover;
@@ -3273,8 +3274,11 @@ select.form-select {
   object-fit: cover !important;
   width: 100% !important;
   opacity: 0.8;
+  max-width: 100%;
+    height: auto;
 }
 
+.client-home-header-post-image img,
 .client-home-header-post-image {
   max-height: 150px !important;
   object-fit: cover !important;

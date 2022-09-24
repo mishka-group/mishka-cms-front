@@ -5,9 +5,7 @@ import Link from 'next/link';
 type ObjectResponse<T> = { [key: string]: T };
 
 const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
-  const bannerPosts = (): Array<any> => {
-    return posts.filter((item: object, index: number) => index >= 5 && index <= 8);
-  };
+  const bannerPosts = (): Array<any> => posts.filter((item: object, index: number) => index >= 5 && index <= 8);
 
   const BannerPosts = () => {
     return (
@@ -19,7 +17,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
             <article className="col-sm-6 rtl client-home-header-post-article" key={item.id}>
               <article className="container-fluid home-image-post">
                 <Link href={`blog/${item.alias_link}`}>
-                  <a>
+                  <a className="img-fluid client-home-header-post-image">
                     <Image
                       src={`http://localhost:4000${item.main_image}`}
                       alt={item.title}
@@ -81,7 +79,6 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
     );
   };
 
-  
   return (
     <>
       <div className="row">
