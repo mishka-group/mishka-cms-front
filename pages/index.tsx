@@ -26,8 +26,7 @@ const Home: NextPage<HomeTypes> = ({ posts, featuredPosts }) => {
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   let header = {};
   // Getting response and server side Session
-  const { req }: { req: GetServerSidePropsContext['req'] } = context;
-  const { res }: { res: GetServerSidePropsContext['res'] } = context;
+  const { req, res }: { req: GetServerSidePropsContext['req']; res: GetServerSidePropsContext['res'] } = context;
   const serverSideSessionCheck: Session | null = await unstable_getServerSession(req, res, authOptions as NextAuthOptions);
   const postsParams = { page: 1, filters: { status: 'active' } };
 

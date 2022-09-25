@@ -45,8 +45,8 @@ export const posts = async (params: ObjectResponse<any>, header: object = {}) =>
  * @param {string} [status=active] - string = 'active'
  * @returns PostResponse
  */
-export const post = async (aliasLink: string, status: string = 'active') => {
-  const response = await contentApiRequestSender<PostResponse>('/content/v1/post', { alias_link: aliasLink, status: status }, {}, 'POST');
+export const post = async (aliasLink: string, status: string = 'active', header: object = {}) => {
+  const response = await contentApiRequestSender<PostResponse>('/content/v1/post', { alias_link: aliasLink, status: status }, header, 'POST');
   return response;
 };
 
