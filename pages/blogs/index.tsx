@@ -18,7 +18,14 @@ const BlogsPage: NextPage<BlogsTypes> = ({ posts, categories }) => {
   const [pageMore, setPageMore] = useState(true);
   const { setAlertState } = useContext(ClientAlertState);
 
+  /**
+   * It's a function that loads the next page of posts from the server
+   * @param event - MouseEvent<HTMLElement>
+   * @returns the value of the function.
+   */
   const loadNextPage = async (event: MouseEvent<HTMLElement>) => {
+    if (pageLoading) return;
+
     event.preventDefault();
     if (pageNumber + 1 > posts.total_pages) {
       setPageMore(false);
@@ -26,7 +33,7 @@ const BlogsPage: NextPage<BlogsTypes> = ({ posts, categories }) => {
       setPageLoading(true);
       const lastPosts = await postRequest({ ...POST_INITIATE, page: pageNumber + 1 });
       if (lastPosts.status === 200) {
-        setPageNumber(prev => prev + 1);
+        setPageNumber((prev) => prev + 1);
         setContent((prev) => Array.from(new Set([...prev, ...lastPosts.entries])));
       } else {
         setAlertState(true, lastPosts.message, 'danger');

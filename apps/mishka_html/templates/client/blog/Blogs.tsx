@@ -17,13 +17,21 @@ interface BlogsTemplateTypes {
   loadNextPage(event: MouseEvent<HTMLElement>): void;
 }
 
-const BlogsTemplate: NextPage<BlogsTemplateTypes> = ({ posts, categories, loadNextPage, pageMore }) => {
+const BlogsTemplate: NextPage<BlogsTemplateTypes> = ({ posts, categories, loadNextPage, pageMore, pageLoading }) => {
   const ShowMore = () => {
     return (
       <>
         <div className="space40"></div>
         <p className="text-center">
-          <a className="btn btn-outline-secondary btn-lg" onClick={(event) => loadNextPage(event)}>Show more content</a>
+          {pageLoading ? (
+            <button disabled className="btn btn-outline-secondary btn-lg">
+              Show more content
+            </button>
+          ) : (
+            <button className="btn btn-outline-secondary btn-lg" onClick={(event) => loadNextPage(event)}>
+              Show more content
+            </button>
+          )}
         </p>
         <div className="space40"></div>
       </>

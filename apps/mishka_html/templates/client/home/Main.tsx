@@ -20,7 +20,7 @@ const ShowMore = () => {
       <div className="space40"></div>
       <p className="text-center">
         <Link href="/blogs">
-          <a className="btn btn-outline-secondary btn-lg">Show more content</a>
+          <button className="btn btn-outline-secondary btn-lg">Show more content</button>
         </Link>
       </p>
       <div className="space40"></div>
