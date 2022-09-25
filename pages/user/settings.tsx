@@ -16,7 +16,7 @@ import {
   deactiveAccountByCode,
 } from '../../apps/mishka_user/userAuthentication';
 import { elementDisability } from '../../apps/extra/helper';
-import { INITIAL_STATE, userSettingReducer, UserSettingTypes } from '../../apps/mishka_html/components/state/userSettingsReducer';
+import { INITIAL_STATE, userSettingReducer, UserSettingTypes, UserSettingActionTypes as SA } from '../../apps/mishka_html/components/state/userSettingsReducer';
 import { useRouter } from 'next/router';
 
 type RH = RefObject<HTMLInputElement>;
@@ -107,13 +107,13 @@ const SettingsPage: NextPage = () => {
    * is false, it fetches the user's tokens and sets the state of the userTokens to the response
    */
   const showTokensHandler = async () => {
-    dispatch({ type: 'SET_DEACTIVE_TOGGLE', status: false });
-    dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
-    dispatch({ type: 'SET_TOKEN_TOGGLE', status: !state.tokenToggle });
+    dispatch({ type: SA.SET_DEACTIVE_TOGGLE, status: false });
+    dispatch({ type: SA.SET_ACTIVE_TOGGLE, status: false });
+    dispatch({ type: SA.SET_TOKEN_TOGGLE, status: !state.tokenToggle });
     if (!state.tokenToggle) {
       const tokens = await userTokens(session?.access_token as string);
       if (tokens.status === 200) {
-        dispatch({ type: 'SET_USER_TOKENS', payload: tokens.user_tokens_info });
+        dispatch({ type: SA.SET_USER_TOKENS, payload: tokens.user_tokens_info });
       } else if (tokens.status === 401) {
         setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
         setTimeout(async () => {
@@ -149,13 +149,13 @@ const SettingsPage: NextPage = () => {
    * A function that is used to activate a user account.
    */
   const activeAccountHandler = async () => {
-    dispatch({ type: 'SET_DEACTIVE_TOGGLE', status: false });
-    dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
+    dispatch({ type: SA.SET_DEACTIVE_TOGGLE, status: false });
+    dispatch({ type: SA.SET_TOKEN_TOGGLE, status: false });
     const activeAccount = await sendVerifyEmail(session?.access_token as string);
     if (activeAccount.status === 200) {
-      dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
+      dispatch({ type: SA.SET_TOKEN_TOGGLE, status: false });
       setAlertState(true, activeAccount.message, 'success');
-      dispatch({ type: 'SET_ACTIVE_TOGGLE', status: !state.activeToggle });
+      dispatch({ type: SA.SET_ACTIVE_TOGGLE, status: !state.activeToggle });
     } else if (activeAccount.status === 401) {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
       setTimeout(async () => {
@@ -189,21 +189,21 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, activeAccount.message, 'danger');
     }
 
-    dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
-    dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
+    dispatch({ type: SA.SET_ACTIVE_TOGGLE, status: false });
+    dispatch({ type: SA.SET_TOKEN_TOGGLE, status: false });
   };
 
   /**
    * It deactivates the user's account
    */
   const deactiveAccountHandler = async () => {
-    dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
-    dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
+    dispatch({ type: SA.SET_ACTIVE_TOGGLE, status: false });
+    dispatch({ type: SA.SET_TOKEN_TOGGLE, status: false });
     const deactiveAccount = await sendDeactiveAccount(session?.access_token as string);
     if (deactiveAccount.status === 200) {
-      dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
-      dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
-      dispatch({ type: 'SET_DEACTIVE_TOGGLE', status: !state.deactiveToggle });
+      dispatch({ type: SA.SET_TOKEN_TOGGLE, status: false });
+      dispatch({ type: SA.SET_ACTIVE_TOGGLE, status: false });
+      dispatch({ type: SA.SET_DEACTIVE_TOGGLE, status: !state.deactiveToggle });
       setAlertState(true, deactiveAccount.message, 'success');
     } else if (deactiveAccount.status === 401) {
       setAlertState(true, 'Your user session has expired. This page will be refreshed soon. Please redo your request if not done', 'success');
@@ -235,8 +235,8 @@ const SettingsPage: NextPage = () => {
       setAlertState(true, deactiveAccount.message, 'danger');
     }
 
-    dispatch({ type: 'SET_ACTIVE_TOGGLE', status: false });
-    dispatch({ type: 'SET_TOKEN_TOGGLE', status: false });
+    dispatch({ type: SA.SET_ACTIVE_TOGGLE, status: false });
+    dispatch({ type: SA.SET_TOKEN_TOGGLE, status: false });
   };
 
   if (!session) {

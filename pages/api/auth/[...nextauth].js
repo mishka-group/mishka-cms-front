@@ -2,7 +2,6 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { loginByEmail } from '../../../apps/mishka_user/userAuthentication';
 import { checkTokenToRefresh, getUserBasicInformationAndTokens } from '../../../apps/mishka_user/helper/authHelper';
-import { unstable_getServerSession } from "next-auth/next"
 
 export const authOptions = {
   session: {
@@ -51,6 +50,7 @@ export const authOptions = {
 // export default NextAuth(authOptions);
 
 export default async function auth(req, res) {
-  const session = await unstable_getServerSession(req, res, authOptions)  
+  // const session = await unstable_getServerSession(req, res, authOptions)  
+  // import { unstable_getServerSession } from "next-auth/next"
   return await NextAuth(req, res, authOptions);
 }

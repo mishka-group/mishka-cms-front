@@ -12,7 +12,7 @@ export const INITIAL_STATE: UserSettingTypes = {
   deactiveToggle: false,
 };
 
-enum UserSettingActionTypes {
+export enum UserSettingActionTypes {
   SET_USER_TOKENS = 'SET_USER_TOKENS',
   SET_TOKEN_TOGGLE = 'SET_TOKEN_TOGGLE',
   SET_ACTIVE_TOGGLE = 'SET_ACTIVE_TOGGLE',

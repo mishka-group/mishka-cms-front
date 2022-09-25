@@ -4067,3 +4067,7 @@ article.col-sm-3.home-blog-posts-normal-with-body {
   clear: both;
   margin-top: 60px;
 }
+
+.alert-component {
+  font-size: 2rem;
+}
