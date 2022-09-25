@@ -5,7 +5,7 @@ import ClinetMainMenu from '../../../components/navigation/ClinetMainMenu';
 import BlogItem from '../../../components/blog/BlogItem';
 import Alert from '../../../components/notices/Alert';
 import CategoriesMenu from '../../../components/blog/CategoriesMenu';
-import { MouseEvent } from 'react';
+import { MouseEvent, useMemo } from 'react';
 
 type ObjectResponse<T> = { [key: string]: T };
 
@@ -18,6 +18,8 @@ interface BlogsTemplateTypes {
 }
 
 const BlogsTemplate: NextPage<BlogsTemplateTypes> = ({ posts, categories, loadNextPage, pageMore, pageLoading }) => {
+  const blogItems = useMemo(() => posts.map((item) => <BlogItem post={item} key={item.id} size={4} />), [posts]);
+
   const ShowMore = () => {
     return (
       <>
@@ -49,9 +51,7 @@ const BlogsTemplate: NextPage<BlogsTemplateTypes> = ({ posts, categories, loadNe
             <CategoriesMenu categories={categories} />
             <article className="col-sm">
               <div className="row client-home-header-post-article-row" id="BlogsPosts">
-                {posts.map((item) => (
-                  <BlogItem post={item} key={item.id} size={4} />
-                ))}
+                {blogItems}
               </div>
             </article>
           </div>

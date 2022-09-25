@@ -37,6 +37,7 @@ const BlogsPage: NextPage<BlogsTypes> = ({ posts, categories }) => {
         setContent((prev) => Array.from(new Set([...prev, ...lastPosts.entries])));
       } else {
         setAlertState(true, lastPosts.message, 'danger');
+        document.querySelector('.alert')?.scrollIntoView();
       }
 
       setPageLoading(false);
