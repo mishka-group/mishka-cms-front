@@ -34,8 +34,8 @@ export interface CategoriesResponse extends PublicContentResponse {
  * @returns A function that takes a parameter of type ObjectResponse<any> and returns a Promise of type
  * PostsResponse.
  */
-export const posts = async (params: ObjectResponse<any>) => {
-  const response = await contentApiRequestSender<PostsResponse>('/content/v1/posts', params, {}, 'POST');
+export const posts = async (params: ObjectResponse<any>, header: object = {}) => {
+  const response = await contentApiRequestSender<PostsResponse>('/content/v1/posts', params, header, 'POST');
   return response;
 };
 

@@ -1,5 +1,5 @@
 type Method = 'POST' | 'GET' | 'DELETE' | 'PUT';
-type Header = { [key: string]: string };
+type Header = { [key: string]: string } | {};
 
 /**
  * It takes a router, body, header, and method and returns a promise of type T
