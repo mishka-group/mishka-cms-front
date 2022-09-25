@@ -53,6 +53,12 @@ const BlogsPage: NextPage<BlogsTypes> = ({ posts, categories }) => {
 
 export default BlogsPage;
 
+/**
+ * It's a function that returns an object with a property called props, which is an object that
+ * contains the posts and categories
+ * @param {GetServerSidePropsContext} context - GetServerSidePropsContext
+ * @returns The props object is being returned.
+ */
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const lastPosts = await postRequest(POST_INITIATE);
   const lastCategories = await categories();

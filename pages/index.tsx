@@ -24,6 +24,12 @@ const Home: NextPage<HomeTypes> = ({ posts, featuredPosts }) => {
   );
 };
 
+/**
+ * It gets the posts from the API and returns them as props, which is an object that
+ * contains the posts and last featured posts
+ * @param {GetServerSidePropsContext} context - GetServerSidePropsContext
+ * @returns The props object is being returned.
+ */
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   // Getting response and server side Session
   // const { req }: { req: GetServerSidePropsContext['req'] } = context;

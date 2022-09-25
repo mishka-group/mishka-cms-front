@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import MainHeader from '../../../UIs/MainHeader';
-import type { PostsResponse, CategoriesResponse } from '../../../../mishka_content/content';
+import type { CategoriesResponse } from '../../../../mishka_content/content';
 import ClinetMainMenu from '../../../components/navigation/ClinetMainMenu';
 import BlogItem from '../../../components/blog/BlogItem';
 import Alert from '../../../components/notices/Alert';
