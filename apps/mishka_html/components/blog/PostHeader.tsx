@@ -1,9 +1,14 @@
 import type { NextPage } from 'next';
+import Link from 'next/link';
 interface PostHeaderTypes {
   post: { [key: string]: any };
 }
 
 const PostHeader: NextPage<PostHeaderTypes> = ({ post }) => {
+  const postAuthors = post.post_info.blog_authors.map((item: any, index: number) => {
+    return { username: item.users.username, index: index };
+  });
+
   return (
     <header id="client-blog-post-main-header">
       <h1 className="post-h1" id="client-blog-post-h1">
@@ -40,12 +45,22 @@ const PostHeader: NextPage<PostHeaderTypes> = ({ post }) => {
       <div className="clearfix"> </div>
       <section className="client-post-info" id="client-blog-post-header-info">
         <span>
-          <span className="badge bg-danger me-3">نویسندگان: کاربر مدیریت یک</span>
-          <span className="badge bg-secondary me-3">ارسال شده: 30 شهریور 1401</span>
+          <span className="badge bg-danger me-3">
+            Authors:&nbsp;
+            {postAuthors.map((item: any, index: number) => (
+              <span>
+                {`${index + 1}-${item.username}`}
+                <span>{item.index > 1 && '&nbsp;&nbsp;'}</span>
+              </span>
+            ))}
+          </span>
+          <span className="badge bg-secondary me-3">Posted: {post.post_info.inserted_at}</span>
           <div className="space10"></div>
-          <span className="badge bg-info me-3">به روز شده: 30 شهریور 1401</span>
-          <span className="badge bg-success me-3">اولویت: ویژه</span>
-          <span className="badge bg-primary me-3">مجموعه: سئو</span>
+          <span className="badge bg-info me-3">Updated: {post.post_info.updated_at}</span>
+          <span className="badge bg-success me-3">Priority: {post.post_info.priority}</span>
+          <span className="badge bg-primary me-3">
+            Category: <Link href={`blog/category/${post.post_info.blog_categories.alias_link}`}>{post.post_info.blog_categories.title}</Link>
+          </span>
         </span>
       </section>
       <div className="space20"></div>
