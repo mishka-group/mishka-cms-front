@@ -10,11 +10,12 @@ import { FormEvent, RefObject } from 'react';
 interface PostTemplateTypes {
   post: { [key: string]: any };
   startComment: boolean;
+  comments: Array<any>;
   toggleComment(): void;
   commentForm(event: FormEvent<HTMLFormElement>, description: RefObject<HTMLInputElement>): void;
 }
 
-const PostTemplate: NextPage<PostTemplateTypes> = ({ post, startComment, toggleComment, commentForm }) => {
+const PostTemplate: NextPage<PostTemplateTypes> = ({ post, startComment, toggleComment, commentForm, comments }) => {
   return (
     <div id="clientMain">
       <MainHeader />
@@ -30,7 +31,7 @@ const PostTemplate: NextPage<PostTemplateTypes> = ({ post, startComment, toggleC
               <div className="space30"></div>
               <PostTags tags={post.post_info.blog_tags} />
             </article>
-            <PostComments startComment={startComment} toggleComment={toggleComment} commentForm={commentForm} />
+            <PostComments startComment={startComment} toggleComment={toggleComment} commentForm={commentForm} comments={comments} />
           </article>
         </section>
       </div>

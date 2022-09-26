@@ -27,6 +27,8 @@ export interface CategoriesResponse extends PublicContentResponse {
   categories: ObjectResponse<any>;
 }
 
+export interface CommentsResponse extends PostsResponse {}
+
 /**
  * `posts` is a function that takes a `params` object and returns a `Promise` of a `PostsResponse` which has last 20 posts of API
  * object
@@ -45,7 +47,7 @@ export const posts = async (params: ObjectResponse<any>, header: object = {}) =>
  * @param {string} [status=active] - string = 'active'
  * @returns PostResponse
  */
-export const post = async (aliasLink: string, status: string = 'active', header: object = {}) => {
+export const post = async (aliasLink: string, status: string, header: object = {}) => {
   const response = await contentApiRequestSender<PostResponse>('/content/v1/post', { alias_link: aliasLink, status: status }, header, 'POST');
   return response;
 };
@@ -65,7 +67,26 @@ export const categories = async () => {
 
 export const category = () => {};
 
-export const comments = () => {};
+export const comments = async (accessToken: string, postID: string, status: string, page: number = 1) => {
+  const commentParams = {
+    page: page,
+    filters: {
+      section_id: postID,
+      status: status,
+      section: 'blog_post',
+    },
+  };
+
+  const response = await contentApiRequestSender<CommentsResponse>(
+    '/content/v1/comments',
+    commentParams,
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
+  return response;
+};
 
 export const likeComment = () => {};
 

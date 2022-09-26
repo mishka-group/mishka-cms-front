@@ -1746,11 +1746,10 @@ select.form-select {
 
 .client-comment-sent {
   background: #31394c;
-  padding: 10px 30px;
+  padding: 10px 0;
   font-size: 12px;
   border-radius: 8px;
   color: #ffffff;
-  margin: 10px;
   line-height: 30px;
   text-align: justify;
 }
@@ -1769,6 +1768,7 @@ select.form-select {
   height: 80px;
   border-radius: 50%;
   overflow: hidden !important;
+  background: #252a37;
 }
 
 .page-item.active a {

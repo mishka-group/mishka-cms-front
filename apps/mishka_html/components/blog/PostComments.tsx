@@ -1,16 +1,33 @@
 import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
-import { useRef, RefObject, FormEvent } from 'react';
+import { useRef, RefObject, FormEvent, useEffect } from 'react';
+import CommentItem from '../../components/blog/CommentItem';
 
 interface PostCommentsTypes {
   startComment: boolean;
   toggleComment(): void;
+  comments: Array<any>;
   commentForm(event: FormEvent<HTMLFormElement>, description: RefObject<HTMLInputElement>): void;
 }
 
-const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment, commentForm }) => {
+const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment, commentForm, comments }) => {
   const { data: session } = useSession();
   const descriptionRef: RefObject<any> = useRef();
+
+  const Comments = () => {
+    return (
+      <>
+        {comments.map((item: { [key: string]: any }) => (
+          <CommentItem comment={item} key={item.id} />
+        ))}
+
+        <div className="space30"></div>
+        <p className="text-center">
+          {comments.length !== 0 && <button className="btn btn-outline-secondary btn-lg">Show more comments</button>}
+        </p>
+      </>
+    );
+  };
 
   const CommentForm = () => {
     return (
@@ -44,6 +61,8 @@ const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment
             </form>
           </aside>
         )}
+        <div className="space30"></div>
+        <Comments />
       </>
     );
   };
@@ -82,6 +101,8 @@ const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment
           </svg>
         </span>
       </aside>
+      <div className="space30"></div>
+      <Comments />
     </>
   );
 };
