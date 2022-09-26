@@ -5,9 +5,7 @@ interface PostHeaderTypes {
 }
 
 const PostHeader: NextPage<PostHeaderTypes> = ({ post }) => {
-  const postAuthors = post.post_info.blog_authors.map((item: any, index: number) => {
-    return { username: item.users.username, index: index };
-  });
+  const {blog_authors} = post.post_info
 
   return (
     <header id="client-blog-post-main-header">
@@ -47,10 +45,10 @@ const PostHeader: NextPage<PostHeaderTypes> = ({ post }) => {
         <span>
           <span className="badge bg-danger me-3">
             Authors:&nbsp;
-            {postAuthors.map((item: any, index: number) => (
-              <span>
-                {`${index + 1}-${item.username}`}
-                <span>{item.index > 1 && '&nbsp;&nbsp;'}</span>
+            {blog_authors.map((item: any, index: number) => (
+              <span key={item.users.id} id={item.users.id}>
+                {`${index + 1}-${item.users.username}`}
+                <span>{item.users.index > 1 && '&nbsp;&nbsp;'}</span>
               </span>
             ))}
           </span>
