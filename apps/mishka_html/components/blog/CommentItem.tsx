@@ -18,7 +18,7 @@ const CommentItem: NextPage<CommentItemType> = ({ comment }) => {
               width="80"
               height="80"
             />
-            <p className="comment-user-name text-center">کاربر مدیریت یک</p>
+            <p className="comment-user-name text-center">{comment.user_full_name}</p>
             <p className="text-center ltr">@{comment.user_username}</p>
             <p className="text-center">
               <span>
