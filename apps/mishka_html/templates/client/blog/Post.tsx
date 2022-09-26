@@ -5,17 +5,27 @@ import Alert from '../../../components/notices/Alert';
 import PostHeader from '../../../components/blog/PostHeader';
 import PostTags from '../../../components/blog/PostTags';
 import PostComments from '../../../components/blog/PostComments';
-import { FormEvent, RefObject } from 'react';
+import { FormEvent, RefObject, MouseEvent } from 'react';
 
 interface PostTemplateTypes {
   post: { [key: string]: any };
   startComment: boolean;
+  commentLoading: boolean;
   comments: Array<any>;
   toggleComment(): void;
   commentForm(event: FormEvent<HTMLFormElement>, description: RefObject<HTMLInputElement>): void;
+  loadNextPage(): void;
 }
 
-const PostTemplate: NextPage<PostTemplateTypes> = ({ post, startComment, toggleComment, commentForm, comments }) => {
+const PostTemplate: NextPage<PostTemplateTypes> = ({
+  post,
+  startComment,
+  toggleComment,
+  commentForm,
+  comments,
+  commentLoading,
+  loadNextPage,
+}) => {
   return (
     <div id="clientMain">
       <MainHeader />
@@ -31,7 +41,14 @@ const PostTemplate: NextPage<PostTemplateTypes> = ({ post, startComment, toggleC
               <div className="space30"></div>
               <PostTags tags={post.post_info.blog_tags} />
             </article>
-            <PostComments startComment={startComment} toggleComment={toggleComment} commentForm={commentForm} comments={comments} />
+            <PostComments
+              startComment={startComment}
+              toggleComment={toggleComment}
+              commentForm={commentForm}
+              comments={comments}
+              commentLoading={commentLoading}
+              loadNextPage={loadNextPage}
+            />
           </article>
         </section>
       </div>

@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
-import { useRef, RefObject, FormEvent, useEffect } from 'react';
+import { useRef, RefObject, FormEvent, MouseEvent } from 'react';
 import CommentItem from '../../components/blog/CommentItem';
 
 interface PostCommentsTypes {
@@ -8,11 +8,29 @@ interface PostCommentsTypes {
   toggleComment(): void;
   comments: Array<any>;
   commentForm(event: FormEvent<HTMLFormElement>, description: RefObject<HTMLInputElement>): void;
+  commentLoading: boolean;
+  loadNextPage(): void;
 }
 
-const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment, commentForm, comments }) => {
+const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment, commentForm, comments, commentLoading, loadNextPage }) => {
   const { data: session } = useSession();
   const descriptionRef: RefObject<any> = useRef();
+
+  const ShowMoreButton = () => {
+    if (comments.length !== 0 && !commentLoading) {
+      return (
+        <button className="btn btn-outline-secondary btn-lg" id="showCommentMoreButton" onClick={() => loadNextPage()}>
+          Show more comments
+        </button>
+      );
+    } else {
+      return (
+        <button disabled className="btn btn-outline-secondary btn-lg" id="showCommentMoreButton">
+          Show more comments
+        </button>
+      );
+    }
+  };
 
   const Comments = () => {
     return (
@@ -23,8 +41,19 @@ const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment
 
         <div className="space30"></div>
         <p className="text-center">
-          {comments.length !== 0 && <button className="btn btn-outline-secondary btn-lg">Show more comments</button>}
+          <ShowMoreButton />
         </p>
+
+        {commentLoading && (
+          <div>
+            <div className="space40"></div>
+            <div className="d-flex justify-content-center">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </div>
+        )}
       </>
     );
   };
