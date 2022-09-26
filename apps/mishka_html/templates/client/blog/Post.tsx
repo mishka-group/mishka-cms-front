@@ -5,15 +5,16 @@ import Alert from '../../../components/notices/Alert';
 import PostHeader from '../../../components/blog/PostHeader';
 import PostTags from '../../../components/blog/PostTags';
 import PostComments from '../../../components/blog/PostComments';
-import { Dispatch, SetStateAction } from 'react';
+import { FormEvent, RefObject } from 'react';
 
 interface PostTemplateTypes {
   post: { [key: string]: any };
   startComment: boolean;
   toggleComment(): void;
+  commentForm(event: FormEvent<HTMLFormElement>, description: RefObject<HTMLInputElement>): void;
 }
 
-const PostTemplate: NextPage<PostTemplateTypes> = ({ post, startComment, toggleComment }) => {
+const PostTemplate: NextPage<PostTemplateTypes> = ({ post, startComment, toggleComment, commentForm }) => {
   return (
     <div id="clientMain">
       <MainHeader />
@@ -29,7 +30,7 @@ const PostTemplate: NextPage<PostTemplateTypes> = ({ post, startComment, toggleC
               <div className="space30"></div>
               <PostTags tags={post.post_info.blog_tags} />
             </article>
-            <PostComments startComment={startComment} toggleComment={toggleComment}/>
+            <PostComments startComment={startComment} toggleComment={toggleComment} commentForm={commentForm} />
           </article>
         </section>
       </div>

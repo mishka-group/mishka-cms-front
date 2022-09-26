@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSidePropsContext, GetServerSideProps } from 'next';
 import { post as postRequest } from '../../apps/mishka_content/content';
 import PostTemplate from '../../apps/mishka_html/templates/client/blog/Post';
-import { useState } from 'react';
+import { useState, FormEvent, RefObject } from 'react';
 
 interface BlogPostTypes {
   post: { [key: string]: any };
@@ -13,8 +13,13 @@ const BlogPostPage: NextPage<BlogPostTypes> = ({ post }) => {
   const toggleComment= () => {
     setStartComment(!startComment)
   }
-  
-  return <PostTemplate post={post} startComment={startComment} toggleComment={toggleComment}/>;
+
+  const commentFormHandler = (event: FormEvent<HTMLFormElement>, description: RefObject<HTMLInputElement>) => {
+    event.preventDefault()
+    console.log(description.current?.value)
+  }
+
+  return <PostTemplate post={post} startComment={startComment} toggleComment={toggleComment} commentForm={commentFormHandler}/>;
 };
 
 export default BlogPostPage;

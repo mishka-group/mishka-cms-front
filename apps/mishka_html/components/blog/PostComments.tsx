@@ -1,24 +1,32 @@
 import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
+import { useRef, RefObject, FormEvent } from 'react';
 
 interface PostCommentsTypes {
   startComment: boolean;
   toggleComment(): void;
+  commentForm(event: FormEvent<HTMLFormElement>, description: RefObject<HTMLInputElement>): void;
 }
 
-const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment }) => {
+const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment, commentForm }) => {
   const { data: session } = useSession();
+  const descriptionRef: RefObject<any> = useRef();
 
   const CommentForm = () => {
     return (
       <>
         {startComment && (
           <aside className="col-sm client-post-comment-sending" id="client-blog-post-comment-sending-box">
-            <form>
+            <form onSubmit={(event) => commentForm(event, descriptionRef)}>
               <h3>Put your comment in the field below:</h3>
               <div className="space30"></div>
               <div className="space10"></div>
-              <textarea className="form-control comment-form-client-post" id="client-blog-post-description" name="description"></textarea>
+              <textarea
+                ref={descriptionRef}
+                className="form-control comment-form-client-post"
+                id="client-blog-post-description"
+                name="description"
+              />
               <div className="form-error-tag"></div>
               <div className="clearfix"></div>
               <div className="space30"></div>
