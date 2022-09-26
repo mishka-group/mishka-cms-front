@@ -4,12 +4,16 @@ import ClinetMainMenu from '../../../components/navigation/ClinetMainMenu';
 import Alert from '../../../components/notices/Alert';
 import PostHeader from '../../../components/blog/PostHeader';
 import PostTags from '../../../components/blog/PostTags';
+import PostComments from '../../../components/blog/PostComments';
+import { Dispatch, SetStateAction } from 'react';
 
 interface PostTemplateTypes {
   post: { [key: string]: any };
+  startComment: boolean;
+  toggleComment(): void;
 }
 
-const PostTemplate: NextPage<PostTemplateTypes> = ({ post }) => {
+const PostTemplate: NextPage<PostTemplateTypes> = ({ post, startComment, toggleComment }) => {
   return (
     <div id="clientMain">
       <MainHeader />
@@ -25,6 +29,7 @@ const PostTemplate: NextPage<PostTemplateTypes> = ({ post }) => {
               <div className="space30"></div>
               <PostTags tags={post.post_info.blog_tags} />
             </article>
+            <PostComments startComment={startComment} toggleComment={toggleComment}/>
           </article>
         </section>
       </div>

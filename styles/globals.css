@@ -1735,8 +1735,7 @@ select.form-select {
   background: #31394c;
   padding: 30px;
   font-size: 15px;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-radius: 8px;
   color: #ffffff;
 }
 

@@ -1,13 +1,20 @@
 import type { NextPage, GetServerSidePropsContext, GetServerSideProps } from 'next';
 import { post as postRequest } from '../../apps/mishka_content/content';
 import PostTemplate from '../../apps/mishka_html/templates/client/blog/Post';
+import { useState } from 'react';
 
 interface BlogPostTypes {
   post: { [key: string]: any };
 }
 
 const BlogPostPage: NextPage<BlogPostTypes> = ({ post }) => {
-  return <PostTemplate post={post} />;
+  const [startComment, setStartComment] = useState(false)
+
+  const toggleComment= () => {
+    setStartComment(!startComment)
+  }
+  
+  return <PostTemplate post={post} startComment={startComment} toggleComment={toggleComment}/>;
 };
 
 export default BlogPostPage;
