@@ -48,9 +48,21 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
     }
   };
 
+  const subscribeHandler = () => {
+    console.log("hi subscribe")
+  }
+
   return (
     <>
-      <CategoryTemplate posts={content} categories={categories} pageMore={pageMore} pageLoading={pageLoading} loadNextPage={loadNextPage} />
+      <CategoryTemplate
+        posts={content}
+        categories={categories}
+        pageMore={pageMore}
+        pageLoading={pageLoading}
+        loadNextPage={loadNextPage}
+        category={category}
+        subscribe={subscribeHandler}
+      />
     </>
   );
 };
