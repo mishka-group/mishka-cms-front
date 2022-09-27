@@ -15,11 +15,23 @@ interface BlogsTemplateTypes {
   category: CategoryResponse;
   pageMore: boolean;
   pageLoading: boolean;
+  subscribeStatus: boolean;
   loadNextPage(event: MouseEvent<HTMLElement>): void;
   subscribe(): void;
+  unSubscribe(): void;
 }
 
-const CategoryTemplate: NextPage<BlogsTemplateTypes> = ({ posts, categories, loadNextPage, pageMore, pageLoading, category, subscribe }) => {
+const CategoryTemplate: NextPage<BlogsTemplateTypes> = ({
+  posts,
+  categories,
+  loadNextPage,
+  pageMore,
+  pageLoading,
+  category,
+  subscribe,
+  unSubscribe,
+  subscribeStatus,
+}) => {
   const blogItems = useMemo(() => posts.map((item) => <BlogItem post={item} key={item.id} size={4} />), [posts]);
 
   const ShowMore = () => {
@@ -51,10 +63,15 @@ const CategoryTemplate: NextPage<BlogsTemplateTypes> = ({ posts, categories, loa
           <div className="space20"></div>
           <p className="category-side-short_description vazir">{category.category_info.short_description}</p>
           <div className="space20"></div>
-
-          <a className="btn btn-outline-secondary btn-lg" onClick={subscribe}>
-            Subscribe
-          </a>
+          {subscribeStatus ? (
+            <a className="btn btn-outline-secondary btn-lg" onClick={unSubscribe}>
+              UnSubscribe
+            </a>
+          ) : (
+            <a className="btn btn-outline-secondary btn-lg" onClick={subscribe}>
+              Subscribe
+            </a>
+          )}
         </aside>
         <div className="space30"></div>
       </>

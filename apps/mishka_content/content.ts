@@ -37,7 +37,6 @@ export interface SubscriptionResponse extends PublicContentResponse {
   subscription_info: ObjectResponse<any>;
 }
 
-
 /**
  * `posts` is a function that takes a `params` object and returns a `Promise` of a `PostsResponse` which has last 20 posts of API
  * object
@@ -139,6 +138,16 @@ export const createSubscription = async (accessToken: string, categoryID: string
   return response;
 };
 
-export const deleteSubscription = () => {};
+export const deleteSubscription = async (accessToken: string, categoryID: string) => {
+  const response = await contentApiRequestSender<SubscriptionResponse>(
+    '/content/v1/delete-subscription',
+    { section_id: categoryID },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
+  return response;
+};
 
 export const postLinks = () => {};

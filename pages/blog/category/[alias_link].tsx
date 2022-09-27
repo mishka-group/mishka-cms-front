@@ -28,6 +28,7 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
   const [pageNumber, setPageNumber] = useState(1);
   const [pageLoading, setPageLoading] = useState(false);
   const [pageMore, setPageMore] = useState(true);
+  const [subscribe, setSubscribe] = useState(false);
   const router = useRouter();
   const { setAlertState } = useContext(ClientAlertState);
 
@@ -60,13 +61,36 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
       const subscription = await createSubscription(session.access_token as string, category.category_info.id);
       if (subscription.status === 200) {
         setAlertState(true, subscription.message, 'success');
+        // TODO: it is unsafe code should be changed after new version of API, It is temporary until a new version is released of API
+        setSubscribe(true);
       } else if (subscription.status === 401) {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+      } else if (subscription.status === 400) {
+        // TODO: it is unsafe code should be changed after new version of API
+        setAlertState(true, Object.values(subscription.errors!)[0], 'danger');
+        setSubscribe(true);
       } else {
         setAlertState(true, Object.values(subscription.errors!)[0], 'danger');
       }
     } else {
       setAlertState(true, 'You must be logged in to subscribe in a category.', 'warning');
+    }
+  };
+
+  const unSubscribeHandler = async () => {
+    if (session) {
+      const unSubscribe = await deleteSubscription(session.access_token as string, category.category_info.id);
+      if (unSubscribe.status === 200) {
+        setAlertState(true, unSubscribe.message, 'success');
+        // TODO: it is unsafe code should be changed after new version of API, It is temporary until a new version is released of API
+        setSubscribe(false);
+      } else if (unSubscribe.status === 401) {
+        await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+      } else {
+        setAlertState(true, Object.values(unSubscribe.errors!)[0], 'danger');
+      }
+    } else {
+      setAlertState(true, 'You must be logged in to Unsubscribe in a category.', 'warning');
     }
   };
 
@@ -80,6 +104,8 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
         loadNextPage={loadNextPage}
         category={category}
         subscribe={subscribeHandler}
+        unSubscribe={unSubscribeHandler}
+        subscribeStatus={subscribe}
       />
     </>
   );
