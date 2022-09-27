@@ -32,6 +32,11 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
   const router = useRouter();
   const { setAlertState } = useContext(ClientAlertState);
 
+  /**
+   * It loads the next page of posts.
+   * @param event - MouseEvent<HTMLElement>
+   * @returns the value of the variable pageLoading.
+   */
   const loadNextPage = async (event: MouseEvent<HTMLElement>) => {
     if (pageLoading) return;
 
@@ -56,6 +61,9 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
     }
   };
 
+  /**
+   * It subscribes the user to a category
+   */
   const subscribeHandler = async () => {
     if (session) {
       const subscription = await createSubscription(session.access_token as string, category.category_info.id);
@@ -77,6 +85,9 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
     }
   };
 
+  /**
+   * It's a function that unsubscribes a user from a category
+   */
   const unSubscribeHandler = async () => {
     if (session) {
       const unSubscribe = await deleteSubscription(session.access_token as string, category.category_info.id);
@@ -113,6 +124,13 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
 
 export default CategoryPage;
 
+/**
+ * It gets the alias_link from the context, then it makes a request to the API to get the category
+ * information, then it makes a request to the API to get the posts for that category, then it makes a
+ * request to the API to get the categories, then it returns the props
+ * @param {GetServerSidePropsContext} context - GetServerSidePropsContext
+ * @returns The category, posts, and categories are being returned.
+ */
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const alias_link = context.query.alias_link;
   if (typeof alias_link === 'string' && alias_link !== '') {

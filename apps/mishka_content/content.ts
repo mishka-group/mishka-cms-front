@@ -126,6 +126,12 @@ export const createBookmark = () => {};
 
 export const deleteBookmark = () => {};
 
+/**
+ * It sends a POST request to the Content API to create a subscription to a category
+ * @param {string} accessToken - The access token that you got from the login API.
+ * @param {string} categoryID - The ID of the category you want to subscribe to.
+ * @returns A subscription object
+ */
 export const createSubscription = async (accessToken: string, categoryID: string) => {
   const response = await contentApiRequestSender<SubscriptionResponse>(
     '/content/v1/create-subscription',
@@ -138,6 +144,12 @@ export const createSubscription = async (accessToken: string, categoryID: string
   return response;
 };
 
+/**
+ * It sends a request to the Content API to delete a subscription to a category
+ * @param {string} accessToken - The access token you received from the user's login.
+ * @param {string} categoryID - The ID of the category you want to subscribe to.
+ * @returns A promise that resolves to a SubscriptionResponse object.
+ */
 export const deleteSubscription = async (accessToken: string, categoryID: string) => {
   const response = await contentApiRequestSender<SubscriptionResponse>(
     '/content/v1/delete-subscription',

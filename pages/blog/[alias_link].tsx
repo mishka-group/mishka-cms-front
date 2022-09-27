@@ -41,10 +41,16 @@ const BlogPostPage: NextPage<BlogPostTypes> = ({ post }) => {
     };
   }, [session]);
 
+  /**
+   * It toggles the startComment state.
+   */
   const toggleComment = () => {
     setStartComment(!startComment);
   };
 
+  /**
+   * It loads the next page of comments for a post
+   */
   const loadNextPage = async () => {
     if (session) {
       const cmReq = await commentsRequest(session.access_token as string, post.post_info.id, 'active', commentPageNumber + 1);
