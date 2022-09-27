@@ -74,6 +74,11 @@ const BlogPostPage: NextPage<BlogPostTypes> = ({ post }) => {
     }
   };
 
+  /**
+   * A function that is called when the user submits the comment form.
+   * @param event - FormEvent<HTMLFormElement>
+   * @param description - RefObject<HTMLInputElement>
+   */
   const commentFormHandler = async (event: FormEvent<HTMLFormElement>, description: RefObject<HTMLInputElement>) => {
     // TODO: it shooud be changed because the api does not return a good params like all comments
     event.preventDefault();
@@ -81,8 +86,7 @@ const BlogPostPage: NextPage<BlogPostTypes> = ({ post }) => {
       const commentResponse = await createComments(session.access_token as string, post.post_info.id, description.current?.value);
       if (commentResponse.status === 200) {
         setComments((prev: any) => Array.from(new Set([...[commentResponse.comment_info], ...prev])));
-        toggleComment()
-
+        toggleComment();
       } else if (commentResponse.status === 401) {
         await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
       } else {
