@@ -37,6 +37,10 @@ export interface SubscriptionResponse extends PublicContentResponse {
   subscription_info: ObjectResponse<any>;
 }
 
+export interface CommentCRUDResponse extends PublicContentResponse {
+  comment_info: ObjectResponse<any>;
+}
+
 /**
  * `posts` is a function that takes a `params` object and returns a `Promise` of a `PostsResponse` which has last 20 posts of API
  * object
@@ -106,6 +110,25 @@ export const comments = async (accessToken: string, postID: string, status: stri
   const response = await contentApiRequestSender<CommentsResponse>(
     '/content/v1/comments',
     commentParams,
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
+  return response;
+};
+
+/**
+ * It creates a comment on a post
+ * @param {string} accessToken - The access token of the user who is creating the comment.
+ * @param {string} postID - The ID of the post you want to comment on.
+ * @param {string} description - The comment text
+ * @returns CommentCRUDResponse
+ */
+export const createComments = async (accessToken: string, postID: string, description: string) => {
+  const response = await contentApiRequestSender<CommentCRUDResponse>(
+    '/content/v1/create-comment',
+    { section_id: postID, description: description },
     {
       Authorization: `Bearer ${accessToken}`,
     },

@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSidePropsContext, GetServerSideProps } from 'next';
-import { post as postRequest, comments as commentsRequest } from '../../apps/mishka_content/content';
+import { post as postRequest, comments as commentsRequest, createComments } from '../../apps/mishka_content/content';
 import PostTemplate from '../../apps/mishka_html/templates/client/blog/Post';
 import { useState, FormEvent, RefObject, useEffect, useContext, Dispatch, SetStateAction } from 'react';
 import { useSession } from 'next-auth/react';
@@ -74,10 +74,23 @@ const BlogPostPage: NextPage<BlogPostTypes> = ({ post }) => {
     }
   };
 
-  const commentFormHandler = (event: FormEvent<HTMLFormElement>, description: RefObject<HTMLInputElement>) => {
+  const commentFormHandler = async (event: FormEvent<HTMLFormElement>, description: RefObject<HTMLInputElement>) => {
+    // TODO: it shooud be changed because the api does not return a good params like all comments
     event.preventDefault();
     if (session && description.current?.value) {
-      console.log(description.current?.value);
+      const commentResponse = await createComments(session.access_token as string, post.post_info.id, description.current?.value);
+      if (commentResponse.status === 200) {
+        setComments((prev: any) => Array.from(new Set([...[commentResponse.comment_info], ...prev])));
+        toggleComment()
+
+      } else if (commentResponse.status === 401) {
+        await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+      } else {
+        setAlertState(true, Object.values(commentResponse.errors!)[0], 'danger');
+        setTimeout(() => {
+          document.querySelector('.alert')?.scrollIntoView();
+        }, 300);
+      }
     }
   };
 

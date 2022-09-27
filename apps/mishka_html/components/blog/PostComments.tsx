@@ -122,6 +122,7 @@ const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment
             fill="currentColor"
             className="bi bi-arrow-down-square"
             viewBox="0 0 16 16"
+            onClick={() => session && toggleComment()}
           >
             <path
               fillRule="evenodd"
