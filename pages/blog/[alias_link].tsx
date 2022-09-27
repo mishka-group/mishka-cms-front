@@ -1,7 +1,7 @@
 import type { NextPage, GetServerSidePropsContext, GetServerSideProps } from 'next';
 import { post as postRequest, comments as commentsRequest } from '../../apps/mishka_content/content';
 import PostTemplate from '../../apps/mishka_html/templates/client/blog/Post';
-import { useState, FormEvent, RefObject, useEffect, useContext, Dispatch, SetStateAction, MouseEvent } from 'react';
+import { useState, FormEvent, RefObject, useEffect, useContext, Dispatch, SetStateAction } from 'react';
 import { useSession } from 'next-auth/react';
 import { clientSideSessionAction } from '../../apps/mishka_user/helper/authHelper';
 import { useRouter } from 'next/router';

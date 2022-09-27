@@ -29,6 +29,10 @@ export interface CategoriesResponse extends PublicContentResponse {
 
 export interface CommentsResponse extends PostsResponse {}
 
+export interface CategoryResponse extends PublicContentResponse {
+  category_info: ObjectResponse<any>;
+}
+
 /**
  * `posts` is a function that takes a `params` object and returns a `Promise` of a `PostsResponse` which has last 20 posts of API
  * object
@@ -65,8 +69,26 @@ export const categories = async () => {
   return response;
 };
 
-export const category = () => {};
+/**
+ * It sends a POST request to the /content/v1/category endpoint with the alias_link parameter to
+ * get information of a category
+ * @param {string} aliasLink - The alias link of the category you want to retrieve.
+ * @returns A promise that resolves to a CategoryResponse
+ */
+export const category = async (aliasLink: string) => {
+  const response = await contentApiRequestSender<CategoryResponse>('/content/v1/category', { alias_link: aliasLink }, {}, 'POST');
+  return response;
+};
 
+/**
+ * It takes an access token, a post ID, a status, and a page number, and returns a response from the
+ * Comments API
+ * @param {string} accessToken - The access token you received from the authentication API.
+ * @param {string} postID - The ID of the post you want to get comments for.
+ * @param {string} status - The status of the comments you want to retrieve. Possible values are:
+ * @param {number} [page=1] - The page number of comments to return.
+ * @returns CommentsResponse
+ */
 export const comments = async (accessToken: string, postID: string, status: string, page: number = 1) => {
   const commentParams = {
     page: page,

@@ -1,6 +1,6 @@
 import type { NextPage, GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useState, MouseEvent, useContext } from 'react';
-import { posts as postRequest, PostsResponse, CategoriesResponse, categories } from '../../apps/mishka_content/content';
+import { posts as postsRequest, PostsResponse, CategoriesResponse, categories } from '../../apps/mishka_content/content';
 import BlogsTemplate from '../../apps/mishka_html/templates/client/blog/Blogs';
 import { ClientAlertState } from '../../apps/mishka_html/components/state/ClientAlertState';
 
@@ -31,7 +31,7 @@ const BlogsPage: NextPage<BlogsTypes> = ({ posts, categories }) => {
       setPageMore(false);
     } else {
       setPageLoading(true);
-      const lastPosts = await postRequest({ ...POST_INITIATE, page: pageNumber + 1 });
+      const lastPosts = await postsRequest({ ...POST_INITIATE, page: pageNumber + 1 });
       if (lastPosts.status === 200) {
         setPageNumber((prev) => prev + 1);
         setContent((prev) => Array.from(new Set([...prev, ...lastPosts.entries])));
@@ -60,7 +60,7 @@ export default BlogsPage;
  * @returns The props object is being returned.
  */
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const lastPosts = await postRequest(POST_INITIATE);
+  const lastPosts = await postsRequest(POST_INITIATE);
   const lastCategories = await categories();
 
   return {
