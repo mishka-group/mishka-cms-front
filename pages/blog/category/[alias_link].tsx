@@ -5,7 +5,7 @@ import {
   PostsResponse,
   CategoriesResponse,
   categories,
-  CategoryResponse
+  CategoryResponse,
 } from '../../../apps/mishka_content/content';
 import { ClientAlertState } from '../../../apps/mishka_html/components/state/ClientAlertState';
 import { useState, useContext, MouseEvent } from 'react';
@@ -16,8 +16,6 @@ interface CategoryTypes {
   categories: CategoriesResponse;
   category: CategoryResponse;
 }
-
-const POST_INITIATE = { page: 1, filters: { status: 'active' } };
 
 const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) => {
   const [content, setContent] = useState(posts.entries);
@@ -34,7 +32,10 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
       setPageMore(false);
     } else {
       setPageLoading(true);
-      const lastPosts = await postsRequest({ ...POST_INITIATE, page: pageNumber + 1 });
+      const lastPosts = await postsRequest({
+        ...{ page: 1, filters: { status: 'active', category_id: category.category_info.id } },
+        page: pageNumber + 1,
+      });
       if (lastPosts.status === 200) {
         setPageNumber((prev) => prev + 1);
         setContent((prev) => Array.from(new Set([...prev, ...lastPosts.entries])));
@@ -57,14 +58,25 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
 export default CategoryPage;
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-  const POST_INITIATE = { page: 1, filters: { status: 'active' } };
-  const lastPosts = await postsRequest(POST_INITIATE);
-  const lastCategories = await categories();
+  const alias_link = context.query.alias_link;
+  if (typeof alias_link === 'string' && alias_link !== '') {
+    const cat = await categoryRequest(context.query.alias_link as string);
+
+    if (cat.status === 200) {
+      const lastPosts = await postsRequest({ page: 1, filters: { status: 'active', category_id: cat.category_info.id } });
+      const lastCategories = await categories();
+
+      return {
+        props: {
+          category: cat,
+          posts: lastPosts,
+          categories: lastCategories,
+        },
+      };
+    }
+  }
 
   return {
-    props: {
-      posts: lastPosts,
-      categories: lastCategories,
-    },
+    notFound: true,
   };
 };
