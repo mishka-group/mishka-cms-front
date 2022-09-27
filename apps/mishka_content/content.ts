@@ -33,6 +33,11 @@ export interface CategoryResponse extends PublicContentResponse {
   category_info: ObjectResponse<any>;
 }
 
+export interface SubscriptionResponse extends PublicContentResponse {
+  subscription_info: ObjectResponse<any>;
+}
+
+
 /**
  * `posts` is a function that takes a `params` object and returns a `Promise` of a `PostsResponse` which has last 20 posts of API
  * object
@@ -122,7 +127,17 @@ export const createBookmark = () => {};
 
 export const deleteBookmark = () => {};
 
-export const createSubscription = () => {};
+export const createSubscription = async (accessToken: string, categoryID: string) => {
+  const response = await contentApiRequestSender<SubscriptionResponse>(
+    '/content/v1/create-subscription',
+    { section: 'blog_post', section_id: categoryID },
+    {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    'POST'
+  );
+  return response;
+};
 
 export const deleteSubscription = () => {};
 

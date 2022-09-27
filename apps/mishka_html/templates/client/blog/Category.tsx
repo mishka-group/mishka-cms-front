@@ -42,6 +42,7 @@ const CategoryTemplate: NextPage<BlogsTemplateTypes> = ({ posts, categories, loa
     );
   };
 
+  // TODO: after changing API we need to know the user is Subscribed or not
   const CategoryInformation = () => {
     return (
       <>
@@ -51,7 +52,9 @@ const CategoryTemplate: NextPage<BlogsTemplateTypes> = ({ posts, categories, loa
           <p className="category-side-short_description vazir">{category.category_info.short_description}</p>
           <div className="space20"></div>
 
-          <a className="btn btn-outline-secondary btn-lg" onClick={subscribe}>Subscribe</a>
+          <a className="btn btn-outline-secondary btn-lg" onClick={subscribe}>
+            Subscribe
+          </a>
         </aside>
         <div className="space30"></div>
       </>

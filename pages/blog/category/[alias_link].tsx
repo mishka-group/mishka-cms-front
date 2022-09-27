@@ -6,10 +6,15 @@ import {
   CategoriesResponse,
   categories,
   CategoryResponse,
+  createSubscription,
+  deleteSubscription,
 } from '../../../apps/mishka_content/content';
 import { ClientAlertState } from '../../../apps/mishka_html/components/state/ClientAlertState';
 import { useState, useContext, MouseEvent } from 'react';
 import CategoryTemplate from '../../../apps/mishka_html/templates/client/blog/Category';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { clientSideSessionAction } from '../../../apps/mishka_user/helper/authHelper';
 
 interface CategoryTypes {
   posts: PostsResponse;
@@ -18,10 +23,12 @@ interface CategoryTypes {
 }
 
 const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) => {
+  const { data: session } = useSession();
   const [content, setContent] = useState(posts.entries);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageLoading, setPageLoading] = useState(false);
   const [pageMore, setPageMore] = useState(true);
+  const router = useRouter();
   const { setAlertState } = useContext(ClientAlertState);
 
   const loadNextPage = async (event: MouseEvent<HTMLElement>) => {
@@ -48,9 +55,20 @@ const CategoryPage: NextPage<CategoryTypes> = ({ posts, category, categories }) 
     }
   };
 
-  const subscribeHandler = () => {
-    console.log("hi subscribe")
-  }
+  const subscribeHandler = async () => {
+    if (session) {
+      const subscription = await createSubscription(session.access_token as string, category.category_info.id);
+      if (subscription.status === 200) {
+        setAlertState(true, subscription.message, 'success');
+      } else if (subscription.status === 401) {
+        await clientSideSessionAction({ ...session, access_expires_in: Math.floor(Date.now() / 1000) - 10 }, router, setAlertState);
+      } else {
+        setAlertState(true, Object.values(subscription.errors!)[0], 'danger');
+      }
+    } else {
+      setAlertState(true, 'You must be logged in to subscribe in a category.', 'warning');
+    }
+  };
 
   return (
     <>
