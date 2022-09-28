@@ -3,9 +3,9 @@
 This is a React/Next JS frontend version that uses [MishkaCms API](https://github.com/mishka-group/mishka-cms), which is powered by TypeScript.
 
 ---
-> **NOTICE**: Do not use the master branch; this library is under heavy development. Please wait until a new release is out.
+> **NOTICE**: Do not use; this project is under heavy development. Please wait until a new release is out.
 
-> **NOTICE**: Do not use, This is a practical project to review NextJS and correct issues related to the content management system API for the release of the new version.
+> **NOTICE**: Do not use; This is a practical project to review NextJS and correct issues related to the content management system API for the release of the new version.
 
 ---
 

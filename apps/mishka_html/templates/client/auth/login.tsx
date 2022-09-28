@@ -16,8 +16,6 @@ interface LoginTemplateType {
   formChenge(email: RH, password: RH): void;
 }
 // TODO: try to load Google recaptcha and CSRF with next or with server API in next version
-// TODO: useState for disable forme submit
-
 // We do not use Layout concept, because it is not useful for the project has many different globally UIs
 // But the stuff like {<MainHeader /> etc} can be merged into another file to prevent copy and pasting
 // But we cover this as a concept to let another program use it if they want
