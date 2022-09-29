@@ -44,7 +44,7 @@ const PostComments: NextPage<PostCommentsTypes> = ({ startComment, toggleComment
           <ShowMoreButton />
         </p>
 
-        {commentLoading && (
+        {commentLoading && session && (
           <div>
             <div className="space40"></div>
             <div className="d-flex justify-content-center">

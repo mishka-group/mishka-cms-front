@@ -9,7 +9,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
     <>
       <article className={`col-sm-${size} home-blog-posts-normal-with-body home-image-post`}>
         <article className="container-fluid home-image-post home-image-post">
-          <Link href={`blog/${post.alias_link}`}>
+          <Link href={`/blog/${post.alias_link}`}>
             <a className="img-fluid client-home-normal-post-image">
               <Image
                 src={`http://localhost:4000${post.main_image}`}
@@ -42,7 +42,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
               </div>
               <div className="col-sm">
                 <span className="badge bg-dark client-blog-badge-category">
-                  <Link href={`blog/category/${post.category_alias_link}`}>{post.category_title}</Link>
+                  <Link href={`/blog/category/${post.category_alias_link}`}>{post.category_title}</Link>
                 </span>
               </div>
             </div>
@@ -51,7 +51,7 @@ const BlogItem: NextPage<ObjectResponse<any>> = ({ post, size }) => {
           <div className="space10"></div>
           <header className="home-blog-posts-normal-with-body-header bot-home-page-body">
             <h2 className="normal-home-posts-link">
-              <Link href={`blog/${post.alias_link}`}>{post.title}</Link>
+              <Link href={`/blog/${post.alias_link}`}>{post.title}</Link>
             </h2>
             <div className="space20"></div>
             {post.short_description}

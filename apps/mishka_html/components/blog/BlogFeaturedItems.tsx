@@ -16,7 +16,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
           {bannerPosts().map((item) => (
             <article className="col-sm-6 client-home-header-post-article" key={item.id}>
               <article className="container-fluid home-image-post">
-                <Link href={`blog/${item.alias_link}`}>
+                <Link href={`/blog/${item.alias_link}`}>
                   <div className="img-fluid client-home-header-post-image">
                     <Image
                       src={`http://localhost:4000${item.main_image}`}
@@ -30,7 +30,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                   </div>
                 </Link>
                 <section className="home-post-like-bookmarks-header-type">
-                  <Link href={`blog/${item.alias_link}`}>
+                  <Link href={`/blog/${item.alias_link}`}>
                     <a>
                       <div className="col-sm-2 client-home-like-bookmark">
                         <svg
@@ -67,7 +67,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                   </Link>
                   <header className="home-blog-posts-normal-with-body-header">
                     <h2 className="banner-home-posts-link">
-                      <Link href={`blog/${item.alias_link}`}>{item.title}</Link>
+                      <Link href={`/blog/${item.alias_link}`}>{item.title}</Link>
                     </h2>
                     <div className="space10"></div>
                   </header>
@@ -85,7 +85,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
       <div className="row">
         <article className="col-sm-6 top-home-page-normal-post-article">
           <article className="container-fluid home-image-post client-home-featured-post-article">
-            <Link href={`blog/${posts[0].alias_link}`}>
+            <Link href={`/blog/${posts[0].alias_link}`}>
               <div className="img-fluid client-home-featured-post-image">
                 <Image
                   src={`http://localhost:4000${posts[0].main_image}`}
@@ -100,7 +100,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
             </Link>
 
             <section className="home-post-like-bookmarks-header-type-banner">
-              <Link href={`blog/${posts[0].alias_link}`}>
+              <Link href={`/blog/${posts[0].alias_link}`}>
                 <a>
                   <div className="col-sm-2 client-home-like-bookmark">
                     <svg
@@ -138,7 +138,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
 
               <header className="home-blog-posts-normal-with-body-header">
                 <h2 className="featured-posts-link">
-                  <Link href={`blog/${posts[0].alias_link}`}>{posts[0].title}</Link>
+                  <Link href={`/blog/${posts[0].alias_link}`}>{posts[0].title}</Link>
                 </h2>
                 <div className="space10"></div>
                 {posts[0].short_description}
@@ -150,7 +150,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
         <article className="col-sm-6 top-home-page-normal-post-article">
           <div className="row">
             <article className="col-sm-6 client-home-normal-post-article">
-              <Link href={`blog/${posts[1].alias_link}`}>
+              <Link href={`/blog/${posts[1].alias_link}`}>
                 <div className="img-fluid client-home-normal-post-image">
                   <Image
                     src={`http://localhost:4000${posts[1].main_image}`}
@@ -164,7 +164,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                 </div>
               </Link>
               <section className="home-post-like-bookmarks-header-type">
-                <Link href={`blog/${posts[1].alias_link}`}>
+                <Link href={`/blog/${posts[1].alias_link}`}>
                   <a>
                     <div className="col-sm-3 client-home-like-bookmark">
                       <svg
@@ -201,14 +201,14 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                 </Link>
                 <header className="home-blog-posts-normal-with-body-header">
                   <h2 className="featured-posts-link">
-                    <Link href={`blog/${posts[1].alias_link}`}>{posts[1].title}</Link>
+                    <Link href={`/blog/${posts[1].alias_link}`}>{posts[1].title}</Link>
                   </h2>
                 </header>
               </section>
             </article>
 
             <article className="col-sm-6 client-home-normal-post-article">
-              <Link href={`blog/${posts[2].alias_link}`}>
+              <Link href={`/blog/${posts[2].alias_link}`}>
                 <div className="img-fluid client-home-normal-post-image">
                   <Image
                     src={`http://localhost:4000${posts[2].main_image}`}
@@ -222,7 +222,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                 </div>
               </Link>
               <section className="home-post-like-bookmarks-header-type">
-                <Link href={`blog/${posts[2].alias_link}`}>
+                <Link href={`/blog/${posts[2].alias_link}`}>
                   <a>
                     <div className="col-sm-3 client-home-like-bookmark">
                       <svg
@@ -259,7 +259,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                 </Link>
                 <header className="home-blog-posts-normal-with-body-header">
                   <h2 className="featured-posts-link">
-                    <Link href={`blog/${posts[2].alias_link}`}>{posts[2].title}</Link>
+                    <Link href={`/blog/${posts[2].alias_link}`}>{posts[2].title}</Link>
                   </h2>
                 </header>
               </section>
@@ -270,7 +270,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
 
           <div className="row">
             <article className="col-sm-6 client-home-normal-post-article">
-              <Link href={`blog/${posts[3].alias_link}`}>
+              <Link href={`/blog/${posts[3].alias_link}`}>
                 <div className="img-fluid client-home-normal-post-image">
                   <Image
                     src={`http://localhost:4000${posts[3].main_image}`}
@@ -284,7 +284,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                 </div>
               </Link>
               <section className="home-post-like-bookmarks-header-type">
-                <Link href={`blog/${posts[3].alias_link}`}>
+                <Link href={`/blog/${posts[3].alias_link}`}>
                   <a>
                     <div className="col-sm-3 client-home-like-bookmark">
                       <svg
@@ -321,14 +321,14 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                 </Link>
                 <header className="home-blog-posts-normal-with-body-header">
                   <h2 className="featured-posts-link">
-                    <Link href={`blog/${posts[3].alias_link}`}>{posts[3].title}</Link>
+                    <Link href={`/blog/${posts[3].alias_link}`}>{posts[3].title}</Link>
                   </h2>
                 </header>
               </section>
             </article>
 
             <article className="col-sm-6 client-home-normal-post-article">
-              <Link href={`blog/${posts[4].alias_link}`} className="img-fluid client-home-normal-post-image">
+              <Link href={`/blog/${posts[4].alias_link}`} className="img-fluid client-home-normal-post-image">
                 <div className="img-fluid client-home-normal-post-image">
                   <Image
                     src={`http://localhost:4000${posts[4].main_image}`}
@@ -342,7 +342,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                 </div>
               </Link>
               <section className="home-post-like-bookmarks-header-type">
-                <Link href={`blog/${posts[4].alias_link}`}>
+                <Link href={`/blog/${posts[4].alias_link}`}>
                   <a>
                     <div className="col-sm-3 client-home-like-bookmark">
                       <svg
@@ -379,7 +379,7 @@ const BlogFeaturedItems: NextPage<ObjectResponse<any>> = ({ posts }) => {
                 </Link>
                 <header className="home-blog-posts-normal-with-body-header">
                   <h2 className="featured-posts-link">
-                    <Link href={`blog/${posts[4].alias_link}`}>{posts[4].title}</Link>
+                    <Link href={`/blog/${posts[4].alias_link}`}>{posts[4].title}</Link>
                   </h2>
                 </header>
               </section>

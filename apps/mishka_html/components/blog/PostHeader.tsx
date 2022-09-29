@@ -58,7 +58,7 @@ const PostHeader: NextPage<PostHeaderTypes> = ({ post }) => {
           <span className="badge bg-info me-3">Updated: {post.post_info.updated_at}</span>
           <span className="badge bg-success me-3">Priority: {post.post_info.priority}</span>
           <span className="badge bg-primary me-3">
-            Category: <Link href={`blog/category/${post.post_info.blog_categories.alias_link}`}>{post.post_info.blog_categories.title}</Link>
+            Category: <Link href={`/blog/category/${post.post_info.blog_categories.alias_link}`}>{post.post_info.blog_categories.title}</Link>
           </span>
         </span>
       </section>

@@ -143,7 +143,17 @@ export const deleteCommentLike = () => {};
 
 export const tags = () => {};
 
-export const tagPosts = () => {};
+/**
+ * It fetches a list of posts that are tagged with a specific tag
+ * @param {number} [page=1] - page number
+ * @param {string} alias_link - The alias link of the tag you want to get posts for.
+ * @returns PostsResponse
+ */
+export const tagPosts = async (page: number = 1, alias_link: string) => {
+  const tagpostsParams = { page: page, filters: { alias_link: alias_link, post_status: 'active' } };
+  const response = await contentApiRequestSender<PostsResponse>('/content/v1/tag-posts', tagpostsParams, {}, 'POST');
+  return response;
+};
 
 export const createBookmark = () => {};
 
