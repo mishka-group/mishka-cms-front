@@ -141,8 +141,6 @@ export const likeComment = () => {};
 
 export const deleteCommentLike = () => {};
 
-export const tags = () => {};
-
 /**
  * It fetches a list of posts that are tagged with a specific tag
  * @param {number} [page=1] - page number
@@ -154,10 +152,6 @@ export const tagPosts = async (page: number = 1, alias_link: string) => {
   const response = await contentApiRequestSender<PostsResponse>('/content/v1/tag-posts', tagpostsParams, {}, 'POST');
   return response;
 };
-
-export const createBookmark = () => {};
-
-export const deleteBookmark = () => {};
 
 /**
  * It sends a POST request to the Content API to create a subscription to a category
@@ -194,5 +188,3 @@ export const deleteSubscription = async (accessToken: string, categoryID: string
   );
   return response;
 };
-
-export const postLinks = () => {};
