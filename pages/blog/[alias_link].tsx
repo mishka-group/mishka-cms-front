@@ -22,8 +22,9 @@ const BlogPostPage: NextPage<BlogPostTypes> = ({ post }) => {
   const { setAlertState } = useContext(ClientAlertState);
 
   useEffect(() => {
+    let commentTimeout: any;
     if (session) {
-      var commentTimeout = setTimeout(async () => {
+      commentTimeout = setTimeout(async () => {
         const cmReq = await commentsRequest(session.access_token as string, post.post_info.id, 'active');
         if (cmReq.status === 200) {
           setComments(cmReq.entries);
@@ -35,7 +36,7 @@ const BlogPostPage: NextPage<BlogPostTypes> = ({ post }) => {
         setCommentLoading(false);
       }, 5000);
     }
-
+    
     return () => {
       clearTimeout(commentTimeout);
     };

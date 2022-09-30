@@ -6,6 +6,7 @@ import type { PostsResponse } from '../../../../mishka_content/content';
 import BlogItem from '../../../components/blog/BlogItem';
 import BlogFeaturedItems from '../../../components/blog/BlogFeaturedItems';
 import Link from 'next/link';
+import MainHead from './MainHead';
 
 // TODO: {styles.rtl} or {styles.ltr} should be changed by multi-language support
 
@@ -30,23 +31,25 @@ const ShowMore = () => {
 
 const MainTemplate: NextPage<HomeTemplateTypes> = ({ posts, featuredPosts }) => {
   return (
-    <div id="clientMain">
-      <MainHeader />
-      <ClinetMainMenu active="Home" />
-      <div className="container">
-        <section className="col mx-auto client-content">
-          <Alert />
-          <BlogFeaturedItems posts={featuredPosts.entries} />
-          <div className="row client-home-header-post-article-row">
-            {posts.entries.map((item) => (
-              <BlogItem post={item} key={item.id} size={3} />
-            ))}
-          </div>
-
-          <ShowMore />
-        </section>
+    <>
+      <MainHead />
+      <div id="clientMain">
+        <MainHeader />
+        <ClinetMainMenu active="Home" />
+        <div className="container">
+          <section className="col mx-auto client-content">
+            <Alert />
+            <BlogFeaturedItems posts={featuredPosts.entries} />
+            <div className="row client-home-header-post-article-row">
+              {posts.entries.map((item) => (
+                <BlogItem post={item} key={item.id} size={3} />
+              ))}
+            </div>
+            <ShowMore />
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
