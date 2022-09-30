@@ -6,7 +6,7 @@ import type { PostsResponse } from '../../../../mishka_content/content';
 import BlogItem from '../../../components/blog/BlogItem';
 import BlogFeaturedItems from '../../../components/blog/BlogFeaturedItems';
 import Link from 'next/link';
-import MainHead from './MainHead';
+import HeadTags from '../../../components/header/HeadTags';
 
 // TODO: {styles.rtl} or {styles.ltr} should be changed by multi-language support
 
@@ -30,9 +30,17 @@ const ShowMore = () => {
 };
 
 const MainTemplate: NextPage<HomeTemplateTypes> = ({ posts, featuredPosts }) => {
+  const metaTags = {
+    title: 'Home - MishkaCMS',
+    description: 'This is description',
+    keywords: 'js, nextjs, react, cms, mishka',
+    url: 'http://localhost:3000/',
+    image: 'http://localhost:4000/images/mylogo.png',
+  };
+  
   return (
     <>
-      <MainHead />
+      <HeadTags {...metaTags} />
       <div id="clientMain">
         <MainHeader />
         <ClinetMainMenu active="Home" />
