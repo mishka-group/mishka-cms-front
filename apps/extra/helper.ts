@@ -1,6 +1,9 @@
 import { FormEvent, Dispatch, SetStateAction } from 'react';
 type CutomObject = { [key: string]: string };
 
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const MONTHS_ABBREVIATION = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 /**
  * It takes an event, a form data object, and a setter function, and deletes the targeted field data
  * from the form data object
@@ -29,4 +32,25 @@ export const deleteTargetedFieldData = (
  */
 export const elementDisability = (id: string, status: boolean) => {
   (document.getElementById(id) as HTMLInputElement).disabled = status
+}
+
+/**
+ * It takes a timestamp and returns an object with the month, day, year, and month number
+ * @param {string} dateStr - The timestamp you want to convert.
+ * @param {'normal' | 'short'} [style=normal] - 'normal' | 'short' = 'normal'
+ * @returns An object with the following properties:
+ *   - months: the month in string format
+ *   - day: the day in number format
+ *   - year: the year in number format
+ *   - monthsNumber: the month in number format
+ */
+ export const timestampToObject = (dateStr: string, style: 'normal' | 'short' = 'normal') => {
+  const readable = new Date(dateStr);
+  const mon = style === 'normal' ? MONTHS : MONTHS_ABBREVIATION;
+  return {
+    months: mon[readable.getMonth()],
+    day: readable.getDay(),
+    year: readable.getFullYear(),
+    monthsNumber: readable.getMonth(),
+  };
 }
