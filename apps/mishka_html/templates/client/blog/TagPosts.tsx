@@ -4,6 +4,7 @@ import Alert from '../../../components/notices/Alert';
 import MainHeader from '../../../UIs/MainHeader';
 import BlogItem from '../../../components/blog/BlogItem';
 import ClinetMainMenu from '../../../components/navigation/ClinetMainMenu';
+import HeadTags from '../../../components/header/HeadTags';
 
 type ObjectResponse<T> = { [key: string]: T };
 
@@ -15,6 +16,15 @@ interface TagPostsTemplateTypes {
 }
 
 const TagPostsTemplate: NextPage<TagPostsTemplateTypes> = ({ posts, pageLoading, loadNextPage, pageMore }) => {
+  // TODO: It is a temporary code, and it will be deleted after changing API, tags information should be separated
+  const metaTags = {
+    title: `${posts[0]?.title || 'Tags'} - MishkaCMS`,
+    description: `${posts[0]?.meta_description || ''}`,
+    keywords: `${posts[0]?.meta_keywords || ''}`,
+    url: `http://localhost:3000/blog/${posts[0]?.alias_link}`,
+    image: `http://localhost:4000/${posts[0]?.post_main_image}`,
+  };
+
   // TODO: It is a temporary code, and it will be deleted after changing API
   const convertTagPostsToPosts = (item: any) => {
     return {
@@ -30,7 +40,7 @@ const TagPostsTemplate: NextPage<TagPostsTemplateTypes> = ({ posts, pageLoading,
     };
   };
 
-  const blogItems = useMemo(() => posts.map((item) => <BlogItem post={convertTagPostsToPosts(item)} key={item.id} size={3} />), [posts]);
+  const blogItems = useMemo(() => posts.map((item) => <BlogItem post={convertTagPostsToPosts(item)} key={item.post_id} size={3} />), [posts]);
 
   const ShowMore = () => {
     return (
@@ -53,23 +63,26 @@ const TagPostsTemplate: NextPage<TagPostsTemplateTypes> = ({ posts, pageLoading,
   };
 
   return (
-    <div id="clientMain">
-      <MainHeader />
-      <ClinetMainMenu active="Blog" />
-      <div className="container">
-        <section className="col mx-auto client-content">
-          <Alert />
-          <div className="row">
-            <article className="col-sm">
-              <div className="row client-home-header-post-article-row" id="BlogsPosts">
-                {blogItems}
-              </div>
-            </article>
-          </div>
-          {pageMore && <ShowMore />}
-        </section>
+    <>
+      <HeadTags {...metaTags} />
+      <div id="clientMain">
+        <MainHeader />
+        <ClinetMainMenu active="Blog" />
+        <div className="container">
+          <section className="col mx-auto client-content">
+            <Alert />
+            <div className="row">
+              <article className="col-sm">
+                <div className="row client-home-header-post-article-row" id="BlogsPosts">
+                  {blogItems}
+                </div>
+              </article>
+            </div>
+            {pageMore && <ShowMore />}
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
