@@ -6,6 +6,7 @@ import Alert from '../../../components/notices/Alert';
 import MainHeader from '../../../UIs/MainHeader';
 import PasswordField from '../../../UIs/PasswordField';
 import TextField from '../../../UIs/TextField';
+import HeadTags from '../../../components/header/HeadTags';
 
 type RH = RefObject<HTMLInputElement>;
 
@@ -44,6 +45,14 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
   const newPasswordRef: RH = createRef();
   const activeCodeRef: RH = createRef();
   const deactiveCodeRef: RH = createRef();
+
+  const metaTags = {
+    title: `UserSettings - MishkaCMS`,
+    description: `This is UserSettings`,
+    keywords: `This is UserSettings keywords}`,
+    url: `http://localhost:3000/user/settings`,
+    image: `http://localhost:4000/images/icons8-login-as-user-80.png`,
+  };
 
   /* Good for UX, let user see his name if he/her, if he/her wants so changes it, after changing the
   name and submit the page will be reloaded */
@@ -156,99 +165,103 @@ const SettingsTemplate: NextPage<SettingsTemplateTypes> = ({
   };
 
   return (
-    <div id="clientSettings" className="mb-5">
-      <MainHeader />
-      <ClinetMainMenu active="Settings" />
-      <div className="container">
-        <section className="col mx-auto client-content">
-          <Alert />
-          <div className="space40"></div>
-          <div className="col-sm-6 container">
-            <div className="text-center">
-              <h1>User Settings</h1>
-              <div className="bd-callout bd-callout-info">
-                On this page, you can change your user information and also view some information about your account.
-              </div>
-            </div>
-            <div className="space20"></div>
-            <div className="row">
-              <label className="col-sm-12 form-label">Full Name:</label>
-              <div className="col-sm-9 mt-3">
-                <div className="input-group input-group-lg ltr">
-                  <TextField name="fullName" placeholder="Change your Full name" ref={fullNameRef} type="text" required={true} />
+    <>
+      <HeadTags {...metaTags} />
+
+      <div id="clientSettings" className="mb-5">
+        <MainHeader />
+        <ClinetMainMenu active="Settings" />
+        <div className="container">
+          <section className="col mx-auto client-content">
+            <Alert />
+            <div className="space40"></div>
+            <div className="col-sm-6 container">
+              <div className="text-center">
+                <h1>User Settings</h1>
+                <div className="bd-callout bd-callout-info">
+                  On this page, you can change your user information and also view some information about your account.
                 </div>
               </div>
-              <button
-                id="changeNameButton"
-                onClick={() => editProfile(fullNameRef)}
-                name="changeNameButton"
-                className="col-sm-2 btn btn-primary mt-3"
-              >
-                Change
-              </button>
+              <div className="space20"></div>
+              <div className="row">
+                <label className="col-sm-12 form-label">Full Name:</label>
+                <div className="col-sm-9 mt-3">
+                  <div className="input-group input-group-lg ltr">
+                    <TextField name="fullName" placeholder="Change your Full name" ref={fullNameRef} type="text" required={true} />
+                  </div>
+                </div>
+                <button
+                  id="changeNameButton"
+                  onClick={() => editProfile(fullNameRef)}
+                  name="changeNameButton"
+                  className="col-sm-2 btn btn-primary mt-3"
+                >
+                  Change
+                </button>
+              </div>
+
+              <div className="space40"></div>
+
+              <div className="row">
+                <label className="col-sm-12 form-label">Change Password:</label>
+                <form onSubmit={(event) => changePassword(event, oldPasswordRef, newPasswordRef)}>
+                  {/* It is because we want to clear warning from chrome */}
+                  <input hidden type="text" id="username" name="username" autoComplete="username" />
+                  <div className="col-sm-9 mt-3">
+                    <div className="input-group input-group-lg ltr">
+                      <PasswordField
+                        name="currentPassword"
+                        placeholder="Put your current password"
+                        ref={oldPasswordRef}
+                        required={false}
+                        autoComplete="new-password"
+                      />
+                    </div>
+                    <br />
+                    <div className="input-group input-group-lg ltr">
+                      <PasswordField
+                        name="newPassword"
+                        placeholder="Put your new password"
+                        ref={newPasswordRef}
+                        required={false}
+                        autoComplete="new-password"
+                      />
+                    </div>
+                  </div>
+                  <button type="submit" className="col-sm-2 btn btn-primary mt-3">
+                    Change
+                  </button>
+                </form>
+              </div>
             </div>
 
             <div className="space40"></div>
 
-            <div className="row">
-              <label className="col-sm-12 form-label">Change Password:</label>
-              <form onSubmit={(event) => changePassword(event, oldPasswordRef, newPasswordRef)}>
-                {/* It is because we want to clear warning from chrome */}
-                <input hidden type="text" id="username" name="username" autoComplete="username" />
-                <div className="col-sm-9 mt-3">
-                  <div className="input-group input-group-lg ltr">
-                    <PasswordField
-                      name="currentPassword"
-                      placeholder="Put your current password"
-                      ref={oldPasswordRef}
-                      required={false}
-                      autoComplete="new-password"
-                    />
-                  </div>
-                  <br />
-                  <div className="input-group input-group-lg ltr">
-                    <PasswordField
-                      name="newPassword"
-                      placeholder="Put your new password"
-                      ref={newPasswordRef}
-                      required={false}
-                      autoComplete="new-password"
-                    />
-                  </div>
-                </div>
-                <button type="submit" className="col-sm-2 btn btn-primary mt-3">
-                  Change
+            <div className="col-sm-6 container">
+              <div className="row">
+                <button onClick={showTokens} type="submit" className="col-sm-4 btn btn-outline-danger mt-3">
+                  Show Your tokens
                 </button>
-              </form>
+                <div className="col-sm"></div>
+                <button onClick={activeAccount} type="submit" className="col-sm-3 btn btn-outline-warning mt-3">
+                  Active Account
+                </button>
+                <div className="col-sm"></div>
+                <button onClick={deactive} type="submit" className="col-sm-4 btn btn-outline-light mt-3">
+                  Deactive Account
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div className="space40"></div>
+            {tokenToggle && userTokes && userTokes.length > 0 && <ShowUserTokns />}
+            {activeToggle && <ConfirmActivationCode />}
+            {deactiveToggle && <ConfirmDectivationCode />}
 
-          <div className="col-sm-6 container">
-            <div className="row">
-              <button onClick={showTokens} type="submit" className="col-sm-4 btn btn-outline-danger mt-3">
-                Show Your tokens
-              </button>
-              <div className="col-sm"></div>
-              <button onClick={activeAccount} type="submit" className="col-sm-3 btn btn-outline-warning mt-3">
-                Active Account
-              </button>
-              <div className="col-sm"></div>
-              <button onClick={deactive} type="submit" className="col-sm-4 btn btn-outline-light mt-3">
-                Deactive Account
-              </button>
-            </div>
-          </div>
-
-          {tokenToggle && userTokes && userTokes.length > 0 && <ShowUserTokns />}
-          {activeToggle && <ConfirmActivationCode />}
-          {deactiveToggle && <ConfirmDectivationCode />}
-
-          <div className="space40"></div>
-        </section>
+            <div className="space40"></div>
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

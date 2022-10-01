@@ -6,6 +6,7 @@ import TextField from '../../../UIs/TextField';
 import React, { FormEvent, RefObject } from 'react';
 import Alert from '../../../components/notices/Alert';
 import PasswordField from '../../../UIs/PasswordField';
+import HeadTags from '../../../components/header/HeadTags';
 
 type RH = RefObject<HTMLInputElement>;
 
@@ -20,6 +21,14 @@ const ForgetPasswordTemplate: NextPage<ForgetPasswordTemplateType> = ({ reset, w
   const emailRef: RH = React.createRef();
   const codeRef: RH = React.createRef();
   const passwordRef: RH = React.createRef();
+
+  const metaTags = {
+    title: `Forget Password - MishkaCMS`,
+    description: `This is Forget Password`,
+    keywords: `This is Forget Password keywords}`,
+    url: `http://localhost:3000/auth/reset`,
+    image: `http://localhost:4000/images/icons8-login-as-user-80.png`,
+  };
 
   /**
    * It returns a form with an email input and a submit button
@@ -64,34 +73,37 @@ const ForgetPasswordTemplate: NextPage<ForgetPasswordTemplateType> = ({ reset, w
   };
 
   return (
-    <div id="clientMain" className="mb-5">
-      <MainHeader />
-      <ClinetMainMenu active="Login" />
-      <div className="container">
-        <section className="col mx-auto client-content">
-          <Alert />
-          <div className="space40"></div>
-          <main className="form-signin">
-            {whichForm ? <ConfirmResetPasswordForm /> : <SendResetPasswordForm />}
-            <div className="space20"></div>
-            <Link href={'/auth/login'}>
-              <a className="btn btn-outline-info">Back to Login</a>
-            </Link>
-            &nbsp;&nbsp;
-            <Link href={'/auth/register'}>
-              <a className="btn btn-outline-danger">Register</a>
-            </Link>
-            &nbsp;&nbsp;
-            {whichForm && (
-              <a onClick={back} className="btn btn-outline-light">
-                Back to Forget Password
-              </a>
-            )}
-          </main>
-          <div className="space40"></div>
-        </section>
+    <>
+      <HeadTags {...metaTags} />
+      <div id="clientMain" className="mb-5">
+        <MainHeader />
+        <ClinetMainMenu active="Login" />
+        <div className="container">
+          <section className="col mx-auto client-content">
+            <Alert />
+            <div className="space40"></div>
+            <main className="form-signin">
+              {whichForm ? <ConfirmResetPasswordForm /> : <SendResetPasswordForm />}
+              <div className="space20"></div>
+              <Link href={'/auth/login'}>
+                <a className="btn btn-outline-info">Back to Login</a>
+              </Link>
+              &nbsp;&nbsp;
+              <Link href={'/auth/register'}>
+                <a className="btn btn-outline-danger">Register</a>
+              </Link>
+              &nbsp;&nbsp;
+              {whichForm && (
+                <a onClick={back} className="btn btn-outline-light">
+                  Back to Forget Password
+                </a>
+              )}
+            </main>
+            <div className="space40"></div>
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
