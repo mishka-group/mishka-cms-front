@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Image from 'next/future/image';
+import { dateTimeString } from '../../../extra/helper';
 
 interface CommentItemType {
   comment: { [key: string]: any };
@@ -50,7 +51,7 @@ const CommentItem: NextPage<CommentItemType> = ({ comment }) => {
               </svg>
               &nbsp;&nbsp;
               <span className="badge bg-dark">
-                <span>{comment.inserted_at}</span>
+                <span>{dateTimeString(comment.inserted_at, 'short')}</span>
               </span>
             </p>
           </section>

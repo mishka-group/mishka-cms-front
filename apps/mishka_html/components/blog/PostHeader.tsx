@@ -1,5 +1,7 @@
 import type { NextPage } from 'next';
 import Link from 'next/link';
+import { dateTimeString } from '../../../extra/helper';
+
 interface PostHeaderTypes {
   post: { [key: string]: any };
 }
@@ -53,9 +55,9 @@ const PostHeader: NextPage<PostHeaderTypes> = ({ post }) => {
               </span>
             ))}
           </span>
-          <span className="badge bg-secondary me-3">Posted: {post.post_info.inserted_at}</span>
+          <span className="badge bg-secondary me-3">Posted: {dateTimeString(post.post_info.inserted_at, 'short')}</span>
           <div className="space10"></div>
-          <span className="badge bg-info me-3">Updated: {post.post_info.updated_at}</span>
+          <span className="badge bg-info me-3">Updated: {dateTimeString(post.post_info.updated_at, 'short')}</span>
           <span className="badge bg-success me-3">Priority: {post.post_info.priority}</span>
           <span className="badge bg-primary me-3">
             Category: <Link href={`/blog/category/${post.post_info.blog_categories.alias_link}`}>{post.post_info.blog_categories.title}</Link>

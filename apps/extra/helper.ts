@@ -31,8 +31,8 @@ export const deleteTargetedFieldData = (
  * @param {boolean} status - boolean
  */
 export const elementDisability = (id: string, status: boolean) => {
-  (document.getElementById(id) as HTMLInputElement).disabled = status
-}
+  (document.getElementById(id) as HTMLInputElement).disabled = status;
+};
 
 /**
  * It takes a timestamp and returns an object with the month, day, year, and month number
@@ -44,7 +44,7 @@ export const elementDisability = (id: string, status: boolean) => {
  *   - year: the year in number format
  *   - monthsNumber: the month in number format
  */
- export const timestampToObject = (dateStr: string, style: 'normal' | 'short' = 'normal') => {
+export const timestampToObject = (dateStr: string, style: 'normal' | 'short' = 'normal') => {
   const readable = new Date(dateStr);
   const mon = style === 'normal' ? MONTHS : MONTHS_ABBREVIATION;
   return {
@@ -53,4 +53,9 @@ export const elementDisability = (id: string, status: boolean) => {
     year: readable.getFullYear(),
     monthsNumber: readable.getMonth(),
   };
+};
+
+export const dateTimeString = (time: string, style: 'normal' | 'short') => {
+  const converted = timestampToObject(time, style)
+  return `${converted.months} ${converted.day} ${converted.year}`;
 }
