@@ -55,7 +55,13 @@ export const timestampToObject = (dateStr: string, style: 'normal' | 'short' = '
   };
 };
 
+/**
+ * It takes a timestamp and a style, and returns a string of the month, day, and year
+ * @param {string} time - The time you want to convert.
+ * @param {'normal' | 'short'} style - 'normal' | 'short'
+ * @returns A string with the month, day, and year of the timestamp.
+ */
 export const dateTimeString = (time: string, style: 'normal' | 'short') => {
-  const converted = timestampToObject(time, style)
+  const converted = timestampToObject(time, style);
   return `${converted.months} ${converted.day} ${converted.year}`;
-}
+};
