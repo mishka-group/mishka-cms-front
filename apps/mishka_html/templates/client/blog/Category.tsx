@@ -6,6 +6,7 @@ import BlogItem from '../../../components/blog/BlogItem';
 import Alert from '../../../components/notices/Alert';
 import CategoriesMenu from '../../../components/blog/CategoriesMenu';
 import { MouseEvent, useMemo } from 'react';
+import HeadTags from '../../../components/header/HeadTags';
 
 type ObjectResponse<T> = { [key: string]: T };
 
@@ -32,6 +33,14 @@ const CategoryTemplate: NextPage<BlogsTemplateTypes> = ({
   unSubscribe,
   subscribeStatus,
 }) => {
+  const metaTags = {
+    title: `${category.category_info.title} - MishkaCMS`,
+    description: `${category.category_info.meta_description || category.category_info.short_description}`,
+    keywords: `${category.category_info.meta_keywords || ''}`,
+    url: `http://localhost:3000/blog/category/${category.category_info.alias_link}`,
+    image: `http://localhost:4000/${category.category_info.main_image}`,
+  };
+
   const blogItems = useMemo(() => posts.map((item) => <BlogItem post={item} key={item.id} size={4} />), [posts]);
 
   const ShowMore = () => {
@@ -79,25 +88,28 @@ const CategoryTemplate: NextPage<BlogsTemplateTypes> = ({
   };
 
   return (
-    <div id="clientMain">
-      <MainHeader />
-      <ClinetMainMenu active="Blog" />
-      <div className="container">
-        <section className="col mx-auto client-content">
-          <Alert />
-          <CategoryInformation />
-          <div className="row">
-            <CategoriesMenu categories={categories} />
-            <article className="col-sm">
-              <div className="row client-home-header-post-article-row" id="BlogsPosts">
-                {blogItems}
-              </div>
-            </article>
-          </div>
-          {pageMore && <ShowMore />}
-        </section>
+    <>
+      <HeadTags {...metaTags} />
+      <div id="clientMain">
+        <MainHeader />
+        <ClinetMainMenu active="Blog" />
+        <div className="container">
+          <section className="col mx-auto client-content">
+            <Alert />
+            <CategoryInformation />
+            <div className="row">
+              <CategoriesMenu categories={categories} />
+              <article className="col-sm">
+                <div className="row client-home-header-post-article-row" id="BlogsPosts">
+                  {blogItems}
+                </div>
+              </article>
+            </div>
+            {pageMore && <ShowMore />}
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
